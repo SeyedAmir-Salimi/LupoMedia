@@ -1,51 +1,42 @@
-import React, { Component } from 'react';
-import { SocialMediaContext } from './Contex';
+import React, { useContext } from 'react'
+import { SocialMediaContext } from './Context';
 
-class AlertChanges extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
 
-        }
-    }
 
-    static contextType = SocialMediaContext;
-    render() {
-        return (
-            <div className="alert">
-                <div className="alert-Red">
-                    <h3>{this.props.titel}</h3>
-                    <div className="alert-Question">
+const AlertChanges = ({ Mystate, NO , Yes , Done , Cancel}) => {
+    const { ErrorMessage , NewPassword , onchangeHandPassword , ConfirmPassword} = useContext(SocialMediaContext)
 
-                        {this.context.ErrorMessage !== undefined ? <h3>{this.context.ErrorMessage}</h3> : ""}
+    return (
+        <div className="alert">
+            <div className="alert-Red">
+                <div className="alert-Question">
+                    {ErrorMessage !== undefined ? <h3>{ErrorMessage}</h3> : ""}
 
-                        {this.props.Mystate.PasswordPannel ?
-                            <div>
-                                <p>Please Wrire Your New Password</p>
-                                <label for="field1">
-                                    <span>Password: </span>
-                                    <input type="password" name="password" id="DP_password" value={this.context.NewPassword} onChange={this.context.onchangeHandPassword} />
-                                </label><br />
-                                <label for="field1">
-                                    <span>Confirm Password: </span>
-                                    <input type="password" name="Confirmpassword" id="DP_Confirmpassword" value={this.context.ConfirmPassword} onChange={this.context.onchangeHandPassword} />
-                                </label><br />
-                            </div>
-                            : ""}
+                    {Mystate.PasswordPannel ?
+                        <div>
+                            <p>Please Wrire Your New Password</p>
+                            <label htmlFor="field1">
+                                <span>Password: </span>
+                                <input type="password" name="password" id="DP_password" value={NewPassword} onChange={onchangeHandPassword} />
+                            </label><br />
+                            <label htmlFor="field1">
+                                <span>Confirm Password: </span>
+                                <input type="password" name="Confirmpassword" id="DP_Confirmpassword" value={ConfirmPassword} onChange={onchangeHandPassword} />
+                            </label><br />
+                        </div>
+                        : ""}
 
-                        {this.props.Mystate.DeleteAccountPannel ?
+                    {Mystate.DeleteAccount ?
                         <div>
                             <h3>Are You Sure To Want Delete Your Account?</h3>
                         </div>
                         : ""}
 
-                            <button onClick={this.props.Yes}>{this.props.Done}</button>
-                            <button onClick={this.props.NO}>{this.props.Cancel}</button>
-                    </div>
+                    <button onClick={Yes}>{Done}</button>
+                    <button onClick={NO}>{Cancel}</button>
                 </div>
-            </div>);
-    }
+            </div>
+        </div>)
 }
 
 export default AlertChanges;
-

@@ -16,7 +16,6 @@ export default function API() {
             await Axios.delete(`http://localhost:3000/comments/${id}`, { data: { postref: postref } })
                 .then(res => {
                     console.log(res.data)
-
                 })
         },
 
@@ -33,7 +32,7 @@ export default function API() {
             const result = await Axios.post(`http://localhost:3000/posts/withoutpicture`, {
                 user: contextid,
                 caption: PostCaption,
-            })
+            });
             return result
         },
 
@@ -52,6 +51,28 @@ export default function API() {
             const name = typedName
             const result = await Axios.get(`http://localhost:3000/users/search/${name}`)
             return result
+        },
+        
+        async RegisterFunct(Registername, Registeremail, Registersesso, Registerpassword) {
+            try {
+                const result = await Axios.post(`http://localhost:3000/enter/signup`, {
+                    name: Registername,
+                    email: Registeremail,
+                    sesso: Registersesso,
+                    password: Registerpassword,
+                });
+                return result
+            } catch (error) {
+                throw new Error(error.response.data)
+            }
+        },
+        async Login(LoginEmail, LoginPassword) {
+            const result = Axios.post(`http://localhost:3000/enter/login`, {
+                email: LoginEmail,
+                password: LoginPassword
+            });
+            return result
         }
+
     }
 }

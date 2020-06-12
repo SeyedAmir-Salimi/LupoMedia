@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios'
-import { SocialMediaContext } from './Contex';
+import { SocialMediaContext } from './Context';
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 import NavBar from './NavBar'
 

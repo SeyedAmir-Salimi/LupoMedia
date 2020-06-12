@@ -1,48 +1,47 @@
-import React, { Component } from 'react';
+import React, { useState, useContext } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { SocialMediaContext } from './Contex';
+import { SocialMediaContext } from './Context';
 import { FcCamera, FcInternal } from "react-icons/fc";
-import Axios from 'axios'
 
+const PostInput = () => {
+    const [PostCaption, setPostCaption] = useState("")
+    const [InputValue, setInputValue] = useState("")
+    const { User_Name, id, AddPostCall } = useContext(SocialMediaContext)
 
-class PostInput extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            PostCaption: "",
-        }
+    const PO_Pic = document.getElementById("PO_Pic")
+
+    const triggerInputFile = () => {
+        PO_Pic.click()
     }
-    static contextType = SocialMediaContext;
-
-    triggerInputFile = () => {
-        this.fileInput.click()
+    const InputFileName = () => {
+        setInputValue(PO_Pic.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1])
     }
-    
-    WritePost = (e) =>{
+
+    const WritePost = (e) => {
         e.preventDefault();
-        this.context.AddPostCall(this.context.id , this.state.PostCaption);
-        this.setState({
-            PostCaption: ""
-        })
+        AddPostCall(id, PostCaption);
+        setPostCaption("")
+    }
+    const onChangeHandler = (e) => {
+        setPostCaption(e.target.value)
     }
 
-    render() {
-        const NAME = this.context.User_Name
-        return (
+    const FontColor = { color: "rgb(223, 209, 144)" }
+    return (
+        <div>
             <div>
-                <div>
-                    <form onSubmit={this.WritePost} className="PostInput" disabled={this.state.PostCaption === ""}>
-                        <input type="text" name="PostCaption" id="" placeholder={"What Do You Think " + NAME + "..."} value={this.state.PostCaption} onChange={(e) => this.setState({ PostCaption: e.target.value })} />
-                        <FcCamera onClick={this.triggerInputFile} className="FC_ICONS" />
-                        <FcInternal className="FC_ICONS" onClick={this.WritePost} />
-                    </form>
+                <form onSubmit={WritePost} className="PostInput" disabled={PostCaption === ""}>
+                    <input type="text" name="PostCaption" id="" placeholder={"  What Do You Think " + User_Name + "..."}
+                        value={PostCaption} onChange={(e) => onChangeHandler(e)} />
+                    <FcInternal className="FC_ICONS" onClick={WritePost} />
+                    <FcCamera onClick={triggerInputFile} className="FC_ICONS" />
+                    {InputValue !== "" ? <p style={FontColor} >{InputValue}</p> : <p style={FontColor}>No File Chosen Yet</p>}
+                </form>
 
-                </div>
-                <input ref={fileInput => this.fileInput = fileInput} type="file" name="PostPic" id="PO_Pic" style={{ visibility: "hidden" }} />
             </div>
-        );
-    }
+            <input type="file" name="PostPic" id="PO_Pic" style={{ visibility: "hidden" }} onChange={InputFileName} />
+        </div>
+    );
 }
 
 export default PostInput;
-

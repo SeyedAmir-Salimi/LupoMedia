@@ -1,97 +1,78 @@
-import React, { Component } from 'react';
+import React, { useState , useContext} from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { SocialMediaContext } from './Contex';
+import { SocialMediaContext } from './Context';
 import PM from '../Images/man.jpg'
 import PW from '../Images/woman.jpg'
-import { FaTrashAlt, FaRegHandScissors } from "react-icons/fa";
+import { FaTrashAlt  } from "react-icons/fa";
 import { FcLike, FcDislike } from "react-icons/fc";
 import { FcInternal } from "react-icons/fc";
+import CommentsPageMap from "./CommentsPageMap"
 
-
-
-class PostPageMap extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { 
-            comments: "",
-         }
-    }
-    static contextType = SocialMediaContext;
-
+const PostPageMap = ({item}) => {
+    const [comment, setcomment] = useState("")
+    const {datiPersonali , User_Name , id , comments , WritecommentCALL , DeleteCommentCALL , DeletePostCALL} = useContext(SocialMediaContext)
+    const onchangHandler = (e) =>{setcomment(e.target.value)} 
     
-    commentOnchangeHandler = (e) => {
-        this.setState({
-            comments: e.target.value
-        })
-    }
-
-    WriteComments = (e , _id) =>{
+    const WriteComments = (e,ref, comments, users) =>{
         e.preventDefault();
-        this.context.WritecommentCALL(_id, this.state.comments, this.context.id )
-        this.setState({
-            comments: ""
-        })
+        WritecommentCALL(ref, comments, users)
+        setcomment("")
     }
 
-    render() { 
+    return (
+        <div>
+            <div key={item._id} className="postpage">
+                {item.user.ProfilePic === undefined && datiPersonali.sesso === "Man" ?
+                    <img src={PM} alt={User_Name} className="postpage_profileImage" />
+                    : ""}
+                {item.user.ProfilePic === undefined && datiPersonali.sesso === "Woman" ?
+                    <img src={PW} alt={User_Name} className="postpage_profileImage" />
+                    : ""}
+                {item.user.ProfilePic !== undefined ?
+                    <img src={item.user.ProfilePic} alt={User_Name} className="postpage_profileImage" />
+                    : ""}
 
-        const { user, _id , picture , caption , date} = this.props.item
-        return ( 
-            <div>
-                    <div key={_id} className="postpage">
-                        {user.ProfilePic === undefined && this.context.datiPersonali.sesso === "Man" ?
-                            <img src={PM} alt={this.context.User_Name} className="postpage_profileImage" />
-                            : ""}
-                        {user.ProfilePic === undefined && this.context.datiPersonali.sesso === "Woman" ?
-                            <img src={PW} alt={this.context.User_Name} className="postpage_profileImage" />
-                            : ""}
-                        {user.ProfilePic !== undefined ?
-                            <img src={user.ProfilePic} alt={this.context.User_Name} className="postpage_profileImage" />
-                            : ""}
+                <h3 className="postpage_name">{item.user.name}</h3>
+                <p className="postpage_date">date: {item.date.toString(2)}</p>
 
-                        <h3 className="postpage_name">{user.name}</h3>
-                        <p className="postpage_date">date: {date.toString(2)}</p>
+                {item.user._id === id ?
+                    <FaTrashAlt className="postpage_trash" onClick={() => DeletePostCALL(item._id, id)} /> : ""}
+                <div className="postpage_LikeDislike" >
+                    <FcLike />
+                    <FcDislike />
+                </div><br />
+                {item.picture !== undefined ? <img src={item.picture} alt={item.caption} className="postpage_Image" /> : ""}
 
-                        {user._id === this.context.id ?
-                            <FaTrashAlt className="postpage_trash" onClick={() => this.context.DeletePostCALL(_id , this.context.id)} /> : ""}
-                        <div className="postpage_LikeDislike" >
-                            <FcLike />
-                            <FcDislike />
-                        </div><br />
-                        {picture !== undefined ? <img src={picture} alt={caption} className="postpage_Image" /> : ""}
+                <h4 className="postpage_Caption">{item.caption}</h4>
+                <form onSubmit={(e) => WriteComments(e, item._id , comment , id)}>
+                    <span className="postpage_CommentInput">
+                        <input type="text" name="" className="postpageComments" placeholder=" Write Your Commnet" onChange={onchangHandler} value={comment} />
+                        <FcInternal className="FC_ICONS" style={{ fontSize: "2rem" }}
+                            onClick={(e) => WriteComments(e, item._id, comment, id)} />
+                    </span>
+                </form>
+                <h4 className="postpage_Comment">comments:</h4>
 
-                        <h4 className="postpage_Caption">{caption}</h4>
-                        <form onSubmit={(e) => this.WriteComments(e,_id)}>
-                            <span className="postpage_CommentInput">
-                                <input type="text" name="" className="postpageComments" placeholder=" Write Your Commnet" onChange={this.commentOnchangeHandler} value={this.state.comments}/>
-                                <FcInternal className="FC_ICONS" style={{ fontSize: "2rem" }}
-                                    onClick={() => this.context.WriteCommentCALL(_id, this.state.comments, this.context.id )} />
-                            </span>
-                        </form>
-                        <h4 className="postpage_Comment">comments:</h4>
-
-                        {this.context.comments.map(com =>
-                            <div key={com._id}>
-                                {_id === com.postref._id ?
-                                    <div className="postpage_Comment_detail">
-                                        <span>
-                                            <img src={com.user.ProfilePic} alt={com.user.name} />
-                                            <h5>{com.user.name}</h5>
-                                        </span>
-                                        <h4>{com.comment} {com.user._id === this.context.id || this.context.id === user._id ?
-                                            <FaTrashAlt className="postpage_Comment_trash" onClick={() => this.context.DeleteCommentCALL(com._id, com.postref._id )} />
-                                            : ""}
-                                        </h4>
-                                    </div>
+                {comments.map(com =>
+                    <div key={com._id}>
+                        {item._id === com.postref._id ?
+                            <div className="postpage_Comment_detail">
+                                <span>
+                                    <img src={com.user.ProfilePic} alt={com.user.name} />
+                                    <h5>{com.user.name}</h5>
+                                </span>
+                                <h4>{com.comment} {com.user._id === id || id === item.user._id ?
+                                    <FaTrashAlt className="postpage_Comment_trash" onClick={() => DeleteCommentCALL(com._id, com.postref._id)} />
                                     : ""}
+                                </h4>
                             </div>
-                        )}
-
+                            : ""}
                     </div>
-            </div>
+                )}
 
-         );
-    }
+            </div>
+        </div>
+    );
 }
- 
+
 export default PostPageMap;

@@ -1,54 +1,50 @@
-import React, { Component } from 'react';
-import { SocialMediaContext } from './Contex';
-import { BrowserRouter as Router, Switch, Route, Link , useHistory} from "react-router-dom";
-import Axios from 'axios'
-import Logo from '../Images/Logo-3.png'
+import React, { useState ,useContext , useEffect} from 'react'
+import { SocialMediaContext } from './Context';
+import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
+
 import PM from '../Images/man.jpg'
 import PW from '../Images/woman.jpg'
+import SearchBar from './SearchBar'
 
-class NavBar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            searchInput:"",
+
+const Navbar = () => {
+    // const [linkPush , setlinkPush] = useState("")
+    const { User_Name, ProfilePic, datiPersonali, LogeOut , token , ridirectFunction } = useContext(SocialMediaContext)
+
+    let history = useHistory();
+    useEffect(() => {
+        if (token === undefined) {
+            console.log("Authenticated logeout");
+            history.push("/logein")
         }
-    }
-    onChangeHandlerSearch = (e) =>{
-        this.setState({
-            searchInput: e.target.value
-        })
+    })
+
+    const GoToLink = (link) =>{
+        ridirectFunction(link)
+        // setlinkPush(link)
+        history.push(link)
     }
 
-    static contextType = SocialMediaContext;
-    render() {
-        // const history = useHistory();
-        // history.push("/home");
-        return (
+    return (
+        <div>
             <div className="Nav">
-                <div className="Nav-LogoSearch">
-                    <img src={Logo} alt="Logo" style={{ width: "4rem" }} />
-                    <form onSubmit={(e)=> {e.preventDefault();this.context.SearchUserCALL(this.state.searchInput)}} >
-                        <input type="text" placeholder="Search..." onClick={()=> this.context.SearchUserCALL(this.state.searchInput)} onChange={(e) => this.onChangeHandlerSearch(e)} value={this.state.searchInput}/>
-                    </form>
-                </div>
+                <SearchBar />
                 <ul>
-                    {this.context.ProfilePic === undefined && this.context.datiPersonali.sesso === "Man" ?
-                        <img src={PM} alt={this.context.User_Name} className="ProfImage" onClick={this.context.LinkDatiPersonali} />
+                    {ProfilePic === undefined && datiPersonali.sesso === "Man" ?
+                        <img src={PM} alt={User_Name} className="ProfImage" onClick={()=> GoToLink("/datiPersonali")} />
                         : ""}
-                    {this.context.ProfilePic === undefined && this.context.datiPersonali.sesso === "Woman" ?
-                        <img src={PW} alt={this.context.User_Name} className="ProfImage" onClick={this.context.LinkDatiPersonali} />
+                    {ProfilePic === undefined && datiPersonali.sesso === "Woman" ?
+                        <img src={PW} alt={User_Name} className="ProfImage" onClick={()=> GoToLink("/datiPersonali")} />
                         : ""}
-                    {this.context.ProfilePic !== undefined ?
-                        <img src={this.context.ProfilePic} alt={this.context.User_Name} className="ProfImage" onClick={this.context.LinkDatiPersonali} />
+                    {ProfilePic !== undefined ?
+                        <img src={ProfilePic} alt={User_Name} className="ProfImage" onClick={()=> GoToLink("/datiPersonali")} />
                         : ""}
-                    <li onClick={this.context.LinkDatiPersonali}>{this.context.User_Name}</li>
-                    <li onClick={this.context.LinkHome}>Home</li>
-                    <li onClick={this.context.LogeOut} >LogeOut</li>
-
+                    <li onClick={()=> GoToLink("/datiPersonali")} >{User_Name}</li>
+                    <li onClick={()=> GoToLink("/home")} >Home</li>
+                    <li onClick={LogeOut} >LogeOut</li>
                 </ul>
             </div>
-        );
-    }
+        </div>);
 }
 
-export default NavBar;
+export default Navbar;

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import Cookies from 'js-cookie'
 import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from "react-router-dom";
-import uniqid from 'uniqid'
+
 import API from "../API/index"
 
 
@@ -35,7 +35,11 @@ class SocialMediaProvider extends Component {
             ConfirmPassword: "",
             ProfilePic: undefined,
             ErrorMessage: undefined,
-
+            RegisterError: null,
+            nameError: '',
+            emailError: '',
+            passwordError: '',
+            ConfirmPassWordError: '',
         }
     }
 
@@ -104,7 +108,7 @@ class SocialMediaProvider extends Component {
         }
     }
 
-    
+
 
     DeleteCommentCALL = async (id, postref) => {
         const api = API();
@@ -160,10 +164,14 @@ class SocialMediaProvider extends Component {
 
     SearchUserCALL = async (typedName) => {
         const get = Cookies.get('redirect')
-        if (get !== "/search"){
-            this.LinkSearch();
+        this.setState({ userSearched: []})
+        if (get !== "/search") {
+            Cookies.set('redirect', "/search")
+            this.setState({
+                redirect: "/search",
+            })
         }
-        else{
+        else {
             const api = API();
             const result = await api.SearchUser(typedName);
             this.setState({
@@ -172,9 +180,63 @@ class SocialMediaProvider extends Component {
         }
     }
 
+    RegisterFunctCALL = async (Registername, Registeremail, Registersesso, Registerpassword, RegisterConfirmPassWord) => {
+        const isValid = this.validate(Registername, Registeremail, Registerpassword, RegisterConfirmPassWord)
+        try {
+            this.setState({
+                RegisterError: null
+            })
+            if (isValid) {
+                const api = API();
+                const result = await api.RegisterFunct(Registername, Registeremail, Registersesso, Registerpassword, RegisterConfirmPassWord);
+                this.setState({ nameError: '', emailError: '', passwordError: '', ConfirmPassWordError: '' })
+                console.log(result);
+                this.setState({
+                    redirect: "/Logein"
+                })
+            }
+        } catch (error) {
+            console.log(error.message);
+            this.setState({
+                RegisterError: error.message
+            })
+        }
+    }
+
+    RegisterErrortoNull = () =>{
+        this.setState({ nameError: '', emailError: '', passwordError: '', ConfirmPassWordError: '' })
+    }
+
+
     //---------------- END API JS -----------------//
 
     //---------------- LogIN Start -----------------//
+    validate = (Registername, Registeremail, Registerpassword, RegisterConfirmPassWord) => {
+        let nameError = '';
+        let emailError = '';
+        let passwordError = '';
+        let ConfirmPassWordError = '';
+
+        if (Registername.length < 4) {
+            nameError = "Name Should be at least 4 characters";
+        }
+        if (!Registeremail.includes("@")) {
+            emailError = "Invalid email";
+        }
+        if (Registerpassword.length < 4) {
+            passwordError = "Password Should be at least 4 characters";
+        }
+        if (Registerpassword !== RegisterConfirmPassWord) {
+            ConfirmPassWordError = "Passwords are not the same";
+        }
+
+        if (nameError || emailError || passwordError || ConfirmPassWordError) {
+            this.setState({ nameError, emailError, passwordError, ConfirmPassWordError })
+            return false
+        }
+
+        return true
+    }
 
 
     loginCHangeHandler = e => {
@@ -184,8 +246,7 @@ class SocialMediaProvider extends Component {
         })
     }
 
-    LoginGet = async (e) => {
-        e.preventDefault();
+    LoginGet = async () => {
         await Axios.post(`http://localhost:3000/enter/login`, {
             email: this.state.email,
             password: this.state.password
@@ -199,8 +260,9 @@ class SocialMediaProvider extends Component {
                 const get = Cookies.get('redirect')
                 this.setState({
                     redirectTF: true,
-                    redirect: get
-                })
+                    redirect: get,
+
+                }, () => [this.getDatiPersonali(), this.getCookies()])
             })
             .catch(err => {
                 this.setState({
@@ -209,7 +271,6 @@ class SocialMediaProvider extends Component {
                 alert(this.state.err)
                 console.log({ message: err })
             })
-        window.location.reload();
     }
 
 
@@ -218,14 +279,14 @@ class SocialMediaProvider extends Component {
         const id = Cookies.get('User_id');
         const redirect = Cookies.get('redirect');
         const User_Name = Cookies.get('User_Name')
-        await this.setState({
-            token, id, redirect, User_Name,
+
+        this.setState({
+            token, id, redirect, User_Name
         })
         if (this.state.token !== undefined) {
             this.setState({
-                redirectTF: true
+                redirectTF: true,
             })
-
         }
     }
 
@@ -236,9 +297,11 @@ class SocialMediaProvider extends Component {
         Cookies.remove('redirect');
         Cookies.remove('User_Name');
         this.setState({
-            redirectTF: false
+            redirectTF: false,
+            token: undefined,
+            redirect: undefined,
+
         })
-        window.location.reload();
     }
 
 
@@ -262,52 +325,11 @@ class SocialMediaProvider extends Component {
 
     // ---------------- Get To LinK ---------------- //
 
-    LinkLogein = () => {
+    ridirectFunction = (link) => {
         this.setState({
-            redirectTF: true
+            redirect: link
         })
-        Cookies.set('redirect', "/Logein")
-    };
-
-    LinkRegister = () => {
-        this.setState({
-            redirectTF: true
-        })
-        Cookies.set('redirect', "/register")
-    };
-
-    LinkHome = () => {
-        this.setState({
-            redirectTF: true
-        })
-        Cookies.set('redirect', "/home")
-        window.location.reload();
-    };
-
-    LinkDatiPersonali = () => {
-        this.setState({
-            redirectTF: true
-        })
-        Cookies.set('redirect', "/datiPersonali")
-        window.location.reload();
-    };
-
-    LinkSearch = () => {
-        this.setState({
-            redirectTF: true
-        })
-        Cookies.set('redirect', "/search")
-        window.location.reload();
-    };
-
-    LinkApiTest = () => {
-        this.setState({
-            redirectTF: true
-        })
-        Cookies.set('redirect', "/apiTest")
-        window.location.reload();
-    };
-
+    }
 
 
     // ---------------- Take Dati Personali ---------------- //
@@ -483,11 +505,6 @@ class SocialMediaProvider extends Component {
                 LoginGet: this.LoginGet,
                 LogeOut: this.LogeOut,
                 getDataOrder: this.getDataOrder,
-                LinkLogein: this.LinkLogein,
-                LinkRegister: this.LinkRegister,
-                LinkHome: this.LinkHome,
-                LinkDatiPersonali: this.LinkDatiPersonali,
-                LinkApiTest: this.LinkApiTest,
                 getDatiPersonali: this.getDatiPersonali,
                 onchangeHandlerDatiPersonali: this.onchangeHandlerDatiPersonali,
                 onchangeHandPassword: this.onchangeHandPassword,
@@ -500,6 +517,9 @@ class SocialMediaProvider extends Component {
                 WritecommentCALL: this.WritecommentCALL,
                 AddPostCall: this.AddPostCall,
                 SearchUserCALL: this.SearchUserCALL,
+                ridirectFunction: this.ridirectFunction,
+                RegisterFunctCALL: this.RegisterFunctCALL,
+                RegisterErrortoNull: this.RegisterErrortoNull,
             }}>
                 {this.props.children}
             </SocialMediaContext.Provider>

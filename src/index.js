@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router,Switch,Route,Link} from "react-router-dom";
-import {SocialMediaProvider} from './components/Contex'
+import {SocialMediaProvider} from './components/Context'
 
 ReactDOM.render(
   <SocialMediaProvider>
