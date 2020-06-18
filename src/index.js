@@ -6,6 +6,11 @@ import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router,Switch,Route,Link} from "react-router-dom";
 import {SocialMediaProvider} from './components/Context'
 
+import JavascriptTimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+JavascriptTimeAgo.addLocale(en)
+
+
 ReactDOM.render(
   <SocialMediaProvider>
         <Router

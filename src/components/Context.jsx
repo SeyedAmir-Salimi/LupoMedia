@@ -136,6 +136,7 @@ class SocialMediaProvider extends Component {
             console.log(result.data)
 
             const newItem = {
+                date: new Date(),
                 postref: {
                     _id: ref
                 },

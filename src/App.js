@@ -11,7 +11,7 @@ import apiTest from './components/apiTest'
 
 const App = () => {
 
-  const { token } = useContext(SocialMediaContext)
+  // const { token } = useContext(SocialMediaContext)
 
 
   return (

@@ -1,16 +1,19 @@
+
 .App {
   text-align: center;
 }
-.body{
+
+body, html {
+  height: 100%;
   margin: 0;
   padding: 0;
 }
 /* LogeIN  & Register Component */
 .Loge-in{
-  margin: 0;
-  padding: 0;
   background-image: url("./Images/Wallpaper.jpg");
-  height: 38rem;
+  height: 45rem; 
+  background-repeat:repeat-y;
+  background-size: cover;
 }
 .formStyle span{
   display: flex;
@@ -26,8 +29,8 @@ padding: 1rem;
 .formStyle {
   max-width: 500px;
   padding: 10px 20px;
-  margin: 10px auto;
-  padding: 20px;
+  margin:auto;
+
   border-radius: 8px;
   font-family: Georgia, "Times New Roman", Times, serif;
 }
