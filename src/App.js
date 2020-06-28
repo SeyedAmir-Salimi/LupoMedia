@@ -7,7 +7,7 @@ import Register from './components/Register'
 import home from './components/home'
 import DatiPersonali from './components/DatiPersonali'
 import Search from './components/Search'
-import apiTest from './components/apiTest'
+
 
 const App = () => {
 
@@ -17,12 +17,12 @@ const App = () => {
   return (
     <div className="App">
       <Switch>
-        <Route exact path="/Logein">
+        {/* <Route exact path="/">
           <div>
             <LogeIn />
           </div>
-        </Route>
-        <Route exact path="/apiTest" component={apiTest} />
+        </Route> */}
+        <Route exact path="/" component={LogeIn} />
         <Route exact path="/register" component={Register} />
         <Route exact strict path="/home" component={home} />
         <Route exact path="/datiPersonali" component={DatiPersonali} />

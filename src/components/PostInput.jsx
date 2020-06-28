@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext} from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { SocialMediaContext } from './Context';
 import { FcCamera, FcInternal } from 'react-icons/fc';
@@ -22,6 +22,7 @@ const PostInput = () => {
 		e.preventDefault();
 		AddPostCall(id, PostCaption);
 		setPostCaption('');
+		setInputValue('');
 	};
 	const onChangeHandler = (e) => {
 		setPostCaption(e.target.value);
@@ -40,12 +41,14 @@ const PostInput = () => {
 						value={PostCaption}
 						onChange={(e) => onChangeHandler(e)}
 					/>
-					<FcInternal className="FC_ICONS" onClick={WritePost} />
+
+					<FcInternal id="FC" className="FC_ICONS" onClick={WritePost} />
 					<FcCamera onClick={triggerInputFile} className="FC_ICONS"/>
 					{InputValue !== '' ? (
 						<p style={FontColor}>{InputValue}</p>
 					) : (
-						<p style={FontColor}>No File Chosen Yet</p>
+						""
+						// <p style={FontColor}>No File Chosen Yet</p>
 					)}
 				</form>
 			</div>

@@ -1,18 +1,27 @@
 import React, { useState, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { SocialMediaContext } from './Context';
-import PM from '../Images/man.jpg';
-import PW from '../Images/woman.jpg';
 import { FaTrashAlt } from 'react-icons/fa';
 import { FcLike, FcDislike } from 'react-icons/fc';
 import { FcInternal } from 'react-icons/fc';
 import CommentsPageMap from './CommentsPageMap';
 import LastSeen from './LastSeen';
+import ProfilePicture from './ProfilePicture';
+
+
 const PostPageMap = ({ item }) => {
 	const [ comment, setcomment ] = useState('');
-	const { datiPersonali, User_Name, id, comments, WritecommentCALL, DeleteCommentCALL, DeletePostCALL } = useContext(
-		SocialMediaContext
-	);
+	const {
+		datiPersonali,
+		User_Name,
+		id,
+		comments,
+		WritecommentCALL,
+		DeleteCommentCALL,
+		DeletePostCALL,
+		posts,
+		getFriendsListCall,
+	} = useContext(SocialMediaContext);
 	const onchangHandler = (e) => {
 		setcomment(e.target.value);
 	};
@@ -25,25 +34,16 @@ const PostPageMap = ({ item }) => {
 
 	return (
 		<div>
+			<p onClick={()=> getFriendsListCall()}>list</p>
 			<div key={item._id} className="postpage">
-				{item.user.ProfilePic === undefined && datiPersonali.sesso === 'Man' ? (
-					<img src={PM} alt={User_Name} className="postpage_profileImage" />
-				) : (
-					''
-				)}
-				{item.user.ProfilePic === undefined && datiPersonali.sesso === 'Woman' ? (
-					<img src={PW} alt={User_Name} className="postpage_profileImage" />
-				) : (
-					''
-				)}
-				{item.user.ProfilePic !== undefined ? (
-					<img src={item.user.ProfilePic} alt={User_Name} className="postpage_profileImage" />
-				) : (
-					''
-				)}
-
+				<div className="PostProfilPic_Wrapper" >
+				<ProfilePicture
+					ProfilePic={item.user.ProfilePic}
+					User_Name={User_Name}
+					Size={'Medium'}
+				/>
+				</div>
 				<h3 className="postpage_name">{item.user.name}</h3>
-				{/* <p className="postpage_date">date: {item.date.toString(2)}</p> */}
 				<p className="postpage_date">
 					<LastSeen date={item.date} />
 				</p>
@@ -83,35 +83,7 @@ const PostPageMap = ({ item }) => {
 					</span>
 				</form>
 				<h4 className="postpage_Comment">comments:</h4>
-
-				{comments.map((com) => (
-					<div key={com._id}>
-						{item._id === com.postref._id ? (
-							<div className="postpage_Comment_detail">
-								<span>
-									<img src={com.user.ProfilePic} alt={com.user.name} />
-									<h5>{com.user.name}</h5>
-								</span>
-								<h5 style={{ marginLeft: '3rem' }}>
-									<LastSeen date={com.date} />
-								</h5>
-								<h4>
-									{com.comment}{' '}
-									{com.user._id === id || id === item.user._id ? (
-										<FaTrashAlt
-											className="postpage_Comment_trash"
-											onClick={() => DeleteCommentCALL(com._id, com.postref._id)}
-										/>
-									) : (
-										''
-									)}
-								</h4>
-							</div>
-						) : (
-							''
-						)}
-					</div>
-				))}
+				<CommentsPageMap key={item._id} item={item} />
 			</div>
 		</div>
 	);

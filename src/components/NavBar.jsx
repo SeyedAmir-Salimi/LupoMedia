@@ -1,27 +1,25 @@
-import React, { useState ,useContext , useEffect} from 'react'
+import React, { useState , useContext , useEffect} from 'react'
 import { SocialMediaContext } from './Context';
 import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
-
-import PM from '../Images/man.jpg'
-import PW from '../Images/woman.jpg'
 import SearchBar from './SearchBar'
-
+import ProfilePicture from './ProfilePicture'
+import Cookies from 'js-cookie'
 
 const Navbar = () => {
-    // const [linkPush , setlinkPush] = useState("")
-    const { User_Name, ProfilePic, datiPersonali, LogeOut , token , ridirectFunction } = useContext(SocialMediaContext)
+    const [linkPush , setlinkPush] = useState(undefined)
+    const {  User_Name, ProfilePic, datiPersonali, LogeOut , token , ridirectFunction ,ridirectToHome,ridirectToDatiPersonali} = useContext(SocialMediaContext)
 
     let history = useHistory();
     useEffect(() => {
         if (token === undefined) {
             console.log("Authenticated logeout");
-            history.push("/logein")
+            history.push("/")
         }
     })
 
+
     const GoToLink = (link) =>{
         ridirectFunction(link)
-        // setlinkPush(link)
         history.push(link)
     }
 
@@ -30,18 +28,12 @@ const Navbar = () => {
             <div className="Nav">
                 <SearchBar />
                 <ul>
-                    {ProfilePic === undefined && datiPersonali.sesso === "Man" ?
-                        <img src={PM} alt={User_Name} className="ProfImage" onClick={()=> GoToLink("/datiPersonali")} />
-                        : ""}
-                    {ProfilePic === undefined && datiPersonali.sesso === "Woman" ?
-                        <img src={PW} alt={User_Name} className="ProfImage" onClick={()=> GoToLink("/datiPersonali")} />
-                        : ""}
-                    {ProfilePic !== undefined ?
-                        <img src={ProfilePic} alt={User_Name} className="ProfImage" onClick={()=> GoToLink("/datiPersonali")} />
-                        : ""}
-                    <li onClick={()=> GoToLink("/datiPersonali")} >{User_Name}</li>
-                    <li onClick={()=> GoToLink("/home")} >Home</li>
-                    <li onClick={LogeOut} >LogeOut</li>
+                    <div className="ProfilePic_Wrapper" >
+                    <ProfilePicture ProfilePic={ProfilePic} User_Name={User_Name} Size={"Medium"} onClick={()=> GoToLink("/datiPersonali")} />
+                    </div>
+                    <li onClick={()=> GoToLink("/datipersonali")} className="hvr-pulse" >{User_Name}</li>
+                    <li onClick={()=> GoToLink("/home")} className="hvr-pulse" >Home</li>
+                    <li onClick={LogeOut} className="hvr-buzz-out" >LogeOut</li>
                 </ul>
             </div>
         </div>);

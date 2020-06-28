@@ -1,25 +1,47 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext ,useEffect } from 'react'
 import { SocialMediaContext } from './Context';
 import NavBar from './NavBar'
 import AlertChanges from './AlertChanges';
-
+import ProfilePicture from './ProfilePicture';
+import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
 const DatiPersonali = () => {
     const [Pannel, setPannel] = useState({
         PasswordPannel: false,
         DeleteAccount: false,
     });
+    const {deleteAccountCall,cancelUpdatePassword, LogeOut, token, updatePasswordCall , deleteAccount , ProfilePic , datiPersonali , UpdateDatiPersonali , onchangeHandlerDatiPersonali, uploadPicprofile,ridirectFunction} = useContext(SocialMediaContext)
+    
+    let history = useHistory();
+    useEffect(() => {
+        if (token === undefined) {
+            console.log("Authenticated logeout");
+            history.push("/")
+        }
+    })
 
-    const { updatePasswrd , deleteAccount , ProfilePic , datiPersonali , UpdateDatiPersonali , onchangeHandlerDatiPersonali, uploadPicprofile} = useContext(SocialMediaContext)
+    const PasswordPannel = ()=> {
+        setPannel({PasswordPannel: !PasswordPannel})
+    }
+    const DeleteAccount = ()=>{
+        deleteAccountCall();
+        setPannel({DeleteAccount: !DeleteAccount})
+    }
+
     return ( 
         <div>
                 <NavBar />
                 {Pannel.PasswordPannel ?
-                    <AlertChanges Mystate={{ ...Pannel }} NO={() => setPannel({PasswordPannel: false})} Yes={() => updatePasswrd()} Done="Save" Cancel="Cancel" />
+                    <AlertChanges Mystate={{ ...Pannel }} NO={() => {PasswordPannel();cancelUpdatePassword()}} Yes={() => updatePasswordCall()} Done="Save" Cancel="Cancel" />
                     : ""}
                 {Pannel.DeleteAccount ?
-                    <AlertChanges Mystate={{ ...Pannel }} NO={() => setPannel({DeleteAccount: false})} Yes={() => deleteAccount()} Done="Yes" Cancel="No" />
+                    <AlertChanges Mystate={{ ...Pannel }} NO={() => DeleteAccount()} Yes={() => {deleteAccount();LogeOut()}} Done="Yes" Cancel="No" />
                     : ""}
-                <img className="profile_pic" src={ProfilePic} alt={datiPersonali.name} />
+
+                <ProfilePicture
+					ProfilePic={ProfilePic}
+					User_Name={datiPersonali.name}
+					Size={'Big'}
+				/>
                 
                 <form className="form-style-4" method="post" onSubmit={UpdateDatiPersonali}>
                     <label htmlFor="field1">
@@ -58,7 +80,7 @@ const DatiPersonali = () => {
                     </label>
                     <label htmlFor="field1">
                         <span>Bio: </span>
-                        <input type="text" id="DP_Bio" name="Bio" value={datiPersonali.Bio} onChange={(e)=> onchangeHandlerDatiPersonali(e)} />
+                        <input type="text" id="DP_Bio" name="Bio" maxLength="45" value={datiPersonali.Bio} onChange={(e)=> onchangeHandlerDatiPersonali(e)} />
                     </label><br />
                     <label htmlFor="field1">
                         <span>Profile Picture: </span>

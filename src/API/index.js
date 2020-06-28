@@ -72,7 +72,149 @@ export default function API() {
                 password: LoginPassword
             });
             return result
-        }
+        },
+
+        async GetAllPosts(){
+            const result = await  Axios.get(`http://localhost:3000/posts`)
+            return result
+        },
+
+        async LoginGet(email, password){
+            try {
+                const result = await Axios.post(`http://localhost:3000/enter/login`, {
+                    email: email,
+                    password: password
+                })
+                return result
+            } catch (error) {
+               throw new Error(error.response.data)
+            }
+        },
+        
+        async DatiPersonali (ID , config){
+            try {
+                const result =  await Axios.get(`http://localhost:3000/datiPersonali/${ID}`, config)
+                return result
+                
+            } catch (error) {
+                console.log(error);
+                
+            }
+        },
+
+        async UpdateDatiPersonal (ID,NAME,EMAIL,BIRTHDATE,SENTIMENTALE,SESSO,BIO,config) {
+            try {
+                const result =  await Axios.patch (
+                    `http://localhost:3000/datiPersonali/${ID}`,
+                    [
+                        {
+                            propName: 'name',
+                            value: NAME
+                        },
+                        {
+                            propName: 'email',
+                            value: EMAIL
+                        },
+                        {
+                            propName: 'BirthDate',
+                            value: BIRTHDATE
+                        },
+                        {
+                            propName: 'sesso',
+                            value: SESSO
+                        },
+                        {
+                            propName: 'Sentimentale',
+                            value: SENTIMENTALE
+                        },
+                        {
+                            propName: 'Bio',
+                            value: BIO
+                        }
+                    ],
+                    config
+                )
+                console.log(result);
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async uploadPictureprofile (ID, data,config) {
+            try {
+                const result =  await Axios.put(`http://localhost:3000/datiPersonali/${ID}`, data, config)
+                console.log(result);
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async updatePassword(ID, data , config ){
+                try {
+                    const result = await Axios.put(`http://localhost:3000/datiPersonali/changepassword/${ID}`, data, config)
+                    return result
+                } catch (error) {
+                    console.log(error);
+                }
+        },
+
+        async deleteAccount (ID, config){
+            try {
+                const result = Axios.delete(`http://localhost:3000/datiPersonali/${ID}`, config)
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async getComments(){
+            try {
+                const result = await Axios.get(`http://localhost:3000/comments`)
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async getFriendsList(ID){
+            try {
+                const result = await Axios.get(`http://localhost:3000/friends/${ID}`)
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async SendFriendRequest(mainUserData,secondUserData,situationshipData){
+            try {
+                const result = await Axios.post(`http://localhost:3000/friends/request`, {
+                    mainUser: mainUserData,
+                    secondUser: secondUserData,
+                    situationship:situationshipData
+                })
+                return result
+            } catch (error) {
+                throw new Error(error.response.data)
+            }
+        },
+
+        async deleteFriendRequest(mainUserData,secondUserData){
+            try {
+                const result = await Axios.delete(`http://localhost:3000/friends`, { data: { mainUser: mainUserData , secondUser: secondUserData}})
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async respondFriendRequest(data){
+            try {
+                const result = await Axios.put(`http://localhost:3000/friends/request`, data )
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
 
     }
 }

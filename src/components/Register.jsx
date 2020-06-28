@@ -1,4 +1,4 @@
-import React, { useState, useContext , useEffect} from 'react'
+import React, { useState, useContext , useEffect , useRef} from 'react'
 import { SocialMediaContext } from './Context';
 import { BrowserRouter as Router, Switch, Route, Link ,useHistory} from "react-router-dom";
 import Logo from '../Images/Logo-3.png'
@@ -35,8 +35,8 @@ const Register = () => {
     let history = useHistory();
 
     useEffect(() => {
-        if (redirect === "/Logein") {
-            history.push("/logein")
+        if (redirect === "/") {
+            history.push("/")
         }
     })
     
@@ -45,7 +45,11 @@ const Register = () => {
         history.push(link)
         RegisterErrortoNull();
     }
-
+    useEffect(()=>{
+		nameRef.current.focus();
+	}, [])
+    const nameRef = useRef(null);
+    
     return (
         <div className="Loge-in">
             <form className="formStyle"
@@ -56,7 +60,7 @@ const Register = () => {
                     <h2 className="span">Lupo Media</h2>
                 </span>
                 <span  className="InputContainer">
-                    <input type="text" name="name" id="name" placeholder="Please Write Your Name and Family" onChange={onchangeHandler} value={Register.information.name} /><br />
+                    <input type="text" name="name" id="name" placeholder="Please Write Your Name and Family" ref={nameRef} onChange={onchangeHandler} value={Register.information.name} /><br />
                 </span>
                 <span className="InputContainer">
                     <input type="email" name="email" id="email" placeholder="Please Write Your Email" onChange={onchangeHandler} value={Register.information.email} /><br />
@@ -81,7 +85,7 @@ const Register = () => {
                     <button className="button_Log" onClick={(e) => Registration(e, Register.information.name, Register.information.email, Register.information.sesso, Register.information.password, Register.information.ConfirmPassWord)}>Register</button>
                 </span>
                 <span>
-                    <button className="button_Log" onClick={()=> GoToLink("/Logein")}>Back</button>
+                    <button className="button_Log" onClick={()=> GoToLink("/")}>Back</button>
                 </span>
             </form>
             {RegisterError !== null ? <h3 className="RedError">{RegisterError}</h3> : ""}
