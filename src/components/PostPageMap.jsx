@@ -12,15 +12,10 @@ import ProfilePicture from './ProfilePicture';
 const PostPageMap = ({ item }) => {
 	const [ comment, setcomment ] = useState('');
 	const {
-		datiPersonali,
 		User_Name,
 		id,
-		comments,
 		WritecommentCALL,
-		DeleteCommentCALL,
 		DeletePostCALL,
-		posts,
-		getFriendsListCall,
 	} = useContext(SocialMediaContext);
 	const onchangHandler = (e) => {
 		setcomment(e.target.value);
@@ -34,7 +29,6 @@ const PostPageMap = ({ item }) => {
 
 	return (
 		<div>
-			<p onClick={()=> getFriendsListCall()}>list</p>
 			<div key={item._id} className="postpage">
 				<div className="PostProfilPic_Wrapper" >
 				<ProfilePicture

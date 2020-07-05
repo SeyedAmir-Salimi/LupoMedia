@@ -3,7 +3,7 @@ import Logo from '../Images/Logo-3.png';
 import { SocialMediaContext } from './Context';
 import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom';
 
-const SearchBar = () => {
+const SearchBar = React.forwardRef((props, ref) => {
 	const [ Search, setSearch ] = useState({
 		SearchInput: ''
 	});
@@ -17,8 +17,9 @@ const SearchBar = () => {
 	const handelSubmit = (e, typedName) => {
 		e.preventDefault();
 		SearchUserCALL(typedName);
-		history.push('/search');
-		console.log('search');
+		if(history.location.pathname !== '/search'){
+			history.push('/search');
+		}
 	};
 
 	return (
@@ -34,11 +35,12 @@ const SearchBar = () => {
 						placeholder="  NewSearch..."
 						onChange={(e) => onchangHandler(e)}
 						value={Search.SearchInput}
+						ref={ref}
 					/>
 				</form>
 			</div>
 		</div>
 	);
-};
+});
 
 export default SearchBar;

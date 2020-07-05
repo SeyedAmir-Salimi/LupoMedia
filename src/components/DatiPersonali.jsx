@@ -4,6 +4,9 @@ import NavBar from './NavBar'
 import AlertChanges from './AlertChanges';
 import ProfilePicture from './ProfilePicture';
 import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
+import ImageCropper from './ImageCropper'
+import testimage from '../Images/Wallpaper.jpg'
+
 const DatiPersonali = () => {
     const [Pannel, setPannel] = useState({
         PasswordPannel: false,
@@ -85,6 +88,7 @@ const DatiPersonali = () => {
                     <label htmlFor="field1">
                         <span>Profile Picture: </span>
                         <input type="file" name="ProfilePic" id="DP_ProfilePic" onChange={uploadPicprofile} />
+
                     </label><br />
                     <button className="button_Log">Save Changes</button>
                 </form>

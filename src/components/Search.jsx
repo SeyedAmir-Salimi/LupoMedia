@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect , useRef} from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { SocialMediaContext } from './Context';
 import SearchedPageMap from './SearchedPageMap'
@@ -10,6 +10,9 @@ const Search = () => {
     let Searched = userSearched.map(item => {
         return <SearchedPageMap key={item._id} item={item} />
     })
+
+
+
     return (
         <div>
             <NavBar />

@@ -74,8 +74,8 @@ export default function API() {
             return result
         },
 
-        async GetAllPosts(){
-            const result = await  Axios.get(`http://localhost:3000/posts`)
+        async GetAllPosts(id){
+            const result = await  Axios.get(`http://localhost:3000/posts/${id}`)
             return result
         },
 
@@ -178,14 +178,41 @@ export default function API() {
             }
         },
 
-        async getFriendsList(ID){
+        async getFollowingAccepted(ID){
             try {
-                const result = await Axios.get(`http://localhost:3000/friends/${ID}`)
+                const result = await Axios.get(`http://localhost:3000/friends/followingAcc/${ID}`)
                 return result
             } catch (error) {
                 console.log(error);
             }
         },
+
+        async getFollowersAccepted(ID){
+            try {
+                const result = await Axios.get(`http://localhost:3000/friends/followersAcc/${ID}`)
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async getFollowingAwaiting(ID){
+            try {
+                const result = await Axios.get(`http://localhost:3000/friends/followingAw/${ID}`)
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async getFollowersAwaiting(ID){
+            try {
+                const result = await Axios.get(`http://localhost:3000/friends/followersAw/${ID}`)
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
         async SendFriendRequest(mainUserData,secondUserData,situationshipData){
             try {
                 const result = await Axios.post(`http://localhost:3000/friends/request`, {
@@ -199,12 +226,12 @@ export default function API() {
             }
         },
 
-        async deleteFriendRequest(mainUserData,secondUserData){
+        async deleteFriendRequest(_id, mainUserData,secondUserData){
             try {
-                const result = await Axios.delete(`http://localhost:3000/friends`, { data: { mainUser: mainUserData , secondUser: secondUserData}})
+                const result = await Axios.delete(`http://localhost:3000/friends`, { data: {_id: _id, mainUser: mainUserData , secondUser: secondUserData}})
                 return result
             } catch (error) {
-                console.log(error);
+                throw new Error(error.response.data)
             }
         },
         async respondFriendRequest(data){
@@ -212,7 +239,7 @@ export default function API() {
                 const result = await Axios.put(`http://localhost:3000/friends/request`, data )
                 return result
             } catch (error) {
-                console.log(error);
+                throw new Error(error.response.data)
             }
         },
 

@@ -30,9 +30,17 @@ class SocialMediaProvider extends Component {
 			loginError: '',
 			posts: [],
 			comments: [],
-			NewPassword:'',
-			friendsList: [],
+			NewPassword: '',
 			userSearched: [],
+			FollowingAccepted: [],
+			FollowersAccepted: [],
+			numberOfFollwingAccepted: '',
+			numberOfFollwersAccepted: '',
+			FollowingAwaiting: [],
+			FollowersAwaiting: [],
+			numberOfFollwingawaiting: '',
+			numberOfFollwersAwaiting: '',
+			numberOfFriendsRequest: '',
 			ConfirmPassword: '',
 			ProfilePic: undefined,
 			ErrorMessage: undefined,
@@ -40,7 +48,7 @@ class SocialMediaProvider extends Component {
 			nameError: '',
 			emailError: '',
 			passwordError: '',
-			ConfirmPassWordError: '',
+			ConfirmPassWordError: ''
 		};
 	}
 
@@ -49,7 +57,10 @@ class SocialMediaProvider extends Component {
 		this.getDatiPersonali();
 		this.GetPostsCall();
 		this.getCommentsCall();
-		this.getFriendsListCall()
+		this.getFollowingAcceptedCall();
+		this.getFollowersAcceptedCall();
+		this.getFollowingAwaitingCall();
+		this.getFollowersAwaitingCall();
 	}
 
 	//---------------- API JS -----------------//
@@ -220,8 +231,9 @@ class SocialMediaProvider extends Component {
 	};
 
 	GetPostsCall = async () => {
+		const id = Cookies.get('User_id');
 		const api = API();
-		const result = await api.GetAllPosts();
+		const result = await api.GetAllPosts(id);
 		this.setState({
 			posts: result.data.Posts
 		});
@@ -260,7 +272,7 @@ class SocialMediaProvider extends Component {
 
 	getDatiPersonali = async () => {
 		try {
-			const ID = Cookies.get('User_id')
+			const ID = Cookies.get('User_id');
 			const config = {
 				headers: {
 					'Content-Type': 'application/json',
@@ -274,66 +286,63 @@ class SocialMediaProvider extends Component {
 		} catch (error) {
 			console.log(error);
 		}
-    };
+	};
 
+	UpdateDatiPersonali = async (e) => {
+		try {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					'auth-token': Cookies.get('Auth_token')
+				}
+			};
+			e.preventDefault();
+			const ID = Cookies.get('User_id');
+			const NAME = this.state.datiPersonali.name;
+			const EMAIL = this.state.datiPersonali.email;
+			const BIRTHDATE = this.state.datiPersonali.BirthDate;
+			const SENTIMENTALE = this.state.datiPersonali.Sentimentale;
+			const SESSO = this.state.datiPersonali.sesso;
+			const BIO = this.state.datiPersonali.Bio;
+			const api = API();
+			const result = await api.UpdateDatiPersonal(ID, NAME, EMAIL, BIRTHDATE, SENTIMENTALE, SESSO, BIO, config);
+			Cookies.set('User_Name', NAME);
+			this.setState({
+				User_Name: NAME
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
-    UpdateDatiPersonali = async (e) => {
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': Cookies.get('Auth_token')
-                }
-            };
-            e.preventDefault();
-            const ID = Cookies.get('User_id');
-            const NAME = this.state.datiPersonali.name;
-            const EMAIL = this.state.datiPersonali.email;
-            const BIRTHDATE = this.state.datiPersonali.BirthDate;
-            const SENTIMENTALE = this.state.datiPersonali.Sentimentale;
-            const SESSO = this.state.datiPersonali.sesso;
-            const BIO = this.state.datiPersonali.Bio;
-            const api = API();
-            const result = await api.UpdateDatiPersonal(ID,NAME,EMAIL,BIRTHDATE,SENTIMENTALE,SESSO,BIO,config)
-            Cookies.set('User_Name', NAME);
-            this.setState({
-                User_Name:NAME
-            })
-
-        } catch (error) {
-            console.log(error)
-        }
-    };
-    
-    uploadPicprofile = async ({ target: { files } }) => {
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': Cookies.get('Auth_token')
-                }
-            };
-            const ID = Cookies.get('User_id');
-            let data = new FormData();
-            data.append('ProfilePic', files[0]);
-            const api = API();
-            const result = await api.uploadPictureprofile(ID, data,config)
+	uploadPicprofile = async ({ target: { files } }) => {
+		try {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					'auth-token': Cookies.get('Auth_token')
+				}
+			};
+			const ID = Cookies.get('User_id');
+			let data = new FormData();
+			data.append('ProfilePic', files[0]);
+			const api = API();
+			const result = await api.uploadPictureprofile(ID, data, config);
 			this.setState(() => {
 				return { ProfilePic: result.data.ProfilePic };
 			});
-
-        } catch (error) {
-            console.log(error);
-        }
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	updatePasswordCall = async () => {
 		this.setState({
-			NewPassword: "",
-			ConfirmPassword: "",
-		})
+			NewPassword: '',
+			ConfirmPassword: ''
+		});
 		try {
-			if(this.state.NewPassword === this.state.ConfirmPassword){
+			if (this.state.NewPassword === this.state.ConfirmPassword) {
 				const config = {
 					headers: {
 						'Content-Type': 'application/json',
@@ -345,9 +354,8 @@ class SocialMediaProvider extends Component {
 					password: this.state.NewPassword
 				};
 				const api = API();
-				const result = await api.updatePassword(ID, data,config)
-			}
-			else{
+				const result = await api.updatePassword(ID, data, config);
+			} else {
 				this.setState({ ErrorMessage: 'The Passwords Are Not The Same' });
 			}
 		} catch (error) {
@@ -365,66 +373,224 @@ class SocialMediaProvider extends Component {
 				}
 			};
 			const api = API();
-			const result = await api.deleteAccount(ID,config)
-			
+			const result = await api.deleteAccount(ID, config);
 		} catch (error) {
 			console.log(error);
 		}
-
 	};
 	getCommentsCall = async () => {
 		try {
 			const api = API();
-			const result = await api.getComments()
+			const result = await api.getComments();
 			this.setState({ comments: result.data.Comments });
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	getFriendsListCall = async ()=>{
-		const ID = Cookies.get('User_id')
+	getFollowingAcceptedCall = async () => {
+		const ID = Cookies.get('User_id');
 		const api = API();
-		const result = await api.getFriendsList(ID)
+		const result = await api.getFollowingAccepted(ID);
 		console.log(result);
-		// this.setState({ friendsList: result.data});
-	}
+		this.setState({
+			FollowingAccepted: result.data.Friends,
+			numberOfFollwingAccepted: result.data.count
+		});
+	};
 
-	SendFriendRequestCall = async (secondUserData)=>{
+	getFollowersAcceptedCall = async () => {
+		const ID = Cookies.get('User_id');
+		const api = API();
+		const result = await api.getFollowersAccepted(ID);
+		console.log(result);
+		this.setState({
+			FollowersAccepted: result.data.Friends,
+			numberOfFollwersAccepted: result.data.count
+		});
+	};
+
+	getFollowingAwaitingCall = async () => {
+		const ID = Cookies.get('User_id');
+		const api = API();
+		const result = await api.getFollowingAwaiting(ID);
+
+		this.setState({
+			FollowingAwaiting: result.data.Friends,
+			numberOfFollwingawaiting: result.data.count
+		});
+	};
+	getFollowersAwaitingCall = async () => {
+		const ID = Cookies.get('User_id');
+		const api = API();
+		const result = await api.getFollowersAwaiting(ID);
+
+		this.setState({
+			FollowersAwaiting: result.data.Friends,
+			numberOfFollwersAwaiting: result.data.count
+		});
+	};
+
+	SendFriendRequestCall = async (secondUserData, NAME, PROFILEPIC, BIO, SENTIMENTALE, BIRTHDATE) => {
 		try {
 			const mainUserData = Cookies.get('User_id');
-			const situationshipData = "awaiting";
+			const situationshipData = 'awaiting';
 			const api = API();
-			const result = await api.SendFriendRequest(mainUserData,secondUserData,situationshipData)
+			const result = await api.SendFriendRequest(mainUserData, secondUserData, situationshipData);
 			console.log(result);
-			
+			const newItem = {
+				date: new Date(),
+				mainUser: {
+					_id: this.state.id,
+					name: this.state.datiPersonali.name,
+					email: this.state.datiPersonaliemail,
+					sesso: this.state.datiPersonali.sesso
+				},
+				secondUser: {
+					name: NAME,
+					ProfilePic: PROFILEPIC,
+					Bio: BIO,
+					Sentimentale: SENTIMENTALE,
+					BirthDate: BIRTHDATE,
+					_id: secondUserData
+				},
+				situationship: 'awaiting',
+				_id: 'Temp_123'
+			};
+
+			let UpdateItem = [ ...this.state.FollowingAwaiting ];
+			UpdateItem.unshift(newItem);
+			this.setState({ FollowingAwaiting: UpdateItem });
+
+			console.log(UpdateItem);
+
+			const FollowingAwa = [ ...this.state.FollowingAwaiting ];
+			const tempPFollAw = FollowingAwa.find((item) => item._id === 'Temp_123');
+			tempPFollAw._id = result.data._id;
+
+			this.setState(() => {
+				return {
+					FollowingAwaiting: FollowingAwa,
+					numberOfFollwingawaiting: this.state.numberOfFollwingawaiting + 1
+				};
+			});
 		} catch (error) {
 			console.log({ error });
 		}
-	}
+	};
 
-	respondFriendRequestCall = async (secondUser) =>{
+	respondFriendRequestCall = async (ID, NAME, PROFILEPIC, BIO, SENTIMENTALE, BIRTHDATE, _ID) => {
 		try {
 			const data = {
-				mainUser: Cookies.get('User_id'),
-				secondUser: secondUser ,
-				situationship: "accepted"
+				_id: ID,
+				secondUser: Cookies.get('User_id'),
+				situationship: 'accepted'
 			};
 			const api = API();
-			const result = await api.respondFriendRequest(data)
+			const result = await api.respondFriendRequest(data);
 			console.log(result);
+
+			const newItem = {
+				date: new Date(),
+				mainUser: {
+					name: NAME,
+					ProfilePic: PROFILEPIC,
+					Bio: BIO,
+					Sentimentale: SENTIMENTALE,
+					BirthDate: BIRTHDATE,
+					_id: _ID
+				},
+				secondUser: {
+					_id: this.state.id,
+					name: this.state.datiPersonali.name,
+					email: this.state.datiPersonaliemail,
+					sesso: this.state.datiPersonali.sesso
+				},
+				situationship: 'accepted',
+				_id: ID
+			};
+			let UpdateItem = [ ...this.state.FollowersAccepted ];
+			UpdateItem.unshift(newItem);
+
+			const FollowersAww = this.state.FollowersAwaiting.filter((item) => item._id !== ID);
+
+			this.setState({
+				FollowersAwaiting: FollowersAww,
+				numberOfFollwersAwaiting: this.state.numberOfFollwersAwaiting - 1,
+
+				FollowersAccepted: UpdateItem,
+				numberOfFollwersAccepted: this.state.numberOfFollwersAccepted + 1
+			});
 		} catch (error) {
 			console.log({ error });
 		}
-	}
+	};
 
-	deleteFriendRequesttCall = async (secondUserData)=>{
-		const mainUserData = Cookies.get('User_id');
-		const api = API();
-		const result = await api.deleteFriendRequest(mainUserData,secondUserData)
-		console.log(result);
-	}
+	deleteFollowingAwaiting = async (_id, secondUserData) => {
+		try {
+			const mainUserData = Cookies.get('User_id');
+			const api = API();
+			const result = await api.deleteFriendRequest(_id, mainUserData, secondUserData);
 
+			const filteritemsAW = this.state.FollowingAwaiting.filter((item) => item._id !== _id);
+			this.setState({
+				FollowingAwaiting: filteritemsAW,
+				numberOfFollwingawaiting: this.state.numberOfFollwingawaiting - 1
+			});
+		} catch (error) {
+			console.log({ error });
+		}
+	};
+
+	deleteFollowersAwaiting = async (_id, mainUserData) => {
+		try {
+			const secondUserData = Cookies.get('User_id');
+			const api = API();
+			const result = await api.deleteFriendRequest(_id, mainUserData, secondUserData);
+
+			const filteritemsAW = this.state.FollowersAwaiting.filter((item) => item._id !== _id);
+			this.setState({
+				FollowersAwaiting: filteritemsAW,
+				numberOfFollwersAwaiting: this.state.numberOfFollwersAwaiting - 1
+			});
+		} catch (error) {
+			console.log({ error });
+		}
+	};
+
+	deleteFollowingAccepted = async (_id, secondUserData) => {
+		try {
+			const mainUserData = Cookies.get('User_id');
+			const api = API();
+			const result = await api.deleteFriendRequest(_id, mainUserData, secondUserData);
+			console.log(result);
+
+			const filteritemsAcc = this.state.FollowingAccepted.filter((item) => item._id !== _id);
+			this.setState({
+				FollowingAccepted: filteritemsAcc,
+				numberOfFollwingAccepted: this.state.numberOfFollwingAccepted - 1
+			});
+		} catch (error) {
+			console.log({ error });
+		}
+	};
+
+	deleteFollowersCall = async (_id, mainUserData) => {
+		try {
+			const secondUserData = Cookies.get('User_id');
+			const api = API();
+			const result = await api.deleteFriendRequest(_id, mainUserData, secondUserData);
+			console.log(result);
+
+			const filteritemsAcc = this.state.FollowersAccepted.filter((item) => item._id !== _id);
+			this.setState({
+				FollowersAccepted: filteritemsAcc,
+				numberOfFollwersAccepted: this.state.numberOfFollwersAccepted - 1
+			});
+		} catch (error) {
+			console.log({ error });
+		}
+	};
 
 	//---------------- END API JS -----------------//
 
@@ -505,7 +671,6 @@ class SocialMediaProvider extends Component {
 		});
 	};
 
-
 	// ---------------- Update Dati Personali ---------------- //
 
 	onchangeHandPassword = () => {
@@ -517,27 +682,39 @@ class SocialMediaProvider extends Component {
 		});
 	};
 
-	cancelUpdatePassword = ()=> {
+	cancelUpdatePassword = () => {
 		this.setState({
-			NewPassword: "",
-			ConfirmPassword: "",
-		})
-	}
+			NewPassword: '',
+			ConfirmPassword: ''
+		});
+	};
 
 	onchangeHandlerDatiPersonali = (e) => {
 		let copy = { ...this.state.datiPersonali };
 		copy[e.target.name] = e.target.value;
 		this.setState({ datiPersonali: copy });
 	};
-	
 
+	// ---------------- Following ID Check ---------------- //
 
+	IdFollowingChek = (ID) => {
+		let templist = this.state.FollowingAccepted;
+		const FollowingIdACC = templist.find((doc) => doc.secondUser._id === ID);
+		return FollowingIdACC;
+	};
+
+	IdAwaitingingChekFollowing = (ID) => {
+		let templist = this.state.FollowingAwaiting;
+		const FollowingIdAW = templist.find((doc) => doc.secondUser._id === ID);
+		return FollowingIdAW;
+	};
 
 	render() {
 		return (
 			<SocialMediaContext.Provider
 				value={{
 					...this.state,
+					getCookies: this.getCookies,
 					loginCHangeHandler: this.loginCHangeHandler,
 					LoginGetCall: this.LoginGetCall,
 					LogeOut: this.LogeOut,
@@ -558,10 +735,14 @@ class SocialMediaProvider extends Component {
 					RegisterFunctCALL: this.RegisterFunctCALL,
 					RegisterErrortoNull: this.RegisterErrortoNull,
 					GetPostsCall: this.GetPostsCall,
-					getFriendsListCall:this.getFriendsListCall,
-					SendFriendRequestCall:this.SendFriendRequestCall,
+					SendFriendRequestCall: this.SendFriendRequestCall,
 					respondFriendRequestCall: this.respondFriendRequestCall,
-					deleteFriendRequesttCall:this.deleteFriendRequesttCall,
+					deleteFollowersCall: this.deleteFollowersCall,
+					deleteFollowingAccepted: this.deleteFollowingAccepted,
+					deleteFollowersAwaiting: this.deleteFollowersAwaiting,
+					deleteFollowingAwaiting: this.deleteFollowingAwaiting,
+					IdFollowingChek: this.IdFollowingChek,
+					IdAwaitingingChekFollowing: this.IdAwaitingingChekFollowing
 				}}
 			>
 				{this.props.children}

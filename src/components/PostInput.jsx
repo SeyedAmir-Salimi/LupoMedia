@@ -1,4 +1,4 @@
-import React, { useState, useContext} from 'react';
+import React, { useState, useContext , useRef ,useEffect} from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { SocialMediaContext } from './Context';
 import { FcCamera, FcInternal } from 'react-icons/fc';
@@ -28,6 +28,11 @@ const PostInput = () => {
 		setPostCaption(e.target.value);
 	};
 
+	const PostCaptionRef = useRef()
+	useEffect(() => {
+		PostCaptionRef.current.focus();
+	}, [])
+
 	const FontColor = { color: 'rgb(223, 209, 144)' };
 	return (
 		<div>
@@ -40,6 +45,7 @@ const PostInput = () => {
 						placeholder={'  What Do You Think ' + User_Name + '...'}
 						value={PostCaption}
 						onChange={(e) => onChangeHandler(e)}
+						ref={PostCaptionRef}
 					/>
 
 					<FcInternal id="FC" className="FC_ICONS" onClick={WritePost} />
