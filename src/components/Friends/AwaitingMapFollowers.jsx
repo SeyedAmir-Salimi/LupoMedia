@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import { SocialMediaContext } from '../Context';
 import { FcNeutralDecision, FcApprove, FcDecision, FcDisapprove } from 'react-icons/fc';
 import ProfilePicture from '../ProfilePicture';
+import { BrowserRouter as Router, Switch, Route, Link , useHistory} from 'react-router-dom';
 
 const AwaitingMapFollowers = ({ item }) => {
-	const { deleteFollowersAwaiting, User_Name, id, SendFriendRequestCall, respondFriendRequestCall } = useContext(
+	const { deleteFollowersAwaiting, User_Name, id, SendFriendRequestCall, respondFriendRequestCall,GetUSerPageData } = useContext(
 		SocialMediaContext
 	);
-
+	let history = useHistory();
 	const AcceptReq = () => {
 		respondFriendRequestCall(
 			item._id,
@@ -20,10 +21,26 @@ const AwaitingMapFollowers = ({ item }) => {
 		);
 	};
 
+	const GoToLink = (link) => {
+		history.push(link);
+		console.log(history.location.pathname);
+	};
+	
+
+	const GoTo = () =>{
+		GetUSerPageData(item.mainUser._id , item.mainUser.ProfilePic , item.mainUser.name)
+		if(item.mainUser._id === id ){
+			GoToLink(`/MyPage`)
+		}
+		else{
+			GoToLink(`/${item.name}`)
+		}
+	}
+
 	return (
 		<div key={item._id} className="Searched_page">
 			<span className="Searched_page_info">
-				<ProfilePicture ProfilePic={item.mainUser.ProfilePic} Size={'Medium'} />
+				<ProfilePicture ProfilePic={item.mainUser.ProfilePic} Size={'Medium'} onClick={GoTo}/>
 				<div>
 					<h4>{item.mainUser.name}</h4>
 					<h4>{item.mainUser.Bio}</h4>

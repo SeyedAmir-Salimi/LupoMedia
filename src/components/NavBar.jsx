@@ -43,10 +43,10 @@ const Navbar = ({ ref }) => {
 							ProfilePic={ProfilePic}
 							User_Name={User_Name}
 							Size={'Medium'}
-							onClick={() => GoToLink(`/${User_Name}`)}
+							onClick={() => GoToLink(`/myPage`)}
 						/>
 					</div>
-					<li onClick={() => GoToLink(`/${User_Name}`)} className="hvr-pulse">
+					<li onClick={() => GoToLink(`/myPage`)} className="hvr-pulse">
 						{User_Name}
 					</li>
 					<li onClick={() => GoToLink('/home')} className="hvr-pulse">

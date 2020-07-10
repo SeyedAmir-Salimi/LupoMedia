@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link , useHistory} from 'react-router-dom';
 import { SocialMediaContext } from './Context';
 import { FaTrashAlt } from 'react-icons/fa';
 import { FcLike, FcDislike } from 'react-icons/fc';
@@ -16,6 +16,8 @@ const PostPageMap = ({ item }) => {
 		id,
 		WritecommentCALL,
 		DeletePostCALL,
+		GetUSerPageData,
+		ridirectFunction
 	} = useContext(SocialMediaContext);
 	const onchangHandler = (e) => {
 		setcomment(e.target.value);
@@ -27,6 +29,26 @@ const PostPageMap = ({ item }) => {
 		setcomment('');
 	};
 
+	
+	let history = useHistory();
+
+	const GoToLink = (link) => {
+		ridirectFunction(link);
+		history.push(link);
+		console.log(history.location.pathname);
+	};
+	
+
+	const GoTo = () =>{
+		GetUSerPageData(item.user._id , item.user.ProfilePic , item.user.name)
+		if(item.user._id === id ){
+			GoToLink(`/MyPage`)
+		}
+		else{
+			GoToLink(`/${item.user.name}`)
+		}
+	}
+
 	return (
 		<div>
 			<div key={item._id} className="postpage">
@@ -35,9 +57,10 @@ const PostPageMap = ({ item }) => {
 					ProfilePic={item.user.ProfilePic}
 					User_Name={User_Name}
 					Size={'Medium'}
+					onClick={GoTo}
 				/>
 				</div>
-				<h3 className="postpage_name">{item.user.name}</h3>
+				<h3 className="postpage_name" >{item.user.name}</h3>
 				<p className="postpage_date">
 					<LastSeen date={item.date} />
 				</p>

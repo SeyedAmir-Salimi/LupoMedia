@@ -37,7 +37,7 @@ const DatiPersonali = () => {
                     <AlertChanges Mystate={{ ...Pannel }} NO={() => {PasswordPannel();cancelUpdatePassword()}} Yes={() => updatePasswordCall()} Done="Save" Cancel="Cancel" />
                     : ""}
                 {Pannel.DeleteAccount ?
-                    <AlertChanges Mystate={{ ...Pannel }} NO={() => DeleteAccount()} Yes={() => {deleteAccount();LogeOut()}} Done="Yes" Cancel="No" />
+                    <AlertChanges Mystate={{ ...Pannel }} NO={() => setPannel({DeleteAccount: false})} Yes={() => {deleteAccount();LogeOut()}} Done="Yes" Cancel="No" />
                     : ""}
 
                 <ProfilePicture
@@ -90,10 +90,10 @@ const DatiPersonali = () => {
                         <input type="file" name="ProfilePic" id="DP_ProfilePic" onChange={uploadPicprofile} />
 
                     </label><br />
+                <button className="button_Log" onClick={() => setPannel({PasswordPannel: true})}>Change password</button>
                     <button className="button_Log">Save Changes</button>
                 </form>
-                <button className="button_Log" onClick={() => setPannel({PasswordPannel: true})}>Change password</button>
-                <button className="button_Log" onClick={() => setPannel({DeleteAccount: true})}>Delete Account</button>
+                <button className="button_Log" style={{width: "17rem"}} onClick={() => setPannel({DeleteAccount: true})}>Delete Account</button>
             </div>
      );
 }

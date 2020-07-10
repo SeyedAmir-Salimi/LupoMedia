@@ -1,21 +1,20 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { SocialMediaContext } from './Context';
-import { FcNeutralDecision, FcApprove, FcDecision, FcDisapprove } from 'react-icons/fc';
 import ProfilePicture from './ProfilePicture';
+import { BrowserRouter as Router, Switch, Route, Link , useHistory} from 'react-router-dom';
 
 const SearchedPageMap = ({ item }) => {
 	const [ ExistFollowing, setExistFollowing ] = useState('');
 	const [ ExistFollowingAwaiting, setExistFollowingAwaiting ] = useState('');
 	const {
-		deleteFriendRequesttCall,
-		User_Name,
 		id,
 		SendFriendRequestCall,
-		respondFriendRequestCall,
 		IdFollowingChek,
 		IdAwaitingingChekFollowing,
-
+		GetUSerPageData,
+		ridirectFunction
 	} = useContext(SocialMediaContext);
+	let history = useHistory();
 
 	useEffect(() => {
 		FollowingChekID();
@@ -39,10 +38,26 @@ const SearchedPageMap = ({ item }) => {
 		setExistFollowingAwaiting(true);
 	}
 
+
+	const GoToLink = (link) => {
+		history.push(link);
+		console.log(history.location.pathname);
+	};
+	
+
+	const GoTo = () =>{
+		GetUSerPageData(item._id , item.picture , item.name)
+		if(item._id === id ){
+			GoToLink(`/MyPage`)
+		}
+		else{
+			GoToLink(`/${item.name}`)
+		}
+	}
 	return (
 		<div key={item._id} className="Searched_page">
 			<span className="Searched_page_info">
-				<ProfilePicture ProfilePic={item.picture} Size={'Medium'} />
+				<ProfilePicture ProfilePic={item.picture} Size={'Medium'} onClick={GoTo} />
 				<div>
 					<h4>{item.name}</h4>
 					<h4>{item.Bio}</h4>

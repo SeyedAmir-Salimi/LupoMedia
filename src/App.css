@@ -7,7 +7,14 @@ html {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+	background-color: var(--ViolaBackground);
 }
+
+:root {
+	--primaryGOldColor:  rgb(223, 209, 144);
+	--ViolaBackground: rgb(49, 16, 46);
+	--ViolaNavbar:  rgb(27, 6, 25);
+  }
 /* LogeIN  & Register Component */
 .Loge-in {
 	background-image: url("./Images/Wallpaper.jpg");
@@ -21,7 +28,7 @@ html {
 	justify-content: center;
 }
 .formStyle h2 {
-	color: rgb(223, 209, 144);
+	color: var(--primaryGOldColor);
 }
 .formStyle span h2,
 .formStyle span img {
@@ -98,6 +105,7 @@ html {
 
 .formStyle select {
 	height: 35px;
+	border-radius: 1rem;
 }
 
 .formStyle input[type="submit"],
@@ -108,17 +116,22 @@ html {
 	padding: 5px;
 	color: rgb(34, 6, 31);
 	margin: 0 auto;
-	background: rgb(223, 209, 144);
+	background: var(--primaryGOldColor);
 	font-size: 18px;
 	font-weight: bolder;
 	text-align: center;
 	font-style: normal;
 	width: 45%;
-	border: 1px solid rgb(223, 209, 144);
+	border: 1px solid var(--primaryGOldColor);
 	border-width: 1px 1px 3px;
 	margin-bottom: 5px;
 	text-decoration: none;
 	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	border-radius: 1rem;
+}
+
+.button_Log:focus{
+	outline: none;
 }
 
 .formStyle input[type="submit"]:hover,
@@ -134,7 +147,7 @@ html {
 .InputContainer {
 	background: rgba(255, 255, 255, .1);
 	border: none;
-	border-radius: 4px;
+	border-radius: 40px;
 	font-size: 15px;
 	margin: 0;
 	outline: 0;
@@ -145,8 +158,8 @@ html {
 	-moz-box-sizing: border-box;
 	background-color: #e8eeef;
 	color: #8a97a0;
-	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) ;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) ;
 	margin-bottom: 30px;
 }
 .PasswordEye {
@@ -160,8 +173,9 @@ html {
 	width: 100%;
 	justify-content: space-between;
 	height: 5rem;
-	color: rgb(223, 209, 144);
-	background-color: rgb(27, 6, 25);
+	color: var(--primaryGOldColor);
+	background-color: var(--ViolaNavbar);
+
 }
 .Nav-LogoSearch {
 	display: flex;
@@ -193,11 +207,13 @@ html {
 }
 .ProfilePic_Wrapper {
 	margin-top: 0.5rem;
+
 }
 .ProfImage {
 	width: 3rem;
 	height: 3rem;
 	border-radius: 2rem;
+	object-fit: cover;
 }
 .ProfImage:hover {
 	cursor: pointer;
@@ -216,12 +232,12 @@ html {
 	margin: 1rem auto;
 	width: 40%;
 	font-size: 16px;
-	background: #495c70;
+	background: var(--ViolaNavbar);
 	padding: 30px 30px 15px 30px;
-	border: 5px solid #53687e;
+	border-radius: 5rem;
+
 }
 .form-style-4 input[type=submit],
-.form-style-4 input[type=button],
 .form-style-4 input[type=text],
 .form-style-4 input[type=email],
 .form-style-4 input[type="password"],
@@ -269,7 +285,7 @@ html {
 .form-style-4 input[type=text]:focus,
 .form-style-4 input[type=email]:focus,
 .form-style-4 input[type=email] :focus {
-	color: black;
+	color: var(--primaryGOldColor);
 	border-bottom: 1px dashed #d9ffa9;
 }
 
@@ -289,8 +305,39 @@ html {
 .profile_pic {
 	margin-top: 2rem;
 	width: 12rem;
-
+	height: 12rem;
+    object-fit: cover;
 	border-radius: 10rem;
+}
+
+td{
+	text-align: left;
+
+  }
+
+.button_Alert{
+	position: relative;
+	color: rgb(34, 6, 31);
+	background: var(--primaryGOldColor);
+	font-size: 14px;
+	margin: 2rem auto;
+	border-width: 1px 1px 1px;
+	margin-bottom: 5px;
+	font-weight: bolder;
+	text-align: center;
+	font-style: normal;
+	border-radius: 1rem;
+	text-decoration: none;
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.button_Alert:focus{
+	outline: none;
+}
+
+.button_Alert:hover {
+	background: rgb(191, 174, 117);
+	cursor: pointer;
 }
 
 /* Alert CHanges Component */
@@ -319,10 +366,10 @@ html {
 }
 
 .alert-Red {
-	background: rgba(255, 255, 255, 0.788);
-	color: red;
+	background:var(--ViolaNavbar);
+	color: var(--primaryGOldColor);
 	padding: 4rem;
-	border: ridge red;
+	border: ridge var(--primaryGOldColor);
 	position: relative;
 }
 
@@ -360,7 +407,7 @@ html {
 	border-radius: 3rem;
 }
 .postpage_name {
-	color: rgb(27, 6, 25);
+	color:var(--ViolaNavbar);
 	margin-top: 0.5rem;
 	position: absolute;
 	left: 4rem;
@@ -380,7 +427,7 @@ html {
 	position: absolute;
 	right: 1rem;
 	font-size: 1.4rem;
-	color: rgb(27, 6, 25);
+	color:var(--ViolaNavbar);
 }
 .postpage_trash:hover,
 .postpage_LikeDislike:hover {
@@ -388,7 +435,7 @@ html {
 	color: red;
 }
 .postpage_Caption {
-	color: rgb(27, 6, 25);
+	color:var(--ViolaNavbar);
 }
 .postpage_Comment {
 	background-color: gray;
@@ -413,6 +460,7 @@ html {
 	width: 2rem;
 	height: 2rem;
 	border-radius: 2rem;
+	object-fit: cover;
 }
 .CommentProfilePic_Wrapper {
 	position: absolute;
@@ -440,7 +488,7 @@ html {
 .postpageComments:focus {
 	outline: none;
 	font-weight: bold;
-	color: rgb(27, 6, 25);
+	color:var(--ViolaNavbar);
 }
 
 .PostInput {
@@ -465,7 +513,7 @@ html {
 }
 /* Homapage Component */
 .homepage {
-	background-color: rgb(49, 16, 46);
+	background-color: var(--ViolaBackground);
 }
 
 /* SearchedPageMap Component */
@@ -475,6 +523,7 @@ html {
 	width: 30%;
 	margin: 1rem auto;
 	display: flex;
+	color: var(--primaryGOldColor);
 }
 .Searched_page_info {
 	display: flex;
@@ -790,6 +839,8 @@ html {
 
 .Cover-DefaulCovert {
 	width: 50rem;
+	border-bottom-left-radius: 2rem;
+	border-bottom-right-radius: 2rem;
 }
 
 .Cover-info {
@@ -801,7 +852,7 @@ html {
 .Cover-Texts {
 	display: flex;
 	font-family: cursive;
-	color: rgb(223, 209, 144);
+	color:var(--primaryGOldColor);
 	position: absolute;
 	bottom: 0rem;
   right: 15rem;
@@ -811,10 +862,28 @@ html {
   width: 8rem;
 }
 
+.Cover-Name{
+	color: var(--primaryGOldColor);
+	margin: 0 auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 5rem;
+}
+.Cover-info-following{
+	width: 15rem;
+}
+
 /* Image Cropper */
 
 .ImageCropper-container {
     width: 640px;
     height: 480px;
 	float: left;
+}
+
+
+/* Awaitinign List Componet */
+.AwaitiningList-Component{
+	color: var(--primaryGOldColor);
 }

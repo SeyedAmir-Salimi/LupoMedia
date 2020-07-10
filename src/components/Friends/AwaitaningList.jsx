@@ -22,7 +22,7 @@ const AwaitaningList = () => {
 	return (
 		<div>
 			<NavBar />
-			<div>
+			<div className="AwaitiningList-Component">
 				{numberOfFollwersAwaiting !== 0 ? (
 					<span>
 						<h5>Followers Request Awaitating {numberOfFollwersAwaiting}</h5>

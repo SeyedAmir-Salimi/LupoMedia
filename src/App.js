@@ -11,6 +11,7 @@ import UserPage from './components/UserPage'
 import FollowingAcc from './components/Friends/FollowingAcc'
 import FollowersAcc from './components/Friends/FollowersAcc'
 import AwaitaningList from './components/Friends/AwaitaningList'
+import MyPage from './components/MyPage'
 
 const App = () => {
   // const { token } = useContext(SocialMediaContext)
@@ -21,6 +22,7 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact strict path="/home" component={home} />
         <Route exact path="/search" component={Search} />
+        <Route exact path="/myPage" component={MyPage} />
         <Route exact path="/:slug" component={UserPage} />
         <Route exact path="/:slug/datiPersonali" component={DatiPersonali} />
         <Route exact path="/:slug/following" component={FollowingAcc} />

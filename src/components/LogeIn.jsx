@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState ,useRef} from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { SocialMediaContext } from './Context';
 import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from 'react-router-dom';
 import Logo from '../Images/Logo-3.png';
@@ -8,20 +8,17 @@ const LogeIn = () => {
 	const {
 		LoginGetCall,
 		loginError,
-		LinkRegister,
-		LoginGet,
 		loginCHangeHandler,
 		email,
 		password,
 		token,
-		ridirectFunction
+		ridirectFunction,
 	} = useContext(SocialMediaContext);
 	const [ TypeHandel, setTypeHandel ] = useState('password');
 
 	const PassTypeHandel = (type) => {
 		setTypeHandel(type);
 	};
-
 
 	let history = useHistory();
 
@@ -31,26 +28,25 @@ const LogeIn = () => {
 			history.push('/home');
 		}
 	});
-	
+
 	const AuthLogin = async (e) => {
 		e.preventDefault();
 		await LoginGetCall();
 	};
-	
+
 	const GoToLink = (link) => {
 		ridirectFunction(link);
 		history.push(link);
 	};
-	
-	
-	useEffect(()=>{
+
+	useEffect(() => {
 		emailRef.current.focus();
-	}, [])
+	}, []);
 	const emailRef = useRef(null);
-	
+
 	return (
 		<div className="Loge-in">
-			<form className="formStyle"  onSubmit={(e) => AuthLogin(e)}>
+			<form className="formStyle" onSubmit={(e) => AuthLogin(e)}>
 				<span>
 					<img src={Logo} alt="Logo" style={{ width: '4rem' }} />
 					<h2>Lupo Media</h2>
@@ -85,7 +81,9 @@ const LogeIn = () => {
 					<br />
 				</span>
 				<span>
-					<button className="button_Log" onClick={(e) => AuthLogin(e)}>LogIn</button>
+					<button className="button_Log" onClick={(e) => AuthLogin(e)}>
+						LogIn
+					</button>
 					<button className="button_Log" onClick={() => GoToLink('/register')}>
 						Register
 					</button>

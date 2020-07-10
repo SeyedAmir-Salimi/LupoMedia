@@ -14,15 +14,22 @@ const AlertChanges = ({ Mystate, NO , Yes , Done , Cancel}) => {
 
                     {Mystate.PasswordPannel ?
                         <div>
-                            <p>Please Wrire Your New Password</p>
-                            <label htmlFor="field1">
-                                <span>Password: </span>
-                                <input type="password" name="password" id="DP_password" value={NewPassword} onChange={onchangeHandPassword} />
-                            </label><br />
-                            <label htmlFor="field1">
-                                <span>Confirm Password: </span>
-                                <input type="password" name="Confirmpassword" id="DP_Confirmpassword" value={ConfirmPassword} onChange={onchangeHandPassword} />
-                            </label><br />
+                            <table>
+                            <tr>
+                                <th colspan="2"><p>Please Write Your New Password</p></th>
+                            </tr>
+                            <tr>
+                                <td><span>Password: </span></td>
+                                <td><input type="password" name="password" id="DP_password" value={NewPassword} onChange={onchangeHandPassword} /></td>
+                            </tr>
+                            <tr>
+                                <td><span>Confirm Password: </span></td>
+                                <td> <input type="password" name="Confirmpassword" id="DP_Confirmpassword" value={ConfirmPassword} onChange={onchangeHandPassword} /></td>
+                            </tr>
+                               
+                               
+
+                            </table>
                         </div>
                         : ""}
 
@@ -32,8 +39,8 @@ const AlertChanges = ({ Mystate, NO , Yes , Done , Cancel}) => {
                         </div>
                         : ""}
 
-                    <button onClick={Yes}>{Done}</button>
-                    <button onClick={NO}>{Cancel}</button>
+                    <button className="button_Alert"onClick={Yes}>{Done}</button>
+                    <button className="button_Alert" onClick={NO}>{Cancel}</button>
                 </div>
             </div>
         </div>)

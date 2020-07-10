@@ -48,7 +48,8 @@ class SocialMediaProvider extends Component {
 			nameError: '',
 			emailError: '',
 			passwordError: '',
-			ConfirmPassWordError: ''
+			ConfirmPassWordError: '',
+			UserPageData: [],
 		};
 	}
 
@@ -61,8 +62,8 @@ class SocialMediaProvider extends Component {
 		this.getFollowersAcceptedCall();
 		this.getFollowingAwaitingCall();
 		this.getFollowersAwaitingCall();
+		this.SetUSerPageData();
 	}
-
 	//---------------- API JS -----------------//
 
 	AddPostCall = async (contextid, PostCaption) => {
@@ -260,7 +261,17 @@ class SocialMediaProvider extends Component {
 					email: '',
 					password: ''
 				},
-				() => [ this.getDatiPersonali(), this.getCookies() ]
+				() => [
+					this.getDatiPersonali(),
+					this.getCookies(),
+					this.GetPostsCall(),
+					this.getCommentsCall(),
+					this.getFollowingAcceptedCall(),
+					this.getFollowersAcceptedCall(),
+					this.getFollowingAwaitingCall(),
+					this.getFollowersAwaitingCall(),
+					this.SetUSerPageData(),
+				]
 			);
 		} catch (error) {
 			this.setState({
@@ -655,6 +666,9 @@ class SocialMediaProvider extends Component {
 		Cookies.remove('User_id');
 		Cookies.remove('redirect');
 		Cookies.remove('User_Name');
+		Cookies.remove('UserPage_id');
+		Cookies.remove('UserPage_ProfilePic');
+		Cookies.remove('UserPage_Name');
 		this.setState({
 			redirectTF: false,
 			token: undefined,
@@ -709,6 +723,49 @@ class SocialMediaProvider extends Component {
 		return FollowingIdAW;
 	};
 
+	// ---------------- Get UserPage data ---------------- //
+
+	SetUSerPageData = () =>{
+		const _id = Cookies.get('UserPage_id');
+		const ProfilePic = Cookies.get('UserPage_ProfilePic');
+		const User_Name = Cookies.get('UserPage_Name');
+			this.setState({
+				UserPageData:{
+					_id,
+					ProfilePic,
+					User_Name
+				}
+			})
+	}
+	
+	GetUSerPageData = (ID,PIC,NAME) =>{
+		if(PIC === undefined || PIC === "undefined"){
+			Cookies.set('UserPage_id', ID);
+			Cookies.set('UserPage_Name', NAME);
+			Cookies.remove('UserPage_ProfilePic');
+			this.setState({
+				UserPageData:{
+					_id: ID,
+					ProfilePic: undefined,
+					User_Name:NAME
+				}
+			});
+		}
+		else{
+			Cookies.set('UserPage_id', ID);
+			Cookies.set('UserPage_ProfilePic', PIC);
+			Cookies.set('UserPage_Name', NAME);
+			this.setState({
+				UserPageData:{
+					_id: ID,
+					ProfilePic: PIC,
+					User_Name:NAME
+				}
+			});	
+		}
+
+		this.SetUSerPageData();
+	}
 	render() {
 		return (
 			<SocialMediaContext.Provider
@@ -742,7 +799,8 @@ class SocialMediaProvider extends Component {
 					deleteFollowersAwaiting: this.deleteFollowersAwaiting,
 					deleteFollowingAwaiting: this.deleteFollowingAwaiting,
 					IdFollowingChek: this.IdFollowingChek,
-					IdAwaitingingChekFollowing: this.IdAwaitingingChekFollowing
+					IdAwaitingingChekFollowing: this.IdAwaitingingChekFollowing,
+					GetUSerPageData:this.GetUSerPageData,
 				}}
 			>
 				{this.props.children}

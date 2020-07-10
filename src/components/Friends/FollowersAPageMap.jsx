@@ -2,16 +2,20 @@ import React, { useContext, useState, useEffect } from 'react';
 import { SocialMediaContext } from '../Context';
 import { FcNeutralDecision, FcApprove, FcDecision, FcDisapprove } from 'react-icons/fc';
 import ProfilePicture from '../ProfilePicture';
+import { BrowserRouter as Router, Switch, Route, Link , useHistory} from 'react-router-dom';
 
 const FollowersAPageMap = ({ item }) => {
 	const [ ExistFollowing, setExistFollowing ] = useState('');
 	const [ ExistFollowingAwaiting, setExistFollowingAwaiting ] = useState('');
 	const {
+		id,
 		deleteFollowersCall,
 		SendFriendRequestCall,
 		IdFollowingChek,
 		IdAwaitingingChekFollowing,
+		GetUSerPageData
 	} = useContext(SocialMediaContext);
+	let history = useHistory();
 
 	useEffect(() => {
 		FollowingChekID();
@@ -45,10 +49,28 @@ const FollowersAPageMap = ({ item }) => {
 		setExistFollowingAwaiting(true);
 	};
 
+	
+	const GoToLink = (link) => {
+
+		history.push(link);
+		console.log(history.location.pathname);
+	};
+	
+
+	const GoTo = () =>{
+		GetUSerPageData(item.mainUser._id , item.mainUser.ProfilePic , item.mainUser.name)
+		if(item.mainUser._id === id ){
+			GoToLink(`/MyPage`)
+		}
+		else{
+			GoToLink(`/${item.name}`)
+		}
+	}
+
 	return (
 		<div key={item._id} className="Searched_page">
 			<span className="Searched_page_info">
-				<ProfilePicture ProfilePic={item.mainUser.ProfilePic} Size={'Medium'} />
+				<ProfilePicture ProfilePic={item.mainUser.ProfilePic} Size={'Medium'} onClick={GoTo}/>
 				<div>
 					<h4>{item.mainUser.name}</h4>
 					<h4>{item.mainUser.Bio}</h4>

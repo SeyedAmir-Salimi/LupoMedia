@@ -3,21 +3,21 @@ import { SocialMediaContext } from './Context';
 import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom';
 import PostPageMap from './PostPageMap';
 import NavBar from './NavBar';
-import Cover from './Cover';
+import CoverMy from './CoverMy';
 
-const UserPage = () => {
-	const { posts , UserPageData } = useContext(SocialMediaContext);
-	let MyPost = posts.filter((item) => item.user._id === UserPageData._id).map((item) => {
+const MyPage = () => {
+	const { posts , id } = useContext(SocialMediaContext);
+	let MyPost = posts.filter((item) => item.user._id === id).map((item) => {
 		return <PostPageMap key={item._id} item={item} />;
 	});
 
 	return (
 		<div>
 			<NavBar />
-			<Cover />
+			<CoverMy />
 			{MyPost}
 		</div>
 	);
 };
 
-export default UserPage;
+export default MyPage;
