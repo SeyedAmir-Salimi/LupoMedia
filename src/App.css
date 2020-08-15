@@ -429,8 +429,7 @@ td{
 	font-size: 1.4rem;
 	color:var(--ViolaNavbar);
 }
-.postpage_trash:hover,
-.postpage_LikeDislike:hover {
+.postpage_trash:hover{
 	cursor: pointer;
 	color: red;
 }
@@ -440,11 +439,11 @@ td{
 .postpage_Comment {
 	background-color: gray;
 }
-.postpage_LikeDislike {
+.postpage_Like {
 	font-size: 1.5rem;
 	position: absolute;
 	left: 4rem;
-	margin-top: 3rem;
+	margin-top: 1rem;
 }
 .postpage_Comment_detail {
 	display: flex;
@@ -476,6 +475,27 @@ td{
 	left: 3.5rem;
 	top: 0rem;
 }
+
+.FcLike{
+	font-size: 1.7rem;
+	margin-right: 1rem;
+	color: red;
+	cursor: pointer;
+	z-index: 3;
+}
+.like:hover .emojis{
+	opacity: 100;
+}
+.emojis{
+	opacity: 0;
+	font-size: 1.3rem;
+	position: absolute;
+	padding-top: 1.5rem;
+	transition: ease-in .5s;
+	left: 0;
+	cursor: pointer;
+}
+
 /* PostInput Component */
 .postpage_CommentInput {
 	display: flex;
@@ -788,7 +808,7 @@ td{
 	}
 }
 .hvr-wobble-vertical,
-.FC_ICONS {
+.FC_ICONS{
 	display: inline-block;
 	vertical-align: middle;
 	-webkit-transform: perspective(1px) translateZ(0);
@@ -797,7 +817,7 @@ td{
 }
 .hvr-wobble-vertical:hover,
 .hvr-wobble-vertical:focus,
-.hvr-wobble-vertical:active,
+.hvr-wobble-vertical:active, 
 .FC_ICONS:hover,
 .FC_ICONS:focus,
 .FC_ICONS:active {
@@ -886,4 +906,14 @@ td{
 /* Awaitinign List Componet */
 .AwaitiningList-Component{
 	color: var(--primaryGOldColor);
+}
+
+
+/* Forget & Reset password */
+
+.Forget-password,.Forget-password-message{
+	color: var(--primaryGOldColor);
+}
+.Forget-password:hover{
+	cursor: pointer;
 }

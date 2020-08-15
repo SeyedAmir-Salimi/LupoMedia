@@ -12,7 +12,6 @@ const LogeIn = () => {
 		email,
 		password,
 		token,
-		ridirectFunction,
 	} = useContext(SocialMediaContext);
 	const [ TypeHandel, setTypeHandel ] = useState('password');
 
@@ -35,7 +34,6 @@ const LogeIn = () => {
 	};
 
 	const GoToLink = (link) => {
-		ridirectFunction(link);
 		history.push(link);
 	};
 
@@ -88,6 +86,7 @@ const LogeIn = () => {
 						Register
 					</button>
 				</span>
+				<h5 className="Forget-password" onClick={() => GoToLink('/forgetPassword')} >Forget password</h5>
 				{loginError !== null ? <h3 className="RedError">{loginError}</h3> : ''}
 			</form>
 		</div>

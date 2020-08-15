@@ -84,9 +84,9 @@ const Register = () => {
                 <span>
                     <button className="button_Log" onClick={(e) => Registration(e, Register.information.name, Register.information.email, Register.information.sesso, Register.information.password, Register.information.ConfirmPassWord)}>Register</button>
                 </span>
-                <span>
+                {/* <span>
                     <button className="button_Log" onClick={()=> GoToLink("/")}>Back</button>
-                </span>
+                </span> */}
             </form>
             {RegisterError !== null ? <h3 className="RedError">{RegisterError}</h3> : ""}
             {nameError !== null ? <h3 className="RedError" >{nameError}</h3> : ""}

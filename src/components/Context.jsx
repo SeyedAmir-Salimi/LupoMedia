@@ -50,6 +50,8 @@ class SocialMediaProvider extends Component {
 			passwordError: '',
 			ConfirmPassWordError: '',
 			UserPageData: [],
+			resetPasswordMessage: '',
+			resetPasswordMessageError: ''
 		};
 	}
 
@@ -66,7 +68,7 @@ class SocialMediaProvider extends Component {
 	}
 	//---------------- API JS -----------------//
 
-	AddPostCall = async (contextid, PostCaption) => {
+	AddPostCall = async (contextid, PostCaption, extension) => {
 		const api = API();
 		const element = document.querySelector('#PO_Pic').files[0];
 		if (PostCaption !== '') {
@@ -96,18 +98,19 @@ class SocialMediaProvider extends Component {
 					return { posts: postsCopy };
 				});
 			} else {
-				const result = await api.AddPostwithpic(contextid, PostCaption);
-				console.log(result);
+				const result = await api.AddPostwithpic(contextid, PostCaption, extension);
 				const newItem = {
 					caption: PostCaption,
 					date: new Date(),
+					extension: extension,
+					type: 'Temp_type',
 					user: {
 						ProfilePic: this.state.ProfilePic,
 						name: this.state.User_Name,
 						_id: this.state.id
 					},
 					_id: 'Temp_123',
-					picture: result.data.picture
+					media: result.data.media
 				};
 
 				let UpdateItem = [ ...this.state.posts ];
@@ -115,8 +118,10 @@ class SocialMediaProvider extends Component {
 				this.setState({ posts: UpdateItem });
 
 				const postsCopy = [ ...this.state.posts ];
-				const tempPost = postsCopy.find((item) => item._id === 'Temp_123');
-				tempPost._id = result.data._id;
+				const tempPostid = postsCopy.find((item) => item._id === 'Temp_123');
+				const tempPosttype = postsCopy.find((item) => item.type === 'Temp_type');
+				tempPostid._id = result.data._id;
+				tempPosttype.type = result.data.type;
 				this.setState(() => {
 					return { posts: postsCopy };
 				});
@@ -236,7 +241,7 @@ class SocialMediaProvider extends Component {
 		const api = API();
 		const result = await api.GetAllPosts(id);
 		this.setState({
-			posts: result.data.Posts
+			posts: result.data
 		});
 	};
 
@@ -270,7 +275,7 @@ class SocialMediaProvider extends Component {
 					this.getFollowersAcceptedCall(),
 					this.getFollowingAwaitingCall(),
 					this.getFollowersAwaitingCall(),
-					this.SetUSerPageData(),
+					this.SetUSerPageData()
 				]
 			);
 		} catch (error) {
@@ -389,6 +394,7 @@ class SocialMediaProvider extends Component {
 			console.log(error);
 		}
 	};
+	
 	getCommentsCall = async () => {
 		try {
 			const api = API();
@@ -403,43 +409,48 @@ class SocialMediaProvider extends Component {
 		const ID = Cookies.get('User_id');
 		const api = API();
 		const result = await api.getFollowingAccepted(ID);
-		console.log(result);
-		this.setState({
-			FollowingAccepted: result.data.Friends,
-			numberOfFollwingAccepted: result.data.count
-		});
+		if (result) {
+			this.setState({
+				FollowingAccepted: result.data.Friends,
+				numberOfFollwingAccepted: result.data.count
+			});
+		}
 	};
 
 	getFollowersAcceptedCall = async () => {
 		const ID = Cookies.get('User_id');
 		const api = API();
 		const result = await api.getFollowersAccepted(ID);
-		console.log(result);
-		this.setState({
-			FollowersAccepted: result.data.Friends,
-			numberOfFollwersAccepted: result.data.count
-		});
+		if (result) {
+			this.setState({
+				FollowersAccepted: result.data.Friends,
+				numberOfFollwersAccepted: result.data.count
+			});
+		}
 	};
 
 	getFollowingAwaitingCall = async () => {
 		const ID = Cookies.get('User_id');
 		const api = API();
 		const result = await api.getFollowingAwaiting(ID);
-
-		this.setState({
-			FollowingAwaiting: result.data.Friends,
-			numberOfFollwingawaiting: result.data.count
-		});
+		if (result !== undefined) {
+			this.setState({
+				FollowingAwaiting: result.data.Friends,
+				numberOfFollwingawaiting: result.data.count
+			});
+		}
 	};
+
 	getFollowersAwaitingCall = async () => {
 		const ID = Cookies.get('User_id');
 		const api = API();
 		const result = await api.getFollowersAwaiting(ID);
-
-		this.setState({
-			FollowersAwaiting: result.data.Friends,
-			numberOfFollwersAwaiting: result.data.count
-		});
+		if (result !== undefined) {
+			this.setState({
+				FollowersAwaiting: result.data.Friends,
+				numberOfFollwersAwaiting: result.data.count
+			});
+		}
 	};
 
 	SendFriendRequestCall = async (secondUserData, NAME, PROFILEPIC, BIO, SENTIMENTALE, BIRTHDATE) => {
@@ -603,6 +614,61 @@ class SocialMediaProvider extends Component {
 		}
 	};
 
+	forgetPasswordCall = async (EMAIL) => {
+		try {
+			const api = API();
+			const data = {
+				email: EMAIL
+			};
+			const result = await api.forgetPassword(data);
+			console.log(result);
+			this.setState({
+				resetPasswordMessageError: '',
+				resetPasswordMessage: result.data.name
+			});
+		} catch (error) {
+			this.setState({
+				resetPasswordMessageError: error.message
+			});
+			console.log({ error });
+		}
+	};
+
+	resetPasswordCall = async (LINK,PASSWORD) => {
+		try {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					'auth-token': LINK
+				}
+			};
+			const data = {
+				resetLink: LINK,
+				password: PASSWORD
+			};
+			const api = API();
+			const result = await api.resetPassword(data, config);
+
+		} catch (error) {
+
+		}
+	};
+
+	likeCall = async (postref, like) =>{
+		const api = API();
+		try {
+			const data = {
+				postref,
+				like,
+				user: this.state.id
+			}
+			const result = await api.like(data);
+			console.log(result);
+
+		} catch (error) {
+			console.log({ error });
+		}
+	}
 	//---------------- END API JS -----------------//
 
 	//---------------- LogIN Start -----------------//
@@ -725,47 +791,46 @@ class SocialMediaProvider extends Component {
 
 	// ---------------- Get UserPage data ---------------- //
 
-	SetUSerPageData = () =>{
+	SetUSerPageData = () => {
 		const _id = Cookies.get('UserPage_id');
 		const ProfilePic = Cookies.get('UserPage_ProfilePic');
 		const User_Name = Cookies.get('UserPage_Name');
-			this.setState({
-				UserPageData:{
-					_id,
-					ProfilePic,
-					User_Name
-				}
-			})
-	}
-	
-	GetUSerPageData = (ID,PIC,NAME) =>{
-		if(PIC === undefined || PIC === "undefined"){
+		this.setState({
+			UserPageData: {
+				_id,
+				ProfilePic,
+				User_Name
+			}
+		});
+	};
+
+	GetUSerPageData = (ID, PIC, NAME) => {
+		if (PIC === undefined || PIC === 'undefined') {
 			Cookies.set('UserPage_id', ID);
 			Cookies.set('UserPage_Name', NAME);
 			Cookies.remove('UserPage_ProfilePic');
 			this.setState({
-				UserPageData:{
+				UserPageData: {
 					_id: ID,
 					ProfilePic: undefined,
-					User_Name:NAME
+					User_Name: NAME
 				}
 			});
-		}
-		else{
+		} else {
 			Cookies.set('UserPage_id', ID);
 			Cookies.set('UserPage_ProfilePic', PIC);
 			Cookies.set('UserPage_Name', NAME);
 			this.setState({
-				UserPageData:{
+				UserPageData: {
 					_id: ID,
 					ProfilePic: PIC,
-					User_Name:NAME
+					User_Name: NAME
 				}
-			});	
+			});
 		}
 
 		this.SetUSerPageData();
-	}
+	};
 	render() {
 		return (
 			<SocialMediaContext.Provider
@@ -800,7 +865,10 @@ class SocialMediaProvider extends Component {
 					deleteFollowingAwaiting: this.deleteFollowingAwaiting,
 					IdFollowingChek: this.IdFollowingChek,
 					IdAwaitingingChekFollowing: this.IdAwaitingingChekFollowing,
-					GetUSerPageData:this.GetUSerPageData,
+					GetUSerPageData: this.GetUSerPageData,
+					forgetPasswordCall: this.forgetPasswordCall,
+					resetPasswordCall: this.resetPasswordCall,
+					likeCall: this.likeCall,
 				}}
 			>
 				{this.props.children}

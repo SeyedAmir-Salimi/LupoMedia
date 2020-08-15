@@ -16,11 +16,13 @@ const PostInput = () => {
 	};
 	const InputFileName = () => {
 		setInputValue(PO_Pic.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1]);
-	};
 
+	};
+	
 	const WritePost = (e) => {
+		const extension = PO_Pic.value.split('.').pop();
 		e.preventDefault();
-		AddPostCall(id, PostCaption);
+		AddPostCall(id, PostCaption , extension );
 		setPostCaption('');
 		setInputValue('');
 	};
@@ -37,6 +39,7 @@ const PostInput = () => {
 	return (
 		<div>
 			<div>
+
 				<form onSubmit={WritePost} className="PostInput" disabled={PostCaption === ''}>
 					<input
 						type="text"
@@ -58,7 +61,7 @@ const PostInput = () => {
 					)}
 				</form>
 			</div>
-			<input type="file" name="PostPic" id="PO_Pic" style={{ visibility: 'hidden' }} onChange={InputFileName} />
+			<input type="file" name="PostPic" id="PO_Pic" accept=".jpeg,.jpg,.tiff,.gif,.bmp,.png,.mp4" style={{ visibility: 'hidden' }} onChange={InputFileName} />
 		</div>
 	);
 };

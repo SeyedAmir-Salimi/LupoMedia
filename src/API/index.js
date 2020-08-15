@@ -35,14 +35,15 @@ export default function API() {
             });
             return result
         },
-
-        async AddPostwithpic(contextid, PostCaption) {
+        
+        async AddPostwithpic(contextid, PostCaption , extension) {
             const element = document.querySelector("#PO_Pic").files[0]
             let data = new FormData();
             const ID = data.append('user', contextid);
             const CAPTION = data.append('caption', PostCaption);
-            data.append('picture', element)
-            const result = await Axios.post(`http://localhost:3000/posts/withpicture`, data, ID, CAPTION)
+            const EXTENSION = data.append('extension', extension);
+            data.append('media', element)
+            const result = await Axios.post(`http://localhost:3000/posts/withpicture`, data, ID, CAPTION , EXTENSION)
             return result
 
         },
@@ -237,6 +238,31 @@ export default function API() {
         async respondFriendRequest(data){
             try {
                 const result = await Axios.put(`http://localhost:3000/friends/request`, data )
+                return result
+            } catch (error) {
+                throw new Error(error.response.data)
+            }
+        },
+
+        async forgetPassword(data){
+            try {
+                const result = await Axios.put(`http://localhost:3000/resetPassword`, data )
+                return result
+            } catch (error) {
+                throw new Error(error.response.data)
+            }
+        },
+        async resetPassword(data, config){
+            try {
+                const result = await Axios.patch(`http://localhost:3000/resetPassword/set`, data, config)
+                return result
+            } catch (error) {
+                throw new Error(error.response.data)
+            }
+        },
+        async like(data){
+            try {
+                const result = await Axios.post(`http://localhost:3000/likes`, data)
                 return result
             } catch (error) {
                 throw new Error(error.response.data)
