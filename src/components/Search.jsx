@@ -6,7 +6,7 @@ import NavBar from './NavBar'
 
 const Search = () => {
     const {userSearched} = useContext(SocialMediaContext)
-    
+    console.log("userSearched", userSearched);
     let Searched = userSearched.map(item => {
         return <SearchedPageMap key={item._id} item={item} />
     })

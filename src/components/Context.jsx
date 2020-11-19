@@ -663,12 +663,55 @@ class SocialMediaProvider extends Component {
 				user: this.state.id
 			}
 			const result = await api.like(data);
-			console.log(result);
+
+			const postCopy = [ ...this.state.posts ];
+			postCopy.forEach(p => {
+				const checkExist = p.Likes.find(x=> x.postref === result.data.postref && x.user._id === result.data.user._id)
+				if(checkExist){
+					const foundIndex = p.Likes.findIndex(x=> x.postref === result.data.postref && x.user._id === result.data.user._id)
+					p.Likes[foundIndex] = result.data;
+					this.setState({
+						 posts: postCopy 
+					})
+				}else{
+					p.Likes = [...p.Likes , result.data]
+					this.setState({
+						posts: postCopy 
+					})
+				}
+			});
 
 		} catch (error) {
 			console.log({ error });
 		}
 	}
+
+	deleteLikeCall = async (postref) =>{
+		const api = API();
+
+		try {
+			await api.DeleteLike(postref, this.state.id);
+			let filterdPosts = [];
+			let foundId = null
+			this.state.posts.forEach(p => {
+				const foundLiked = p.Likes.find(L=> L.postref === postref && L.user._id === this.state.id)
+				if(foundLiked){
+					foundId = foundLiked._id
+					p.Likes = p.Likes.filter(x=> x._id !== foundId)
+					filterdPosts = [...filterdPosts, p]
+				}else{
+					filterdPosts = [...filterdPosts, p]
+				}
+			});
+			this.setState({
+				posts: filterdPosts
+			})
+
+		} catch (error) {
+			console.log({ error });
+		}
+	}
+	
 	//---------------- END API JS -----------------//
 
 	//---------------- LogIN Start -----------------//
@@ -869,6 +912,7 @@ class SocialMediaProvider extends Component {
 					forgetPasswordCall: this.forgetPasswordCall,
 					resetPasswordCall: this.resetPasswordCall,
 					likeCall: this.likeCall,
+					deleteLikeCall:this.deleteLikeCall,
 				}}
 			>
 				{this.props.children}

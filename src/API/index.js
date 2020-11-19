@@ -269,5 +269,16 @@ export default function API() {
             }
         },
 
+        async DeleteLike(postref, user) {
+            try {
+                await Axios.delete(`http://localhost:3000/likes`, { data: { postref, user } })
+                    .then(res => {
+                        console.log(res.data)
+                    })
+            } catch (error) {
+                throw new Error(error.response.data)
+            }
+        },
+
     }
 }

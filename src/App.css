@@ -490,7 +490,7 @@ td{
 	opacity: 0;
 	font-size: 1.3rem;
 	position: absolute;
-	padding-top: 1.5rem;
+	margin-top: -0.5rem;
 	transition: ease-in .5s;
 	left: 0;
 	cursor: pointer;
