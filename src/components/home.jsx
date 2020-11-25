@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React from 'react';
 import NavBar from './NavBar';
 import Postpage from './Postpage';
 import PostInput from './PostInput';

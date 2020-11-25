@@ -11,7 +11,14 @@ export default function API() {
                     console.log(res.data)
                 })
         },
-
+        async DeletePostPhoto (id) {
+            try {
+                const result =  await Axios.delete(`http://localhost:3000/files/photoPost/${id}`)
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async DeleteComment(id, postref) {
             await Axios.delete(`http://localhost:3000/comments/${id}`, { data: { postref: postref } })
                 .then(res => {
@@ -42,7 +49,7 @@ export default function API() {
             const ID = data.append('user', contextid);
             const CAPTION = data.append('caption', PostCaption);
             const EXTENSION = data.append('extension', extension);
-            data.append('media', element)
+            data.append('file', element)
             const result = await Axios.post(`http://localhost:3000/posts/withpicture`, data, ID, CAPTION , EXTENSION)
             return result
 
@@ -142,10 +149,17 @@ export default function API() {
             }
         },
 
-        async uploadPictureprofile (ID, data,config) {
+        async deletePictureprofile (ID) {
             try {
-                const result =  await Axios.put(`http://localhost:3000/datiPersonali/${ID}`, data, config)
-                console.log(result);
+                const result =  await Axios.delete(`http://localhost:3000/files/photoProfile/${ID}`)
+                return result
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async uploadPictureprofile (ID, data) {
+            try {
+                const result =  await Axios.put(`http://localhost:3000/datiPersonali/${ID}`, data)
                 return result
             } catch (error) {
                 console.log(error);

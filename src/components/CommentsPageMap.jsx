@@ -3,11 +3,10 @@ import { SocialMediaContext } from './Context';
 import { FaTrashAlt } from 'react-icons/fa';
 import LastSeen from './LastSeen';
 import ProfilePicture from './ProfilePicture';
-import { BrowserRouter as Router, Switch, Route, Link , useHistory} from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 
 const CommentsPageMap = ({ item }) => {
-	const { id, DeleteCommentCALL, comments, GetUSerPageData, ridirectFunction , UserPageData} = useContext(SocialMediaContext);
-
+	const { id, DeleteCommentCALL, comments, GetUSerPageData, ridirectFunction } = useContext(SocialMediaContext);
 	let history = useHistory();
 	const GoToLink = (link) => {
 		ridirectFunction(link);

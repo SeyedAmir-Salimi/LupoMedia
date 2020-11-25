@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useContext } from 'react';
 import { SocialMediaContext } from './Context';
-import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import DefaulCover from '../Images/Wallpaper.jpg';
 import ProfilePicture from './ProfilePicture';
 
@@ -10,8 +10,6 @@ const CoverMy = () => {
 		numberOfFollwersAccepted,
 		User_Name,
 		ProfilePic,
-		datiPersonali,
-		getFriendsListCall
 	} = useContext(SocialMediaContext);
 
 	let history = useHistory();

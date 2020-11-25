@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import {  useHistory } from 'react-router-dom';
 import { SocialMediaContext } from './Context';
 
-import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import Logo from '../Images/Logo-3.png';
 
 const ForgetPassword = () => {

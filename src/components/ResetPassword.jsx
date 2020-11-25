@@ -1,5 +1,5 @@
-import React, { useState, useContext , useRef ,useEffect} from 'react';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { SocialMediaContext } from './Context';
 
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';

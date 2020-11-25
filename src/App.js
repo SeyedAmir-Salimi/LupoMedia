@@ -1,7 +1,7 @@
-import React, { useContext, useHistory, useEffect } from 'react'
+import React from 'react'
 import './App.css';
-import { SocialMediaContext } from './components/Context';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+// import { SocialMediaContext } from './components/Context';
+import {Switch, Route } from "react-router-dom";
 import LogeIn from './components/LogeIn'
 import Register from './components/Register'
 import home from './components/home'
@@ -15,7 +15,6 @@ import MyPage from './components/MyPage'
 import ResetPassword from './components/ResetPassword' 
 import ForgetPassword from './components/ForgetPassword'
 const App = () => {
-  // const { token } = useContext(SocialMediaContext)
   return (
     <div className="App">
       <Switch>

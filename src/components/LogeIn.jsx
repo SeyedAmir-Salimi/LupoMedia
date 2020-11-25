@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { SocialMediaContext } from './Context';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Logo from '../Images/Logo-3.png';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 

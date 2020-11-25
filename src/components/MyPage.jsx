@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useContext } from 'react';
 import { SocialMediaContext } from './Context';
-import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom';
 import PostPageMap from './PostPageMap';
 import NavBar from './NavBar';
 import CoverMy from './CoverMy';

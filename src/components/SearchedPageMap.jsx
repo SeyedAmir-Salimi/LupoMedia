@@ -1,8 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback} from 'react';
 import { SocialMediaContext } from './Context';
 import ProfilePicture from './ProfilePicture';
-import { BrowserRouter as Router, Switch, Route, Link , useHistory} from 'react-router-dom';
-
+import { useHistory} from 'react-router-dom';
 const SearchedPageMap = ({ item }) => {
 	const [ ExistFollowing, setExistFollowing ] = useState('');
 	const [ ExistFollowingAwaiting, setExistFollowingAwaiting ] = useState('');
@@ -12,27 +11,28 @@ const SearchedPageMap = ({ item }) => {
 		IdFollowingChek,
 		IdAwaitingingChekFollowing,
 		GetUSerPageData,
-		ridirectFunction
 	} = useContext(SocialMediaContext);
 	let history = useHistory();
+
+
+
+	const FollowingChekID = useCallback(() => {
+		if(IdFollowingChek(item._id)){
+			setExistFollowing(true)
+		}
+	},[IdFollowingChek, item._id])
+
+	const AwaitingingChekID = useCallback(() => {
+		if(IdAwaitingingChekFollowing(item._id)){
+			setExistFollowingAwaiting(true)
+		}
+	},[IdAwaitingingChekFollowing, item._id])
 
 	useEffect(() => {
 		FollowingChekID();
 		AwaitingingChekID();
-	}, []);
+	}, [AwaitingingChekID, FollowingChekID]);
 
-
-	const FollowingChekID = () => {
-		if(IdFollowingChek(item._id)){
-			setExistFollowing(true)
-		}
-	};
-
-	const AwaitingingChekID = () => {
-		if(IdAwaitingingChekFollowing(item._id)){
-			setExistFollowingAwaiting(true)
-		}
-	};
 	const SendFOllowingRequest = ()=>{
 		SendFriendRequestCall(item._id,item.name,item.picture, item.Bio , item.Sentimentale ,item.BirthDate );
 		setExistFollowingAwaiting(true);
@@ -56,7 +56,7 @@ const SearchedPageMap = ({ item }) => {
 	}
 	return (
 		<div key={item._id} className="Searched_page">
-			<span className="Searched_page_info">
+			<span className="Searched_page_info" >
 				<ProfilePicture ProfilePic={item.picture} Size={'Medium'} onClick={GoTo} />
 				<div>
 					<h4>{item.name}</h4>

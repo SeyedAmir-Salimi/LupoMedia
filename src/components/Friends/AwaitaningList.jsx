@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import React, { useContext } from 'react';
 import { SocialMediaContext } from '../Context';
 
 import NavBar from '../NavBar';

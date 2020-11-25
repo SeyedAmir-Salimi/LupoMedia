@@ -19,7 +19,7 @@ const ProfilePicture = ({ProfilePic, User_Name , Size , onClick }) => {
 				''
 			)}
 			{ProfilePic !== undefined ? (
-				<img src={ProfilePic} alt={User_Name} className={classname} onClick={onClick}/>
+				<img src={ProfilePic.picture} alt={User_Name} className={classname} onClick={onClick}/>
 			) : (
 				''
 			)}

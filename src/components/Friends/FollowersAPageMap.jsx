@@ -1,8 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback} from 'react';
 import { SocialMediaContext } from '../Context';
-import { FcNeutralDecision, FcApprove, FcDecision, FcDisapprove } from 'react-icons/fc';
 import ProfilePicture from '../ProfilePicture';
-import { BrowserRouter as Router, Switch, Route, Link , useHistory} from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 
 const FollowersAPageMap = ({ item }) => {
 	const [ ExistFollowing, setExistFollowing ] = useState('');
@@ -17,25 +16,25 @@ const FollowersAPageMap = ({ item }) => {
 	} = useContext(SocialMediaContext);
 	let history = useHistory();
 
-	useEffect(() => {
-		FollowingChekID();
-		AwaitingingChekID();
-	}, []);
-
-	const FollowingChekID = () => {
+	const FollowingChekID = useCallback(() => {
 		IdFollowingChek(item.mainUser._id);
 		if (IdFollowingChek(item.mainUser._id)) {
 			setExistFollowing(true);
 		}
-	};
+	},[IdFollowingChek, item.mainUser._id])
 
-	const AwaitingingChekID = () => {
+	const AwaitingingChekID = useCallback(() => {
 		IdAwaitingingChekFollowing(item.mainUser._id);
 		if (IdAwaitingingChekFollowing(item.mainUser._id)) {
 			setExistFollowingAwaiting(true);
 		}
-	};
+	},[IdAwaitingingChekFollowing, item.mainUser._id])
 
+	useEffect(() => {
+		FollowingChekID();
+		AwaitingingChekID();
+	}, [AwaitingingChekID, FollowingChekID]);
+	
 	const SendFollowingReq = () => {
 		SendFriendRequestCall(
 			item.mainUser._id,

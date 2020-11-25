@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
 import Logo from '../Images/Logo-3.png';
 import { SocialMediaContext } from './Context';
-import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const SearchBar = React.forwardRef((props, ref) => {
 	const [ Search, setSearch ] = useState({
 		SearchInput: ''
 	});
 	let history = useHistory();
-	const { SearchUserCALL, redirect } = useContext(SocialMediaContext);
+	const { SearchUserCALL } = useContext(SocialMediaContext);
 
 	const onchangHandler = (e) => {
 		setSearch({ SearchInput: e.target.value });

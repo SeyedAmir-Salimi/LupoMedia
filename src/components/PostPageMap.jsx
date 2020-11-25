@@ -1,13 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useHistory
-} from 'react-router-dom'
+import React, { useState, useContext, useEffect, useCallback} from 'react'
+import { useHistory } from 'react-router-dom'
 import { SocialMediaContext } from './Context'
-import { FcLike, FcDislike } from 'react-icons/fc'
 import { TiHeart, TiHeartOutline } from 'react-icons/ti'
 import { FaTrashAlt } from 'react-icons/fa'
 import { FcInternal } from 'react-icons/fc'
@@ -19,7 +12,6 @@ const PostPageMap = ({ item }) => {
   const [comment, setcomment] = useState('')
   const [likeChek, setlikeChek] = useState(false)
   const {
-    User_Name,
     id,
     WritecommentCALL,
     DeletePostCALL,
@@ -36,15 +28,13 @@ const PostPageMap = ({ item }) => {
     WritecommentCALL(ref, comments, users)
     setcomment('')
   }
-
   let history = useHistory()
-
   const GoToLink = link => {
     ridirectFunction(link)
     history.push(link)
     console.log(history.location.pathname)
   }
-
+  
   const GoTo = () => {
     GetUSerPageData(item.user._id, item.user.ProfilePic, item.user.name)
     if (item.user._id === id) {
@@ -53,19 +43,22 @@ const PostPageMap = ({ item }) => {
       GoToLink(`/${item.user.name}`)
     }
   }
-  const makeLike = like => {
+  const makeLike = (like) => {
     likeCall(item._id, like)
     setlikeChek(true)
   }
+  const checkLiked = item.Likes?.map(x => x.user._id).includes(id)
 
-  const checkLiked = item.Likes.map(x => x.user._id).includes(id)
 
-  const checkedLike = () => {
+  const checkedLike = useCallback(() => {
     if (checkLiked) setlikeChek(true)
-  }
+  }, [checkLiked])
+  
   useEffect(() => {
     checkedLike()
-  }, [])
+  }, [checkedLike])
+
+  const isMedia = getObjectLength(item.media)
 
   const deleteLiked = () => {
     deleteLikeCall(item._id)
@@ -77,7 +70,7 @@ const PostPageMap = ({ item }) => {
         <div className='PostProfilPic_Wrapper'>
           <ProfilePicture
             ProfilePic={item.user.ProfilePic}
-            User_Name={User_Name}
+            User_Name={item.user.name}
             Size={'Medium'}
             onClick={GoTo}
           />
@@ -89,24 +82,24 @@ const PostPageMap = ({ item }) => {
         {item.user._id === id ? (
           <FaTrashAlt
             className='postpage_trash'
-            onClick={() => DeletePostCALL(item._id, id)}
+            onClick={() => DeletePostCALL(item._id, id, isMedia)}
           />
         ) : (
           ''
         )}
         <div className='postpage_Like'>
-          <h6>Likes: {item.Likes.length}</h6>
+          <h6>Likes: {item.Likes?.length}</h6>
         </div>
         <br />
 
-        {item.media !== undefined && item.type === 'pic' ? (
-          <img src={item.media} alt={item.caption} className='postpage_Image' />
+        {isMedia && item.type === 'pic' ? (
+          <img src={item.media.media} alt={item.caption} className='postpage_Image' />
         ) : (
           ''
         )}
-        {item.media !== undefined && item.type === 'video' ? (
+        {isMedia && item.type === 'video' ? (
           <video
-            src={item.media}
+            src={item.media.media}
             width='320'
             height='240'
             controls
@@ -125,20 +118,27 @@ const PostPageMap = ({ item }) => {
             <div className='like'>
               <span>
                 {likeChek ? (
-                  <TiHeart className='FcLike' style={{ border: '1rem' }} onClick={() => deleteLiked()} />
+                  <TiHeart
+                    className='FcLike'
+                    style={{ border: '1rem' }}
+                    onClick={() => deleteLiked()}
+                  />
                 ) : (
-                  <TiHeartOutline className='FcLike' onClick={() => makeLike('love')}/>
+                  <TiHeartOutline
+                    className='FcLike'
+                    onClick={() => makeLike('love')}
+                  />
                 )}
               </span>
               <div className='emojis'>
-                <span onClick={() => makeLike('laugh')}>😂</span>
-                <span onClick={() => makeLike('tongue')}>😜</span>
-                <span onClick={() => makeLike('love')}>😍</span>
-                <span onClick={() => makeLike('kiss')}>😘</span>
-                <span onClick={() => makeLike('oh')}>😰</span>
-                <span onClick={() => makeLike('cry')}>😭</span>
-                <span onClick={() => makeLike('angry')}>😡</span>
-                <span onClick={() => makeLike('poop')}>💩</span>
+                <span role="img"  aria-label="laugh" onClick={() => makeLike('laugh')}>😂</span>
+                <span role="img"  aria-label="tongue" onClick={() => makeLike('tongue')}>😜</span>
+                <span role="img"  aria-label="love" onClick={() => makeLike('love')}>😍</span>
+                <span role="img"  aria-label="kiss" onClick={() => makeLike('kiss')}>😘</span>
+                <span role="img"  aria-label="oh" onClick={() => makeLike('oh')}>😰</span>
+                <span role="img"  aria-label="cry" onClick={() => makeLike('cry')}>😭</span>
+                <span role="img"  aria-label="angry" onClick={() => makeLike('angry')}>😡</span>
+                <span role="img"  aria-label="poop" onClick={() => makeLike('poop')}>💩</span>
               </div>
             </div>
             <input
@@ -164,3 +164,8 @@ const PostPageMap = ({ item }) => {
 }
 
 export default PostPageMap
+
+function getObjectLength(x) {
+  if (x) return Object.keys(x).length
+}
+

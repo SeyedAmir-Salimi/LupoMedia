@@ -1,12 +1,10 @@
 import React  from "react";
-import ReactTimeAgo from 'react-time-ago'
-
-
+import TimeAgo from 'react-timeago'
 
 const Lastseen = ({ date }) => {
   return (
     <>
-      Date: <ReactTimeAgo date={date} />
+      Date: <TimeAgo date={date} />
     </>
   );
 };

@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import { SocialMediaContext } from '../Context';
-import { FcNeutralDecision, FcApprove, FcDecision, FcDisapprove } from 'react-icons/fc';
 import ProfilePicture from '../ProfilePicture';
-import { BrowserRouter as Router, Switch, Route, Link , useHistory} from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 
 const AwaitingMapFollowers = ({ item }) => {
-	const { deleteFollowersAwaiting, User_Name, id, SendFriendRequestCall, respondFriendRequestCall,GetUSerPageData } = useContext(
+	const { deleteFollowersAwaiting, id, respondFriendRequestCall,GetUSerPageData } = useContext(
 		SocialMediaContext
 	);
 	let history = useHistory();
