@@ -8,7 +8,6 @@ const PostInput = () => {
   const [sizeAlert, setSizeAlert] = useState(false)
   const [postInputAlert, setpostInputAlert] = useState(false)
   const { User_Name, id, AddPostCall } = useContext(SocialMediaContext)
-
   const PO_Pic = document.getElementById('PO_Pic')
 
   const triggerInputFile = () => {
@@ -37,20 +36,20 @@ const PostInput = () => {
     const extension = PO_Pic.value.split('.').pop()
     const element = document.querySelector('#PO_Pic').files[0]
     e.preventDefault()
-    if(PostCaption === '') postInpuAlarm()
+    if (PostCaption === '') postInpuAlarm()
     if (PostCaption !== '') {
       if (element?.size > 10485760 && element) {
         limitUploadSize()
         setInputValue('')
-        PO_Pic.value = ""
+        PO_Pic.value = ''
       } else {
         AddPostCall(id, PostCaption, extension)
         setPostCaption('')
         setInputValue('')
-        PO_Pic.value = ""
+        PO_Pic.value = ''
       }
     }
-    PO_Pic.value = ""
+    PO_Pic.value = ''
   }
   const onChangeHandler = e => {
     setPostCaption(e.target.value)
@@ -70,9 +69,7 @@ const PostInput = () => {
         />
       )}
       {postInputAlert && (
-        <Alert
-          alertText={'You should write a caption for your post'}
-        />
+        <Alert alertText={'You should write a caption for your post'} />
       )}
       <div>
         <form

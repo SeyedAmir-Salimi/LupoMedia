@@ -13,13 +13,13 @@ const Navbar = () => {
     token,
     ridirectFunction,
     numberOfFollwingawaiting,
-    numberOfFollwersAwaiting
+    numberOfFollwersAwaiting,
+    datiPersonali
   } = useContext(SocialMediaContext)
 
   let history = useHistory()
   useEffect(() => {
     if (token === undefined) {
-      console.log('Authenticated logeout')
       history.push('/')
     }
   })
@@ -48,6 +48,7 @@ const Navbar = () => {
               User_Name={User_Name}
               Size={'Medium'}
               onClick={() => GoToLink(`/myPage`)}
+              sesso={datiPersonali.sesso}
             />
           </div>
           <li onClick={() => GoToLink(`/myPage`)} className='hvr-pulse'>

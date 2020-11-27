@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useCallback} from 'react'
+import React, { useState, useContext, useEffect, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 import { SocialMediaContext } from './Context'
 import { TiHeart, TiHeartOutline } from 'react-icons/ti'
@@ -7,10 +7,11 @@ import { FcInternal } from 'react-icons/fc'
 import CommentsPageMap from './CommentsPageMap'
 import LastSeen from './LastSeen'
 import ProfilePicture from './ProfilePicture'
-
+import ImagePopup from './ImagePopup'
 const PostPageMap = ({ item }) => {
   const [comment, setcomment] = useState('')
   const [likeChek, setlikeChek] = useState(false)
+  const [popUpImage, setPopUpImage] = useState(false)
   const {
     id,
     WritecommentCALL,
@@ -18,7 +19,8 @@ const PostPageMap = ({ item }) => {
     GetUSerPageData,
     ridirectFunction,
     likeCall,
-    deleteLikeCall
+    deleteLikeCall,
+    comments
   } = useContext(SocialMediaContext)
   const onchangHandler = e => {
     setcomment(e.target.value)
@@ -32,28 +34,31 @@ const PostPageMap = ({ item }) => {
   const GoToLink = link => {
     ridirectFunction(link)
     history.push(link)
-    console.log(history.location.pathname)
   }
-  
+
   const GoTo = () => {
-    GetUSerPageData(item.user._id, item.user.ProfilePic, item.user.name)
+    GetUSerPageData(
+      item.user._id,
+      item.user.ProfilePic.picture,
+      item.user.name,
+      item.user.sesso
+    )
     if (item.user._id === id) {
       GoToLink(`/MyPage`)
     } else {
       GoToLink(`/${item.user.name}`)
     }
   }
-  const makeLike = (like) => {
+  const makeLike = like => {
     likeCall(item._id, like)
     setlikeChek(true)
   }
   const checkLiked = item.Likes?.map(x => x.user._id).includes(id)
 
-
   const checkedLike = useCallback(() => {
     if (checkLiked) setlikeChek(true)
   }, [checkLiked])
-  
+
   useEffect(() => {
     checkedLike()
   }, [checkedLike])
@@ -64,8 +69,19 @@ const PostPageMap = ({ item }) => {
     deleteLikeCall(item._id)
     setlikeChek(false)
   }
+  const isPostHasComments = () => {
+    return comments.some(x => x.postref._id === item._id)
+  }
+
   return (
     <div>
+      {popUpImage && (
+        <ImagePopup
+          item={item}
+          onKey={() => setPopUpImage(false)}
+          tabIndex={0}
+        />
+      )}
       <div key={item._id} className='postpage'>
         <div className='PostProfilPic_Wrapper'>
           <ProfilePicture
@@ -73,6 +89,7 @@ const PostPageMap = ({ item }) => {
             User_Name={item.user.name}
             Size={'Medium'}
             onClick={GoTo}
+            sesso={item.user.sesso}
           />
         </div>
         <h3 className='postpage_name'>{item.user.name}</h3>
@@ -93,17 +110,22 @@ const PostPageMap = ({ item }) => {
         <br />
 
         {isMedia && item.type === 'pic' ? (
-          <img src={item.media.media} alt={item.caption} className='postpage_Image' />
+          <img
+            src={item.media.media}
+            alt={item.caption}
+            className='postpage_Image'
+            onClick={() => setPopUpImage(true)}
+          />
         ) : (
           ''
         )}
         {isMedia && item.type === 'video' ? (
           <video
             src={item.media.media}
-            width='320'
-            height='240'
             controls
             controlsList='nodownload'
+            className='videoPlayer'
+            preload='none'
           >
             {' '}
             Your browser does not support the video tag.
@@ -131,14 +153,58 @@ const PostPageMap = ({ item }) => {
                 )}
               </span>
               <div className='emojis'>
-                <span role="img"  aria-label="laugh" onClick={() => makeLike('laugh')}>😂</span>
-                <span role="img"  aria-label="tongue" onClick={() => makeLike('tongue')}>😜</span>
-                <span role="img"  aria-label="love" onClick={() => makeLike('love')}>😍</span>
-                <span role="img"  aria-label="kiss" onClick={() => makeLike('kiss')}>😘</span>
-                <span role="img"  aria-label="oh" onClick={() => makeLike('oh')}>😰</span>
-                <span role="img"  aria-label="cry" onClick={() => makeLike('cry')}>😭</span>
-                <span role="img"  aria-label="angry" onClick={() => makeLike('angry')}>😡</span>
-                <span role="img"  aria-label="poop" onClick={() => makeLike('poop')}>💩</span>
+                <span
+                  role='img'
+                  aria-label='laugh'
+                  onClick={() => makeLike('laugh')}
+                >
+                  😂
+                </span>
+                <span
+                  role='img'
+                  aria-label='tongue'
+                  onClick={() => makeLike('tongue')}
+                >
+                  😜
+                </span>
+                <span
+                  role='img'
+                  aria-label='love'
+                  onClick={() => makeLike('love')}
+                >
+                  😍
+                </span>
+                <span
+                  role='img'
+                  aria-label='kiss'
+                  onClick={() => makeLike('kiss')}
+                >
+                  😘
+                </span>
+                <span role='img' aria-label='oh' onClick={() => makeLike('oh')}>
+                  😰
+                </span>
+                <span
+                  role='img'
+                  aria-label='cry'
+                  onClick={() => makeLike('cry')}
+                >
+                  😭
+                </span>
+                <span
+                  role='img'
+                  aria-label='angry'
+                  onClick={() => makeLike('angry')}
+                >
+                  😡
+                </span>
+                <span
+                  role='img'
+                  aria-label='poop'
+                  onClick={() => makeLike('poop')}
+                >
+                  💩
+                </span>
               </div>
             </div>
             <input
@@ -156,8 +222,13 @@ const PostPageMap = ({ item }) => {
             />
           </span>
         </form>
-        <h4 className='postpage_Comment'>comments:</h4>
-        <CommentsPageMap key={item._id} item={item} />
+        {isPostHasComments() && (
+          <span>
+            {/* <h4 className='postpage_Comment'>comments:</h4> */}
+            <hr className='hr'></hr>
+            <CommentsPageMap key={item._id} item={item} />
+          </span>
+        )}
       </div>
     </div>
   )
@@ -165,7 +236,6 @@ const PostPageMap = ({ item }) => {
 
 export default PostPageMap
 
-function getObjectLength(x) {
+function getObjectLength (x) {
   if (x) return Object.keys(x).length
 }
-

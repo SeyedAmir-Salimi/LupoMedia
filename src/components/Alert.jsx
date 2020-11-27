@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AlertChanges = ({alertText}) => {
+const Alert = ({alertText}) => {
     return (
         <div className="alert">
             <div className="alert-Red">
@@ -13,4 +13,4 @@ const AlertChanges = ({alertText}) => {
         </div>)
 }
 
-export default AlertChanges;
+export default Alert;

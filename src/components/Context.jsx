@@ -22,7 +22,7 @@ class SocialMediaProvider extends Component {
         email: '',
         sesso: '',
         BirthDate: '',
-        Sentimentale: ''
+        Sentimentale: '',
       },
       loginError: '',
       posts: [],
@@ -41,12 +41,12 @@ class SocialMediaProvider extends Component {
       ConfirmPassword: '',
       ProfilePic: undefined,
       ErrorMessage: undefined,
-      RegisterError: null,
+      RegisterError: undefined,
       nameError: '',
       emailError: '',
       passwordError: '',
       ConfirmPassWordError: '',
-      UserPageData: [],
+      UserPageData: {},
       resetPasswordMessage: '',
       resetPasswordMessageError: ''
     }
@@ -214,11 +214,11 @@ class SocialMediaProvider extends Component {
     )
     try {
       this.setState({
-        RegisterError: null
+        RegisterError: ""
       })
       if (isValid) {
         const api = API()
-        const result = await api.RegisterFunct(
+        await api.RegisterFunct(
           Registername,
           Registeremail,
           Registersesso,
@@ -231,13 +231,11 @@ class SocialMediaProvider extends Component {
           passwordError: '',
           ConfirmPassWordError: ''
         })
-        console.log(result)
         this.setState({
           redirect: '/'
         })
       }
     } catch (error) {
-      console.log(error.message)
       this.setState({
         RegisterError: error.message
       })
@@ -298,7 +296,6 @@ class SocialMediaProvider extends Component {
       this.setState({
         loginError: error.message
       })
-      console.log({ message: error.message })
     }
   }
 
@@ -313,7 +310,6 @@ class SocialMediaProvider extends Component {
       }
       const api = API()
       const result = await api.DatiPersonali(ID, config)
-
       this.setState({
         datiPersonali: result.data,
         ProfilePic: result.data.ProfilePic
@@ -386,9 +382,6 @@ class SocialMediaProvider extends Component {
 			c.user.ProfilePic = result.data.ProfilePic
 		});
 
-		console.log("this.state.id", this.state.id);
-		console.log("result.data.ProfilePic", result.data.ProfilePic);
-		console.log("this.state.posts", this.state.posts);
       if (result) {
         this.setState(() => {
 		  return {
@@ -403,10 +396,6 @@ class SocialMediaProvider extends Component {
   }
 
   updatePasswordCall = async () => {
-    this.setState({
-      NewPassword: '',
-      ConfirmPassword: ''
-    })
     try {
       if (this.state.NewPassword === this.state.ConfirmPassword) {
         const config = {
@@ -420,9 +409,18 @@ class SocialMediaProvider extends Component {
           password: this.state.NewPassword
         }
         const api = API()
-        await api.updatePassword(ID, data, config)
+        const result = await api.updatePassword(ID, data, config)
+        this.setState({
+          NewPassword: '',
+          ConfirmPassword: ''
+        })
+        return result
       } else {
-        this.setState({ ErrorMessage: 'The Passwords Are Not The Same' })
+        this.setState({
+        ErrorMessage: 'The Passwords Are Not The Same',
+        NewPassword: '',
+        ConfirmPassword: '' })
+        return "not done"
       }
     } catch (error) {
       console.log(error)
@@ -544,7 +542,6 @@ class SocialMediaProvider extends Component {
       UpdateItem.unshift(newItem)
       this.setState({ FollowingAwaiting: UpdateItem })
 
-      console.log(UpdateItem)
 
       const FollowingAwa = [...this.state.FollowingAwaiting]
       const tempPFollAw = FollowingAwa.find(item => item._id === 'Temp_123')
@@ -577,9 +574,7 @@ class SocialMediaProvider extends Component {
         situationship: 'accepted'
       }
       const api = API()
-      const result = await api.respondFriendRequest(data)
-      console.log(result)
-
+      await api.respondFriendRequest(data)
       const newItem = {
         date: new Date(),
         mainUser: {
@@ -695,7 +690,6 @@ class SocialMediaProvider extends Component {
         email: EMAIL
       }
       const result = await api.forgetPassword(data)
-      console.log(result)
       this.setState({
         resetPasswordMessageError: '',
         resetPasswordMessage: result.data.name
@@ -704,7 +698,6 @@ class SocialMediaProvider extends Component {
       this.setState({
         resetPasswordMessageError: error.message
       })
-      console.log({ error })
     }
   }
 
@@ -818,6 +811,14 @@ class SocialMediaProvider extends Component {
         passwordError,
         ConfirmPassWordError
       })
+      setTimeout(() => {
+        this.setState({
+          nameError: "",
+          emailError: "",
+          passwordError: "",
+          ConfirmPassWordError: ""
+        })
+      }, 3000);
       return false
     }
 
@@ -859,6 +860,7 @@ class SocialMediaProvider extends Component {
     Cookies.remove('UserPage_id')
     Cookies.remove('UserPage_ProfilePic')
     Cookies.remove('UserPage_Name')
+    Cookies.remove('UserPage_sesso')
     this.setState({
       redirectTF: false,
       token: undefined,
@@ -894,9 +896,9 @@ class SocialMediaProvider extends Component {
   }
 
   onchangeHandlerDatiPersonali = e => {
-    let copy = { ...this.state.datiPersonali }
-    copy[e.target.name] = e.target.value
-    this.setState({ datiPersonali: copy })
+    let datipersonaliCOpy = { ...this.state.datiPersonali }
+    datipersonaliCOpy[e.target.name] = e.target.value
+    this.setState({ datiPersonali: datipersonaliCOpy })
   }
 
   // ---------------- Following ID Check ---------------- //
@@ -919,41 +921,47 @@ class SocialMediaProvider extends Component {
     const _id = Cookies.get('UserPage_id')
     const ProfilePic = Cookies.get('UserPage_ProfilePic')
     const User_Name = Cookies.get('UserPage_Name')
+    const sesso = Cookies.get('UserPage_sesso')
     this.setState({
       UserPageData: {
         _id,
         ProfilePic,
-        User_Name
+        User_Name,
+        sesso,
       }
     })
   }
 
-  GetUSerPageData = (ID, PIC, NAME) => {
-    if (PIC === undefined || PIC === 'undefined') {
+  GetUSerPageData = (ID, PIC, NAME, SESSO) => {
+    if (PIC === undefined) {
       Cookies.set('UserPage_id', ID)
       Cookies.set('UserPage_Name', NAME)
       Cookies.remove('UserPage_ProfilePic')
+      Cookies.set('UserPage_sesso', SESSO)
       this.setState({
         UserPageData: {
           _id: ID,
           ProfilePic: undefined,
-          User_Name: NAME
+          User_Name: NAME,
+          sesso: SESSO,
         }
       })
     } else {
       Cookies.set('UserPage_id', ID)
       Cookies.set('UserPage_ProfilePic', PIC)
       Cookies.set('UserPage_Name', NAME)
+      Cookies.set('UserPage_sesso', SESSO)
       this.setState({
         UserPageData: {
           _id: ID,
           ProfilePic: PIC,
-          User_Name: NAME
+          User_Name: NAME,
+          sesso: SESSO,
         }
       })
     }
 
-    this.SetUSerPageData()
+    // this.SetUSerPageData()
   }
   render () {
     return (

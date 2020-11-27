@@ -356,6 +356,7 @@ td{
 	justify-content: center;
 	z-index: 1;
 	text-transform: capitalize;
+	
 }
 
 .alert-Green {
@@ -385,6 +386,56 @@ td{
 	padding: 1rem;
 	margin-left: 1rem;
 	margin-right: 1rem;
+}
+
+/* imagepopUp Component */
+
+.imagePopupDiv {
+	width: 95%;
+	position: fixed;
+	background: rgba(0, 0, 0, 0.3);
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow-y: auto;
+	overflow-x: auto;
+	align-items: center;
+	justify-content: center;
+	z-index: 2;
+	text-transform: capitalize;
+	background:var(--ViolaNavbar);
+	color: var(--primaryGOldColor);
+	padding: 2rem;
+	/* border: ridge var(--primaryGOldColor); */
+}
+
+#style-3::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: rgba(0, 0, 0, 0.651);
+	border-radius: 10px;
+	height: 30%;
+}
+
+#style-3::-webkit-scrollbar
+{
+	width: 6px;
+	height: 30%;
+	border-radius: 10px;
+	background-color: rgba(0, 0, 0, 0.651);
+}
+
+#style-3::-webkit-scrollbar-thumb
+{
+	height: 30%;
+	border-radius: 10px;
+	background-color: #1a000d;
+}
+.imagePopup-closeButton{
+cursor: pointer;
+float: right;
+font-size: 1.5rem;
 }
 /* Postpage Component */
 
@@ -418,9 +469,11 @@ td{
 	left: 4rem;
 }
 .postpage_Image {
-	margin-top: 1rem;
-	width: 30rem;
-	border-radius: 4rem;
+	margin-top: 3.3rem;
+	max-width: 95%;
+	max-height: 30rem;
+	border-radius: 1rem;
+	cursor: pointer;
 }
 .postpage_trash {
 	margin-top: 0.5rem;
@@ -437,7 +490,7 @@ td{
 	color:var(--ViolaNavbar);
 }
 .postpage_Comment {
-	background-color: gray;
+	border-top: 2px solid var(--ViolaBackground) double;
 }
 .postpage_Like {
 	font-size: 1.5rem;
@@ -445,12 +498,17 @@ td{
 	left: 4rem;
 	margin-top: 1rem;
 }
+.hr{
+	width: 98%;
+}
 .postpage_Comment_detail {
 	display: flex;
 	margin: auto;
 	text-align: center;
 	justify-content: center;
 	position: relative;
+	width: 85%;
+	margin-top: 1rem;
 }
 .Comment_pic_username_date {
 	display: flex;
@@ -475,7 +533,15 @@ td{
 	left: 3.5rem;
 	top: 0rem;
 }
-
+.Comment_text{
+	background-color: rgb(182, 182, 182);
+	padding: 10px;
+	text-align: justify;
+	width: 80%;
+	margin-top: 2.5rem;
+	border-radius: 0.7rem;
+	font-weight: normal;
+}
 .FcLike{
 	font-size: 1.7rem;
 	margin-right: 1rem;
@@ -496,10 +562,27 @@ td{
 	cursor: pointer;
 }
 
+.videoPlayer{
+	margin-top: 5%;
+	width: 95%;
+	height: auto;
+	border-radius: 1rem;
+	cursor: pointer;
+}
+.videoPlayer:focus, .imagePopupDiv:focus{
+	outline: none;
+}
+
+.popUpImage{
+	width: 95%;
+	border-radius: 0.5rem;
+}
+
 /* PostInput Component */
 .postpage_CommentInput {
 	display: flex;
 	justify-content: center;
+	margin-bottom: 1rem;
 }
 .postpageComments {
 	width: 70%;
@@ -852,30 +935,38 @@ td{
 /* Cover component */
 
 .Cover-component {
-	width: 70%;
+	width: 53%;
+	max-height: 20%;
 	margin: 0 auto;
 	position: relative;
 }
 
 .Cover-DefaulCovert {
-	width: 50rem;
+	max-width: 95%;
 	border-bottom-left-radius: 2rem;
 	border-bottom-right-radius: 2rem;
-}
 
+}
+.Cover-profilePic{
+	position: absolute;
+	bottom: 3rem;
+	right: 5%;
+}
 .Cover-info {
-	display: flex;
+	/* display: flex; */
 	position: absolute;
 	bottom: 1rem;
-	right: 10rem;
+	right: 5%;
 }
 .Cover-Texts {
 	display: flex;
 	font-family: cursive;
 	color:var(--primaryGOldColor);
 	position: absolute;
-	bottom: 0rem;
-  right: 15rem;
+	justify-content: space-evenly;
+	left: 0;
+	right: 0;
+	bottom: 0.1rem;
 }
 
 .Cover-Texts h4{
@@ -892,7 +983,20 @@ td{
 }
 .Cover-info-following{
 	width: 15rem;
+	position: absolute;
+	left: 0;
+	right: 0;
+	color: var(--primaryGOldColor);
+	margin: 0 auto;
+	bottom: 1rem;
 }
+/* .Cover-text{
+	position: absolute;
+	left: 0;
+	right: 0;
+	color: var(--primaryGOldColor);
+	margin: 0 auto;
+} */
 
 /* Image Cropper */
 
@@ -916,4 +1020,16 @@ td{
 }
 .Forget-password:hover{
 	cursor: pointer;
+}
+
+
+
+@media only screen and (max-width: 900px) {
+	.profile_pic {
+		margin-top: 2rem;
+		width: 5rem;
+		height: 5rem;
+		object-fit: cover;
+		border-radius: 10rem;
+	}
 }

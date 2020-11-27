@@ -6,7 +6,7 @@ import Cover from './Cover';
 
 const UserPage = () => {
 	const { posts , UserPageData } = useContext(SocialMediaContext);
-	let MyPost = posts.filter((item) => item.user._id === UserPageData._id).map((item) => {
+	let postsMap = posts.filter((item) => item.user._id === UserPageData._id).map((item) => {
 		return <PostPageMap key={item._id} item={item} />;
 	});
 
@@ -14,7 +14,7 @@ const UserPage = () => {
 		<div>
 			<NavBar />
 			<Cover />
-			{MyPost}
+			{postsMap}
 		</div>
 	);
 };

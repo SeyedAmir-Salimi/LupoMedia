@@ -11,12 +11,12 @@ const DatiPersonali = () => {
     DeleteAccount: false
   })
   const {
-    // deleteAccountCall,
+    deleteAccountCall,
     cancelUpdatePassword,
     LogeOut,
     token,
     updatePasswordCall,
-    deleteAccount,
+    // deleteAccount,
     ProfilePic,
     datiPersonali,
     UpdateDatiPersonali,
@@ -27,7 +27,6 @@ const DatiPersonali = () => {
   let history = useHistory()
   useEffect(() => {
     if (token === undefined) {
-      console.log('Authenticated logeout')
       history.push('/')
     }
   })
@@ -35,11 +34,16 @@ const DatiPersonali = () => {
   const PasswordPannel = () => {
     setPannel({ PasswordPannel: !PasswordPannel })
   }
-  // const DeleteAccount = () => {
-  //   deleteAccountCall()
-  //   setPannel({ DeleteAccount: !DeleteAccount })
-  // }
-
+  const DeleteAccount = () => {
+    deleteAccountCall()
+    setPannel({ DeleteAccount: false })
+  }
+  const changPassword = async ()=>{
+    const result = await updatePasswordCall()
+    if(result.statusText === "OK"){
+      setPannel({ PasswordPannel: false })
+    }
+  }
   return (
     <div>
       <NavBar />
@@ -50,10 +54,7 @@ const DatiPersonali = () => {
             PasswordPannel()
             cancelUpdatePassword()
           }}
-          Yes={() => {
-            updatePasswordCall()
-            setPannel({ PasswordPannel: false })
-            }}
+          Yes={() => changPassword()}
           Done='Save'
           Cancel='Cancel'
         />
@@ -65,7 +66,7 @@ const DatiPersonali = () => {
           Mystate={{ ...Pannel }}
           NO={() => setPannel({ DeleteAccount: false })}
           Yes={() => {
-            deleteAccount()
+            DeleteAccount()
             LogeOut()
           }}
           Done='Yes'

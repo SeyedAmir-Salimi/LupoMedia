@@ -34,15 +34,17 @@ const Cover = () => {
     AwaitingingChekID()
   }, [AwaitingingChekID, FollowingChekID])
 
+  const picture = {
+    picture: UserPageData.ProfilePic
+  }
   const SendFOllowingRequest = () => {
     SendFriendRequestCall(
       UserPageData._id,
       UserPageData.User_Name,
-      UserPageData.ProfilePic
+      picture
     )
     setExistFollowingAwaiting(true)
   }
-
   return (
     <div>
       <div className='Cover-component'>
@@ -51,14 +53,14 @@ const Cover = () => {
           alt='DefaulCover'
           className='Cover-DefaulCovert'
         />
-        <div className='Cover-info'>
+        <div className="Cover-profilePic">
           <ProfilePicture
-            ProfilePic={UserPageData.ProfilePic}
+            ProfilePic={picture}
             User_Name={UserPageData.User_Name}
             Size={'Big'}
+            sesso={UserPageData.sesso}
           />
-          <div className='Cover-Texts'>
-            {/* <h4 className="hvr-pulse">Allready following</h4> */}
+        </div>
             {UserPageData._id !== id ? (
               <span className='hvr-pulse Cover-info-following'>
                 {ExistFollowing === true ? (
@@ -66,7 +68,7 @@ const Cover = () => {
                 ) : ExistFollowingAwaiting === true ? (
                   'Awaiting for response'
                 ) : (
-                  <p onClick={() => SendFOllowingRequest()}>
+                  <p onClick={() => SendFOllowingRequest()} className="Cover-text">
                     Send Following Request
                   </p>
                 )}
@@ -74,8 +76,8 @@ const Cover = () => {
             ) : (
               ''
             )}
-          </div>
-        </div>
+
+
       </div>
       <span className='Cover-Name'>
         <h1>{UserPageData.User_Name}</h1>

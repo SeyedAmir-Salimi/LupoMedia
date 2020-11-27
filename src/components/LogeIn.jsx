@@ -23,7 +23,6 @@ const LogeIn = () => {
 
 	useEffect(() => {
 		if (token !== undefined) {
-			console.log();
 			history.push('/home');
 		}
 	});

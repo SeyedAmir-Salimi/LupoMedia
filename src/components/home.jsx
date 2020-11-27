@@ -4,7 +4,6 @@ import Postpage from './Postpage';
 import PostInput from './PostInput';
 
 const home = () => {
-
 	return (
 		<div className="homepage">
 			<NavBar />

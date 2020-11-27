@@ -7,9 +7,7 @@ export default function API() {
 
         async DeletePost(id, user) {
             await Axios.delete(`http://localhost:3000/posts/${id}`, { data: { user: user } })
-                .then(res => {
-                    console.log(res.data)
-                })
+
         },
         async DeletePostPhoto (id) {
             try {
@@ -21,9 +19,7 @@ export default function API() {
         },
         async DeleteComment(id, postref) {
             await Axios.delete(`http://localhost:3000/comments/${id}`, { data: { postref: postref } })
-                .then(res => {
-                    console.log(res.data)
-                })
+
         },
 
         async WriteComment(ref, comments, users) {
@@ -142,7 +138,6 @@ export default function API() {
                     ],
                     config
                 )
-                console.log(result);
                 return result
             } catch (error) {
                 console.log(error);

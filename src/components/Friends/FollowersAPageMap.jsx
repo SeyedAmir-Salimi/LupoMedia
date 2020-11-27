@@ -52,12 +52,10 @@ const FollowersAPageMap = ({ item }) => {
 	const GoToLink = (link) => {
 
 		history.push(link);
-		console.log(history.location.pathname);
 	};
 	
-
 	const GoTo = () =>{
-		GetUSerPageData(item.mainUser._id , item.mainUser.ProfilePic , item.mainUser.name)
+		GetUSerPageData(item.mainUser._id , item.mainUser.ProfilePic.picture , item.mainUser.name, item.mainUser.sesso)
 		if(item.mainUser._id === id ){
 			GoToLink(`/MyPage`)
 		}
@@ -65,11 +63,13 @@ const FollowersAPageMap = ({ item }) => {
 			GoToLink(`/${item.name}`)
 		}
 	}
-
+	const picture = {
+		picture: item.mainUser.ProfilePic.picture
+	  }
 	return (
 		<div key={item._id} className="Searched_page">
 			<span className="Searched_page_info">
-				<ProfilePicture ProfilePic={item.mainUser.ProfilePic} Size={'Medium'} onClick={GoTo}/>
+				<ProfilePicture ProfilePic={picture} Size={'Medium'} onClick={GoTo} sesso={item.mainUser.sesso}/>
 				<div>
 					<h4>{item.mainUser.name}</h4>
 					<h4>{item.mainUser.Bio}</h4>
