@@ -48,10 +48,10 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "devDependencies": {
-    "@babel/cli": "^7.12.7",
-    "@babel/core": "^7.12.7",
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.9",
     "@babel/preset-env": "^7.12.7",
-    "@babel/preset-react": "^7.12.5",
+    "@babel/preset-react": "^7.12.7",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^9.5.0",
     "babel-jest": "^24.9.0",
