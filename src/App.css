@@ -7,7 +7,7 @@ html {
 	height: 100%;
 	margin: 0;
 	padding: 0;
-	background-color: var(--ViolaBackground);
+	background-color: var(--ViolaBackground) !important;
 }
 
 :root {
@@ -15,12 +15,41 @@ html {
 	--ViolaBackground: rgb(49, 16, 46);
 	--ViolaNavbar:  rgb(27, 6, 25);
   }
+  @media (max-width: 740px) {
+	html,
+	body,
+	header,
+	.view {
+	  height: 1000px;
+	}
+	.Cover-Texts h6{
+		font-size: 0.5rem;
+	}
+	.Cover-Name{
+		font-size: 1rem;
+	}
+  }
+  @media (min-width: 800px) and (max-width: 850px) {
+	html,
+	body,
+	header,
+	.view {
+	  height: 650px;
+	}
+  }
 /* LogeIN  & Register Component */
 .Loge-in {
 	background-image: url("./Images/Wallpaper.jpg");
-	height: 45rem;
+	/* height: 46rem; */
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 100%;
 	background-repeat: repeat-y;
 	background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
 }
 .formStyle span {
 	display: flex;
@@ -114,15 +143,15 @@ html {
 	position: relative;
 	display: block;
 	padding: 5px;
-	color: rgb(34, 6, 31);
+	color: rgb(34, 6, 31) !important;
 	margin: 0 auto;
-	background: var(--primaryGOldColor);
+	background: var(--primaryGOldColor) !important;
 	font-size: 18px;
 	font-weight: bolder;
 	text-align: center;
 	font-style: normal;
 	width: 45%;
-	border: 1px solid var(--primaryGOldColor);
+	border: 1px solid var(--primaryGOldColor) !important;
 	border-width: 1px 1px 3px;
 	margin-bottom: 5px;
 	text-decoration: none;
@@ -164,9 +193,56 @@ html {
 }
 .PasswordEye {
 	font-size: 1.5rem;
-	margin: 0 0.5rem;
+	color: rgb(167, 165, 165);
+	margin-right:0.5rem;
+}
+
+.logein-password{
+	display: flex;
+	align-items: center;
+	background-color: rgb(255, 255, 255) !important;
+	/* -webkit-box-shadow: 0px 0px 2px 2px rgba(29,148,255,0.62); 
+	box-shadow: 0px 0px 2px 2px rgba(29,148,255,0.62) */
+}
+.logein-password:focus{
+	-webkit-box-shadow: 0px 0px 2px 2px rgba(29,148,255,0.62); 
+	box-shadow: 0px 0px 2px 2px rgba(29,148,255,0.62);
+}
+#password{
+	border: none !important;
+}
+#password:focus, #email:focus{
+	border: none !important;
+	outline: 0 none !important;
+	box-shadow: none !important;
+}
+.Loge-lupomedia{
+	display: flex;
+	padding-top: 2vw;
+	align-items: center;
+	padding-bottom: 2vw;
+	justify-content: space-around;
+}
+.Loge-lupomedia h4{
+	color: var(--primaryGOldColor);
+}
+.navbar-toggler{
+	background-color:var(--primaryGOldColor) !important;
+}
+.navbar-toggler:focus{
+	outline: none;
 }
 /* NavBar Component */
+.NavbarBootStrap{
+	background-color: var(--ViolaNavbar);
+	z-index: 10;
+}
+.Navbar-Link{
+	color: var(--primaryGOldColor);
+}
+.Navbar-Link:hover{
+	color: var(--primaryGOldColor);
+}
 .Nav {
 	padding-top: 1rem;
 	display: flex;
@@ -225,7 +301,9 @@ html {
 	color: white;
 	cursor: pointer;
 }
-
+.Navbar-logo{
+	width: 4rem;
+}
 /* Dati Personali Component */
 
 .form-style-4 {
@@ -394,7 +472,7 @@ td{
 	width: 95%;
 	position: fixed;
 	background: rgba(0, 0, 0, 0.3);
-	top: 0;
+	top: 5vw;
 	bottom: 0;
 	left: 0;
 	right: 0;
@@ -433,9 +511,9 @@ td{
 	background-color: #1a000d;
 }
 .imagePopup-closeButton{
-cursor: pointer;
-float: right;
-font-size: 1.5rem;
+	cursor: pointer;
+	float: right;
+	font-size: 1.5rem;
 }
 /* Postpage Component */
 
@@ -443,7 +521,7 @@ font-size: 1.5rem;
 	background: rgb(196, 196, 196);
 	border-radius: 1rem;
 	position: relative;
-	width: 70%;
+	width: 80%;
 	margin: 1rem auto;
 	border: 1px solid black;
 }
@@ -464,9 +542,17 @@ font-size: 1.5rem;
 	left: 4rem;
 }
 .postpage_date {
-	margin-top: 2rem;
+	margin-top: 2.4rem;
 	position: absolute;
 	left: 4rem;
+	font-size: 0.9rem;
+}
+.postpage_Like {
+	font-size: 1.5rem;
+	position: absolute;
+	left: 4rem;
+	margin-top: 3.5rem;
+	font-size: 0.5rem;
 }
 .postpage_Image {
 	margin-top: 3.3rem;
@@ -476,7 +562,7 @@ font-size: 1.5rem;
 	cursor: pointer;
 }
 .postpage_trash {
-	margin-top: 0.5rem;
+	margin-top: 0.2rem;
 	position: absolute;
 	right: 1rem;
 	font-size: 1.4rem;
@@ -488,15 +574,11 @@ font-size: 1.5rem;
 }
 .postpage_Caption {
 	color:var(--ViolaNavbar);
+
 }
+
 .postpage_Comment {
 	border-top: 2px solid var(--ViolaBackground) double;
-}
-.postpage_Like {
-	font-size: 1.5rem;
-	position: absolute;
-	left: 4rem;
-	margin-top: 1rem;
 }
 .hr{
 	width: 98%;
@@ -526,21 +608,22 @@ font-size: 1.5rem;
 .Comment_username {
 	position: absolute;
 	left: 3.5rem;
-	top: -1.3rem;
+	top: -1.0rem;
 }
 .Comment_date {
 	position: absolute;
 	left: 3.5rem;
-	top: 0rem;
+	top: 0.3rem;
+	font-size: 0.7rem;
 }
 .Comment_text{
 	background-color: rgb(182, 182, 182);
 	padding: 10px;
-	text-align: justify;
-	width: 80%;
+	width: 40vw;
 	margin-top: 2.5rem;
-	border-radius: 0.7rem;
+	border-radius: 0.3rem;
 	font-weight: normal;
+	margin-left: 0.4rem;
 }
 .FcLike{
 	font-size: 1.7rem;
@@ -553,17 +636,20 @@ font-size: 1.5rem;
 	opacity: 100;
 }
 .emojis{
-	opacity: 0;
-	font-size: 1.3rem;
-	position: absolute;
-	margin-top: -0.5rem;
-	transition: ease-in .5s;
-	left: 0;
+	font-size: 1.2rem;
 	cursor: pointer;
+}
+.popover-basic{
+	background-color: rgba(87, 0, 61, 0.247) !important;
+}
+
+.popover .arrow::after{
+	border-bottom-color:   rgba(87, 0, 61, 0.247) !important;
+
 }
 
 .videoPlayer{
-	margin-top: 5%;
+	margin-top: 3.3rem;
 	width: 95%;
 	height: auto;
 	border-radius: 1rem;
@@ -579,14 +665,26 @@ font-size: 1.5rem;
 }
 
 /* PostInput Component */
+.PostInput-row{
+	display: flex;
+	justify-content: center;
+	margin-top: 1.5vw;
+	text-align: center;
+}
+.PostCaption{
+	width: 30vw !important;
+}
+
 .postpage_CommentInput {
 	display: flex;
 	justify-content: center;
 	margin-bottom: 1rem;
+	margin-top: 1.7rem;
 }
 .postpageComments {
-	width: 70%;
+	/* width: 70%; */
 	border-radius: 3rem;
+	width: 40vw !important
 }
 .postpageComments:focus {
 	outline: none;
@@ -623,20 +721,25 @@ font-size: 1.5rem;
 
 .Searched_page {
 	position: relative;
-	width: 30%;
+	width: 80%;
 	margin: 1rem auto;
 	display: flex;
 	color: var(--primaryGOldColor);
 }
+
 .Searched_page_info {
 	display: flex;
+	width: 30vw;
+	margin: 1rem auto;
 }
+
 .Searched_page_button {
-	position: absolute;
-	right: 0;
+	margin-top: 1rem;
 	font-size: 1rem;
-	font-family: cursive;
+	color: whitesmoke;
+	cursor: pointer;
 }
+
 .Searched_page_button :hover {
 	cursor: pointer;
 }
@@ -935,8 +1038,7 @@ font-size: 1.5rem;
 /* Cover component */
 
 .Cover-component {
-	width: 53%;
-	max-height: 20%;
+	width: 80%;
 	margin: 0 auto;
 	position: relative;
 }
@@ -979,7 +1081,7 @@ font-size: 1.5rem;
 	position: absolute;
 	left: 0;
 	right: 0;
-	top: 5rem;
+	top: 3vw;
 }
 .Cover-info-following{
 	width: 15rem;
@@ -1017,11 +1119,11 @@ font-size: 1.5rem;
 
 .Forget-password,.Forget-password-message{
 	color: var(--primaryGOldColor);
+
 }
 .Forget-password:hover{
 	cursor: pointer;
 }
-
 
 
 @media only screen and (max-width: 900px) {
@@ -1033,3 +1135,30 @@ font-size: 1.5rem;
 		border-radius: 10rem;
 	}
 }
+.upArrow-hide{
+	font-size: 1rem;
+	float: right;
+	margin-right: 3rem;
+	margin-bottom: 3rem;
+	color: var(--primaryGOldColor);
+	cursor: pointer;
+	opacity: 0;
+	transition: ease-in-out 1s;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+}
+.upArrow-show{
+	font-size: 2rem;
+	float: right;
+	margin-right: 3rem;
+	margin-bottom: 3rem;
+	color: var(--primaryGOldColor);
+	cursor: pointer;
+	opacity: 0.5;
+	transition: ease-in-out 1s;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+}
+

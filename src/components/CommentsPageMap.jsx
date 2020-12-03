@@ -48,12 +48,12 @@ const CommentsPageMap = ({ item }) => {
                     }
                   />
                 </span>
-                <h5 className='Comment_username'>{com.user.name}</h5>
+                <h6 className='Comment_username'>{com.user.name}</h6>
                 <h6 className='Comment_date'>
                   <LastSeen date={com.date} />
                 </h6>
               </div>
-              <h4 className="Comment_text">
+              <h6 className="Comment_text">
                 {com.comment}{' '}
                 {com.user._id === id || id === item.user._id ? (
                   <FaTrashAlt
@@ -64,7 +64,7 @@ const CommentsPageMap = ({ item }) => {
                 ) : (
                   ''
                 )}
-              </h4>
+              </h6>
             </div>
           ) : (
             ''

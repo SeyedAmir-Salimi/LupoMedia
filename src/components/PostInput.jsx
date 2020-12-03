@@ -1,7 +1,16 @@
 import React, { useState, useContext, useRef, useEffect } from 'react'
 import { SocialMediaContext } from './Context'
 import { FcCamera, FcInternal } from 'react-icons/fc'
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Tooltip,
+  Overlay
+} from 'react-bootstrap'
 import Alert from './Alert'
+
 const PostInput = () => {
   const [PostCaption, setPostCaption] = useState('')
   const [InputValue, setInputValue] = useState('')
@@ -9,7 +18,6 @@ const PostInput = () => {
   const [postInputAlert, setpostInputAlert] = useState(false)
   const { User_Name, id, AddPostCall } = useContext(SocialMediaContext)
   const PO_Pic = document.getElementById('PO_Pic')
-
   const triggerInputFile = () => {
     PO_Pic.click()
   }
@@ -59,10 +67,10 @@ const PostInput = () => {
   useEffect(() => {
     PostCaptionRef.current.focus()
   }, [])
-
   const FontColor = { color: 'rgb(223, 209, 144)' }
+  const target = useRef(null)
   return (
-    <div>
+    <>
       {sizeAlert && (
         <Alert
           alertText={'Your file is too big for upload, it shoud be under 10mb'}
@@ -71,32 +79,41 @@ const PostInput = () => {
       {postInputAlert && (
         <Alert alertText={'You should write a caption for your post'} />
       )}
-      <div>
-        <form
-          onSubmit={WritePost}
-          className='PostInput'
-          disabled={PostCaption === ''}
-        >
-          <input
-            type='text'
-            name='PostCaption'
-            className='PostCaption'
-            placeholder={'  What Do You Think ' + User_Name + '...'}
-            value={PostCaption}
-            onChange={e => onChangeHandler(e)}
-            ref={PostCaptionRef}
-          />
-
-          <FcInternal id='FC' className='FC_ICONS' onClick={WritePost} />
-          <FcCamera onClick={triggerInputFile} className='FC_ICONS' />
-          {InputValue !== '' ? (
-            <p style={FontColor}>{InputValue}</p>
-          ) : (
-            ''
-            // <p style={FontColor}>No File Chosen Yet</p>
-          )}
-        </form>
-      </div>
+      <Container>
+        <Row>
+          <Col md={{ span: 6, offset: 3 }}>
+            <span className='PostInput-row'>
+              <Form inline>
+                <Form.Group>
+                  <Form.Control
+                    type='text'
+                    name='PostCaption'
+                    className='PostCaption'
+                    placeholder={'  What Do You Think ' + User_Name + '...'}
+                    value={PostCaption}
+                    onChange={e => onChangeHandler(e)}
+                    ref={PostCaptionRef}
+                  />
+                </Form.Group>
+              </Form>
+              <span>
+              <FcInternal id='FC' className='FC_ICONS' onClick={WritePost} />
+              </span>
+              <span ref={target}>
+                <FcCamera onClick={triggerInputFile} className='FC_ICONS' />
+              </span>
+            </span>
+            {/* {InputValue !== '' ? <p style={FontColor}>{InputValue}</p> : ''} */}
+            <Overlay target={target.current} show={InputValue === "" ? false : true} placement='top'>
+              {props => (
+                <Tooltip id='overlay-example' {...props}>
+                <p style={FontColor}>{InputValue}</p>
+                </Tooltip>
+              )}
+            </Overlay>
+          </Col>
+        </Row>
+      </Container>
       <input
         type='file'
         name='PostPic'
@@ -105,7 +122,7 @@ const PostInput = () => {
         style={{ visibility: 'hidden' }}
         onChange={InputFileName}
       />
-    </div>
+    </>
   )
 }
 

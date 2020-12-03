@@ -37,7 +37,7 @@ const AwaitingMapFollowers = ({ item }) => {
     if (item.mainUser._id === id) {
       GoToLink(`/MyPage`)
     } else {
-      GoToLink(`/${item.name}`)
+      GoToLink(`/${item.mainUser.name}`)
     }
   }
   const picture = {
@@ -54,10 +54,10 @@ const AwaitingMapFollowers = ({ item }) => {
           onClick={GoTo}
         />
         <div>
-          <h4>{item.mainUser.name}</h4>
-          <h4>{item.mainUser.Bio}</h4>
-          <h4>{item.mainUser.Sentimentale}</h4>
-          <h4>{item.mainUser.BirthDate}</h4>
+          <h6>{item.mainUser.name}</h6>
+          <h6>{item.mainUser.Bio}</h6>
+          <h6>{item.mainUser.Sentimentale}</h6>
+          <h6>{item.mainUser.BirthDate}</h6>
         </div>
       </span>
       <span className='Searched_page_button'>

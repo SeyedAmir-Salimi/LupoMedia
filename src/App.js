@@ -14,6 +14,7 @@ import AwaitaningList from './components/Friends/AwaitaningList'
 import MyPage from './components/MyPage'
 import ResetPassword from './components/ResetPassword' 
 import ForgetPassword from './components/ForgetPassword'
+
 const App = () => {
   return (
     <div className="App">

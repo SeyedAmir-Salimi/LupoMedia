@@ -23,12 +23,12 @@ const FollowingAPageMap = ({ item }) => {
     if (item.secondUser._id === id) {
       GoToLink(`/MyPage`)
     } else {
-      GoToLink(`/${item.name}`)
+      GoToLink(`/${item.secondUser.name}`)
     }
   }
-	const picture = {
-		picture: item.secondUser.ProfilePic.picture
-    }
+  const picture = {
+    picture: item.secondUser.ProfilePic.picture
+  }
   return (
     <div key={item._id} className='Searched_page'>
       <span className='Searched_page_info'>
@@ -39,18 +39,18 @@ const FollowingAPageMap = ({ item }) => {
           sesso={item.secondUser.sesso}
         />
         <div>
-          <h4>{item.secondUser.name}</h4>
-          <h4>{item.secondUser.Bio}</h4>
-          <h4>{item.secondUser.Sentimentale}</h4>
-          <h4>{item.secondUser.BirthDate}</h4>
+          <h6>{item.secondUser.name}</h6>
+          <h6>{item.secondUser.Bio}</h6>
+          <h6>{item.secondUser.Sentimentale}</h6>
+          <h6>{item.secondUser.BirthDate}</h6>
+          <h6 className='Searched_page_button'
+            onClick={() =>
+              deleteFollowingAccepted(item._id, item.secondUser._id)
+            }
+          >
+            Remove From List
+          </h6>
         </div>
-      </span>
-      <span className='Searched_page_button'>
-        <p
-          onClick={() => deleteFollowingAccepted(item._id, item.secondUser._id)}
-        >
-          Remove From List
-        </p>
       </span>
     </div>
   )

@@ -62,10 +62,10 @@ const SearchedPageMap = ({ item }) => {
 			<span className="Searched_page_info" >
 				<ProfilePicture ProfilePic={picture} Size={'Medium'} onClick={GoTo} sesso={item.sesso}/>
 				<div>
-					<h4>{item.name}</h4>
-					<h4>{item.Bio}</h4>
-					<h4>{item.Sentimentale}</h4>
-					<h4>{item.BirthDate}</h4>
+					<h6>{item.name}</h6>
+					<h6>{item.Bio}</h6>
+					<h6>{item.Sentimentale}</h6>
+					<h6>{item.BirthDate}</h6>
 				</div>
 			</span>
 			{item._id !== id ? (

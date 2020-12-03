@@ -24,7 +24,7 @@ const AwaitaningList = () => {
 			<div className="AwaitiningList-Component">
 				{numberOfFollwersAwaiting !== 0 ? (
 					<span>
-						<h5>Followers Request Awaitating {numberOfFollwersAwaiting}</h5>
+						<h6>Followers Request Awaitating {numberOfFollwersAwaiting}</h6>
 						{FollowersAw}
 					</span>
 				) : (
@@ -32,7 +32,7 @@ const AwaitaningList = () => {
 				)}
 				{numberOfFollwingawaiting !== 0 ? (
 					<span>
-						<h5>Following Request Awaitating {numberOfFollwingawaiting}</h5>
+						<h6>Following Request Awaitating {numberOfFollwingawaiting}</h6>
 						{FollowingAw}
 					</span>
 				) : (

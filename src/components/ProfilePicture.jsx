@@ -1,7 +1,6 @@
 import React from 'react'
 import PM from '../Images/man.jpg'
 import PW from '../Images/woman.jpg'
-
 const ProfilePicture = ({ ProfilePic, User_Name, Size, onClick, sesso }) => {
   const classname =
     Size === 'Medium'

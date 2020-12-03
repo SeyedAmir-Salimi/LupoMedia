@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router } from "react-router-dom";
 import {SocialMediaProvider} from './components/Context'
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import JavascriptTimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 JavascriptTimeAgo.addLocale(en)
