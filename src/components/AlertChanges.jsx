@@ -1,7 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useCallback, useEffect } from 'react'
 import { SocialMediaContext } from './Context'
+import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 
 const AlertChanges = ({ Mystate, NO, Yes, Done, Cancel }) => {
+  const [showError, setShowError] = useState(false)
   const {
     ErrorMessage,
     NewPassword,
@@ -9,73 +11,95 @@ const AlertChanges = ({ Mystate, NO, Yes, Done, Cancel }) => {
     ConfirmPassword
   } = useContext(SocialMediaContext)
 
+  const ShowErrorMessage = useCallback(() => {
+    if (ErrorMessage) {
+      setShowError(true)
+      setTimeout(() => {
+        setShowError(false)
+      }, 2000)
+    } else {
+      setShowError(false)
+    }
+  }, [ErrorMessage])
+
+  useEffect(() => {
+    ShowErrorMessage()
+  }, [ShowErrorMessage])
+
   return (
     <div className='alert'>
-      <div className='alert-Red'>
-        <div className='alert-Question'>
-          {ErrorMessage !== undefined ? <h3>{ErrorMessage}</h3> : ''}
+      <Container>
+        <Row>
+          <Col>
+            <div className='alert-Red'>
+              <div className='alert-Question'>
+                <Form
+                  className='form-style-4'
+                  method='post'
+                  onSubmit={e => e.preventDefault(e)}
+                >
+                  {Mystate.PasswordPannel ? (
+                    <div>
+                      <h5>Please Write Your New Password</h5>
+                      <p>Password: </p>
+                      <Form.Group>
+                        <Form.Control
+                          type='password'
+                          name='password'
+                          id='DP_password'
+                          value={NewPassword}
+                          onChange={onchangeHandPassword}
+                          className='AlertChange-Input'
+                        />
+                      </Form.Group>
+                      <p>Confirm Password: </p>{' '}
+                      <Form.Group>
+                        <Form.Control
+                          type='password'
+                          name='Confirmpassword'
+                          id='DP_Confirmpassword'
+                          value={ConfirmPassword}
+                          onChange={onchangeHandPassword}
+                          className='AlertChange-Input'
+                        />
+                      </Form.Group>
+                    </div>
+                  ) : (
+                    ''
+                  )}
 
-          {Mystate.PasswordPannel ? (
-            <div>
-              <table>
-                <tbody>
-                  <tr>
-                    <th colSpan='2'>
-                      <p>Please Write Your New Password</p>
-                    </th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span>Password: </span>
-                    </td>
-                    <td>
-                      <input
-                        type='password'
-                        name='password'
-                        id='DP_password'
-                        value={NewPassword}
-                        onChange={onchangeHandPassword}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span>Confirm Password: </span>
-                    </td>
-                    <td>
-                      {' '}
-                      <input
-                        type='password'
-                        name='Confirmpassword'
-                        id='DP_Confirmpassword'
-                        value={ConfirmPassword}
-                        onChange={onchangeHandPassword}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                  {Mystate.DeleteAccount ? (
+                    <div>
+                      <h3>Are You Sure To Want Delete Your Account?</h3>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                  <span className="alertChange-buttonWrapper">
+                    <Button
+                      size='s'
+                      className='m-2 button_Log font-weight-bold alertChange-button'
+                      onClick={Yes}
+                    >
+                      {Done}
+                    </Button>
+                    <Button
+                      size='s'
+                      className='m-2 button_Log font-weight-bold alertChange-button'
+                      onClick={NO}
+                    >
+                      {Cancel}
+                    </Button>
+                  </span>
+                  {showError && (
+                    <h6 className='AlertChanges-error'>{ErrorMessage}</h6>
+                  )}
+                </Form>
+              </div>
             </div>
-          ) : (
-            ''
-          )}
-
-          {Mystate.DeleteAccount ? (
-            <div>
-              <h3>Are You Sure To Want Delete Your Account?</h3>
-            </div>
-          ) : (
-            ''
-          )}
-
-          <button className='button_Alert' onClick={Yes}>
-            {Done}
-          </button>
-          <button className='button_Alert' onClick={NO}>
-            {Cancel}
-          </button>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </div>
   )
 }

@@ -28,6 +28,7 @@ html {
 	.Cover-Name{
 		font-size: 1rem;
 	}
+
   }
   @media (min-width: 800px) and (max-width: 850px) {
 	html,
@@ -306,15 +307,36 @@ html {
 }
 /* Dati Personali Component */
 
+.datiPersonali-Input{
+	width: 100% !important;
+	background-color:var(--ViolaNavbar) !important;
+	box-shadow: none !important;
+	text-align: center;
+}
+
+.datiPersonali-date{
+	text-align: center;
+}
+.datiPersonali-Label{
+	text-align: left;
+	color: var(--primaryGOldColor) !important;
+}
+select, option{
+	text-align-last:center;
+	-ms-text-align-last: center;
+	-moz-text-align-last: center;
+    /* padding-right: 29px;
+    direction: rtl; */
+}
 .form-style-4 {
 	margin: 1rem auto;
-	width: 40%;
+	width: 70%;
 	font-size: 16px;
 	background: var(--ViolaNavbar);
 	padding: 30px 30px 15px 30px;
-	border-radius: 5rem;
-
+	border-radius: 1rem;
 }
+
 .form-style-4 input[type=submit],
 .form-style-4 input[type=text],
 .form-style-4 input[type=email],
@@ -332,7 +354,6 @@ html {
 }
 .form-style-4 label > span {
 	display: inline-block;
-
 	width: 150px;
 }
 .form-style-4 input[type=text],
@@ -340,7 +361,7 @@ html {
 .form-style-4 input[type="password"] {
 	background: transparent;
 	border: none;
-	border-bottom: 1px dashed #83a4c5;
+	/* border-bottom: 1px dashed #83a4c5; */
 	width: 70%;
 	outline: none;
 	padding: 0px 0px 0px 0px;
@@ -352,7 +373,7 @@ html {
 	background: transparent;
 	outline: none;
 	border: none;
-	border-bottom: 1px dashed #83a4c5;
+	/* border-bottom: 1px dashed #83a4c5; */
 	width: 275px;
 	overflow: hidden;
 	resize: none;
@@ -364,7 +385,7 @@ html {
 .form-style-4 input[type=email]:focus,
 .form-style-4 input[type=email] :focus {
 	color: var(--primaryGOldColor);
-	border-bottom: 1px dashed #d9ffa9;
+	/* border-bottom: 1px dashed #d9ffa9; */
 }
 
 .form-style-4 input[type=submit],
@@ -393,6 +414,7 @@ td{
 
   }
 
+
 .button_Alert{
 	position: relative;
 	color: rgb(34, 6, 31);
@@ -418,6 +440,23 @@ td{
 	cursor: pointer;
 }
 
+.datipersonali-pic{
+	position: relative;
+	cursor: pointer;
+}
+
+.datipersonali-pic h4{
+	position: absolute;
+	top: 1rem;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 5;
+	color: var(--primaryGOldColor);
+	opacity: 0;
+	transition: ease-in-out 0.5s;
+}
+
 /* Alert CHanges Component */
 
 .alert {
@@ -429,14 +468,16 @@ td{
 	left: 0;
 	right: 0;
 	position: fixed;
-	background: rgba(0, 0, 0, 0.3);
+	/* background: rgba(0, 0, 0, 0.3); */
 	align-items: center;
 	justify-content: center;
 	z-index: 1;
-	text-transform: capitalize;
-	
-}
+	position: absolute !important;
 
+}
+.alert p{
+	text-align: left;
+}
 .alert-Green {
 	background: rgba(255, 255, 255, 0.788);
 	color: green;
@@ -447,9 +488,8 @@ td{
 .alert-Red {
 	background:var(--ViolaNavbar);
 	color: var(--primaryGOldColor);
-	padding: 4rem;
 	border: ridge var(--primaryGOldColor);
-	position: relative;
+	border-radius: 1rem;
 }
 
 .alert-Red article {
@@ -464,6 +504,22 @@ td{
 	padding: 1rem;
 	margin-left: 1rem;
 	margin-right: 1rem;
+}
+.AlertChange-Input{
+	background-color: white !important;
+	width: 100% !important;
+	color: var(--ViolaNavbar) !important;
+}
+.AlertChanges-error{
+	color: rgb(185, 185, 185);
+	margin-top: 1rem;
+}
+/* .alertChange-buttonWrapper{
+	display: flex;
+	flex-wrap: wrap;
+} */
+.alertChange-button{
+	width: 20% !important;
 }
 
 /* imagepopUp Component */
@@ -734,7 +790,7 @@ td{
 }
 
 .Searched_page_button {
-	margin-top: 1rem;
+	margin-top: 2rem;
 	font-size: 1rem;
 	color: whitesmoke;
 	cursor: pointer;

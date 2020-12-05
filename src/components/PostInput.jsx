@@ -1,14 +1,7 @@
 import React, { useState, useContext, useRef, useEffect } from 'react'
 import { SocialMediaContext } from './Context'
 import { FcCamera, FcInternal } from 'react-icons/fc'
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Tooltip,
-  Overlay
-} from 'react-bootstrap'
+import { Container, Row, Col, Form, Tooltip, Overlay } from 'react-bootstrap'
 import Alert from './Alert'
 
 const PostInput = () => {
@@ -25,7 +18,7 @@ const PostInput = () => {
     // eslint-disable-next-line no-useless-escape
     setInputValue(PO_Pic.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1])
   }
-  // 1mb 1,048,576
+
   const limitUploadSize = () => {
     setSizeAlert(true)
     setTimeout(() => {
@@ -71,17 +64,19 @@ const PostInput = () => {
   const target = useRef(null)
   return (
     <>
-      {sizeAlert && (
-        <Alert
-          alertText={'Your file is too big for upload, it shoud be under 10mb'}
-        />
-      )}
-      {postInputAlert && (
-        <Alert alertText={'You should write a caption for your post'} />
-      )}
       <Container>
         <Row>
           <Col md={{ span: 6, offset: 3 }}>
+            {sizeAlert && (
+              <Alert
+                alertText={
+                  'Your file is too big for upload, it shoud be under 10mb'
+                }
+              />
+            )}
+            {postInputAlert && (
+              <Alert alertText={'You should write a caption for your post'} />
+            )}
             <span className='PostInput-row'>
               <Form inline>
                 <Form.Group>
@@ -97,17 +92,21 @@ const PostInput = () => {
                 </Form.Group>
               </Form>
               <span>
-              <FcInternal id='FC' className='FC_ICONS' onClick={WritePost} />
+                <FcInternal id='FC' className='FC_ICONS' onClick={WritePost} />
               </span>
               <span ref={target}>
                 <FcCamera onClick={triggerInputFile} className='FC_ICONS' />
               </span>
             </span>
             {/* {InputValue !== '' ? <p style={FontColor}>{InputValue}</p> : ''} */}
-            <Overlay target={target.current} show={InputValue === "" ? false : true} placement='top'>
+            <Overlay
+              target={target.current}
+              show={InputValue === '' ? false : true}
+              placement='top'
+            >
               {props => (
                 <Tooltip id='overlay-example' {...props}>
-                <p style={FontColor}>{InputValue}</p>
+                  <p style={FontColor}>{InputValue}</p>
                 </Tooltip>
               )}
             </Overlay>
