@@ -727,12 +727,11 @@ class SocialMediaProvider extends Component {
         user: this.state.id
       }
       const result = await api.like(data)
-
       const postCopy = [...this.state.posts]
       const index = this.state.posts.findIndex(x => x._id === postref)
       const isUserlikeExist = this.state.posts[index].Likes.some(x => x.user._id === result.data.user._id)
       if (isUserlikeExist) {
-        const tempLike = postCopy[index].Likes.find(x => x.user._id === result.data.user._id).id
+        const tempLike = postCopy[index].Likes.find(x => x.user._id === result.data.user._id)
         tempLike._id = result.data._id
         tempLike.like = result.data.like
         this.setState({

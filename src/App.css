@@ -532,11 +532,11 @@ td{
 	bottom: 0;
 	left: 0;
 	right: 0;
+	z-index: 2;
 	overflow-y: auto;
 	overflow-x: auto;
 	align-items: center;
 	justify-content: center;
-	z-index: 2;
 	text-transform: capitalize;
 	background:var(--ViolaNavbar);
 	color: var(--primaryGOldColor);
@@ -547,7 +547,7 @@ td{
 #style-3::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: rgba(0, 0, 0, 0.651);
+	background-color: rgba(59, 59, 59, 0.26);
 	border-radius: 10px;
 	height: 30%;
 }
@@ -557,15 +557,17 @@ td{
 	width: 6px;
 	height: 30%;
 	border-radius: 10px;
-	background-color: rgba(0, 0, 0, 0.651);
+	background-color: rgba(59, 59, 59, 0.26);
 }
 
 #style-3::-webkit-scrollbar-thumb
 {
 	height: 30%;
 	border-radius: 10px;
-	background-color: #1a000d;
+	background-color: #3f012063;
 }
+
+
 .imagePopup-closeButton{
 	cursor: pointer;
 	float: right;
@@ -696,14 +698,21 @@ td{
 	cursor: pointer;
 }
 .popover-basic{
-	background-color: rgba(87, 0, 61, 0.247) !important;
+	/* background-color: rgba(87, 0, 61, 0.247) !important; */
+	background-color: var(--ViolaBackground) !important;
+	color: var(--primaryGOldColor);
+	max-height: 10rem;
+	overflow: auto;
 }
 
 .popover .arrow::after{
-	border-bottom-color:   rgba(87, 0, 61, 0.247) !important;
-
+	border-bottom-color:  rgba(87, 0, 61, 0.247) !important;
 }
 
+.postPageMap-postLikes{
+	display: flex;
+	padding: 0.3rem;
+}
 .videoPlayer{
 	margin-top: 3.3rem;
 	width: 95%;

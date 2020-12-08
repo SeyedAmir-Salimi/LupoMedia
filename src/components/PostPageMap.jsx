@@ -15,11 +15,13 @@ import LastSeen from './LastSeen'
 import ProfilePicture from './ProfilePicture'
 import ImagePopup from './ImagePopup'
 import { Container, Row, Col, Form, Overlay, Popover } from 'react-bootstrap'
+import Emojies from './Emojies'
 const PostPageMap = ({ item }) => {
   const [comment, setcomment] = useState('')
   const [likeChek, setlikeChek] = useState(false)
   const [popUpImage, setPopUpImage] = useState(false)
   const [showLikeEmojis, setShowLikeEmojis] = useState(false)
+  const [showlikeEmojisList, setShowlikeEmojisList] = useState(false)
   const {
     id,
     WritecommentCALL,
@@ -82,7 +84,8 @@ const PostPageMap = ({ item }) => {
     return comments.some(x => x.postref._id === item._id)
   }
   const marginTopPostCaption = !isMedia ? '3.2rem' : '1rem'
-  const target = useRef(null)
+  const targetEmojies = useRef(null)
+  const targetLikes = useRef(null)
 
   return (
     <>
@@ -93,6 +96,7 @@ const PostPageMap = ({ item }) => {
           tabIndex={0}
         />
       )}
+
       <Container>
         <Row>
           <Col className='PostPageMap-col'>
@@ -118,10 +122,38 @@ const PostPageMap = ({ item }) => {
               ) : (
                 ''
               )}
-              <div className='postpage_Like'>
+              <div
+                className='postpage_Like'
+                ref={targetLikes}
+                onMouseEnter={() => setShowlikeEmojisList(true)}
+                onMouseLeave={() => setShowlikeEmojisList(false)}
+              >
                 <h6>Likes: {item.Likes?.length}</h6>
               </div>
               <br />
+
+              <Overlay
+                target={targetLikes.current}
+                show={showlikeEmojisList}
+                placement='bottom'
+              >
+                {props => (
+                  <Popover
+                    className='popover-basic'
+                    id='style-3'
+                    {...props}
+                    onMouseEnter={() => setShowlikeEmojisList(true)}
+                    onMouseLeave={() => setShowlikeEmojisList(false)}
+                  >
+                    {item.Likes.map(x => (
+                      <div className='postPageMap-postLikes' key={x?._id}>
+                        <h6>{x?.user.name}:</h6>
+                        <Emojies likeType={x?.like} />
+                      </div>
+                    ))}
+                  </Popover>
+                )}
+              </Overlay>
 
               {isMedia && item.type === 'pic' ? (
                 <img
@@ -159,7 +191,7 @@ const PostPageMap = ({ item }) => {
                 <span className='postpage_CommentInput'>
                   <div className='like'>
                     <span
-                      ref={target}
+                      ref={targetEmojies}
                       onMouseEnter={() => setShowLikeEmojis(true)}
                       onMouseLeave={() => setShowLikeEmojis(false)}
                     >
@@ -177,7 +209,7 @@ const PostPageMap = ({ item }) => {
                       )}
                     </span>
                     <Overlay
-                      target={target.current}
+                      target={targetEmojies.current}
                       show={showLikeEmojis}
                       placement='bottom'
                     >
