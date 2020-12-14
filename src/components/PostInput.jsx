@@ -78,7 +78,7 @@ const PostInput = () => {
               <Alert alertText={'You should write a caption for your post'} />
             )}
             <span className='PostInput-row'>
-              <Form inline>
+              <Form inline onSubmit={e => WritePost(e)}> 
                 <Form.Group>
                   <Form.Control
                     type='text'
@@ -92,7 +92,7 @@ const PostInput = () => {
                 </Form.Group>
               </Form>
               <span>
-                <FcInternal id='FC' className='FC_ICONS' onClick={WritePost} />
+                <FcInternal id='FC' className='FC_ICONS' onClick={(e)=> WritePost(e)} />
               </span>
               <span ref={target}>
                 <FcCamera onClick={triggerInputFile} className='FC_ICONS' />

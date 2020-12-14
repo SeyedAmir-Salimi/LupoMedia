@@ -22,7 +22,7 @@ class SocialMediaProvider extends Component {
         email: '',
         sesso: '',
         BirthDate: '',
-        Sentimentale: '',
+        Sentimentale: ''
       },
       loginError: '',
       posts: [],
@@ -56,13 +56,14 @@ class SocialMediaProvider extends Component {
     this.getCookies()
     this.getDatiPersonali()
     this.GetPostsCall()
-    this.getCommentsCall()
+    // this.getCommentsCall()
     this.getFollowingAcceptedCall()
     this.getFollowersAcceptedCall()
     this.getFollowingAwaitingCall()
     this.getFollowersAwaitingCall()
     this.SetUSerPageData()
   }
+
   //---------------- API JS -----------------//
 
   AddPostCall = async (contextid, PostCaption, extension) => {
@@ -79,6 +80,7 @@ class SocialMediaProvider extends Component {
             name: this.state.User_Name,
             _id: this.state.id
           },
+          Comments: [],
           Likes: [],
           _id: 'Temp_123'
         }
@@ -86,11 +88,9 @@ class SocialMediaProvider extends Component {
         let UpdateItem = [...this.state.posts]
         UpdateItem.unshift(newItem)
         this.setState({ posts: UpdateItem })
-
         const postsCopy = [...this.state.posts]
         const tempPost = postsCopy.find(item => item._id === 'Temp_123')
         tempPost._id = result.data._id
-
         this.setState(() => {
           return { posts: postsCopy }
         })
@@ -110,6 +110,7 @@ class SocialMediaProvider extends Component {
             name: this.state.User_Name,
             _id: this.state.id
           },
+          Comments: [],
           Likes: [],
           _id: 'Temp_123',
           media: result.data.media
@@ -141,9 +142,9 @@ class SocialMediaProvider extends Component {
   }
 
   DeletePostCALL = async (id, user, isMedia) => {
-	const api = API()
-	if(isMedia) await api.DeletePostPhoto(id);
-	await api.DeletePost(id, user)
+    const api = API()
+    if (isMedia) await api.DeletePostPhoto(id)
+    await api.DeletePost(id, user)
     const filteritems = this.state.posts.filter(item => item._id !== id)
     this.setState({
       posts: filteritems
@@ -156,29 +157,35 @@ class SocialMediaProvider extends Component {
       const result = await api.WriteComment(ref, comments, users)
 
       const newItem = {
+        _id: 'Temp_123',
         date: new Date(),
         postref: {
           _id: ref
         },
+        commentReplyId: { _id: '' },
+        repliedComments: [],
         comment: comments,
         user: {
           ProfilePic: this.state.ProfilePic,
           name: this.state.User_Name,
           _id: this.state.id
-        },
-        _id: 'Temp_123'
+        }
       }
 
-      let UpdateItem = [...this.state.comments]
-      UpdateItem.unshift(newItem)
-      this.setState({ comments: UpdateItem })
+        let UpdateItem = [...this.state.posts]
+        const findPost = UpdateItem.find(x => x._id === ref)
+        findPost.Comments.unshift(newItem)
+        // findPost.Comments.push(newItem)
+        this.setState({ posts: UpdateItem })
 
-      const commnetsCopy = [...this.state.comments]
-      const tempComment = commnetsCopy.find(item => item._id === 'Temp_123')
-      tempComment._id = result.data._id
-      this.setState(() => {
-        return { comments: commnetsCopy }
-      })
+        const postsCopy = [...this.state.posts]
+        const tempComment = postsCopy.find(x => x._id === ref).Comments.find(x => x._id === 'Temp_123')
+        tempComment._id = result.data._id
+        console.log('postsCopy', postsCopy)
+        this.setState(() => {
+          return { posts: postsCopy }
+        })
+
     }
   }
 
@@ -214,7 +221,7 @@ class SocialMediaProvider extends Component {
     )
     try {
       this.setState({
-        RegisterError: ""
+        RegisterError: ''
       })
       if (isValid) {
         const api = API()
@@ -258,6 +265,7 @@ class SocialMediaProvider extends Component {
     this.setState({
       posts: result.data
     })
+    console.log('post', this.state.posts)
   }
 
   LoginGetCall = async () => {
@@ -284,7 +292,7 @@ class SocialMediaProvider extends Component {
           this.getDatiPersonali(),
           this.getCookies(),
           this.GetPostsCall(),
-          this.getCommentsCall(),
+          // this.getCommentsCall(),
           this.getFollowingAcceptedCall(),
           this.getFollowersAcceptedCall(),
           this.getFollowingAwaitingCall(),
@@ -369,25 +377,27 @@ class SocialMediaProvider extends Component {
       const api = API()
       await api.deletePictureprofile(ID)
       const result = await api.uploadPictureprofile(ID, data)
-		const postsCopy = [...this.state.posts]
-		const commentsCopy = [...this.state.comments]
+      const postsCopy = [...this.state.posts]
+      const commentsCopy = [...this.state.comments]
 
-		const editedPosts = postsCopy.filter(x=> x.user._id === this.state.id)
-		const editedComments = commentsCopy.filter(x=> x.user._id === this.state.id)
+      const editedPosts = postsCopy.filter(x => x.user._id === this.state.id)
+      const editedComments = commentsCopy.filter(
+        x => x.user._id === this.state.id
+      )
 
-		editedPosts.forEach(p => {
-			p.user.ProfilePic = result.data.ProfilePic
-		});
-		editedComments.forEach(c => {
-			c.user.ProfilePic = result.data.ProfilePic
-		});
+      editedPosts.forEach(p => {
+        p.user.ProfilePic = result.data.ProfilePic
+      })
+      editedComments.forEach(c => {
+        c.user.ProfilePic = result.data.ProfilePic
+      })
 
       if (result) {
         this.setState(() => {
-		  return {
-			  ProfilePic: result.data.ProfilePic,
-			  posts: editedPosts,
-		 }
+          return {
+            ProfilePic: result.data.ProfilePic,
+            posts: editedPosts
+          }
         })
       }
     } catch (error) {
@@ -417,10 +427,11 @@ class SocialMediaProvider extends Component {
         return result
       } else {
         this.setState({
-        ErrorMessage: 'The Passwords Are Not The Same',
-        NewPassword: '',
-        ConfirmPassword: '' })
-        return "not done"
+          ErrorMessage: 'The Passwords Are Not The Same',
+          NewPassword: '',
+          ConfirmPassword: ''
+        })
+        return 'not done'
       }
     } catch (error) {
       console.log(error)
@@ -443,15 +454,15 @@ class SocialMediaProvider extends Component {
     }
   }
 
-  getCommentsCall = async () => {
-    try {
-      const api = API()
-      const result = await api.getComments()
-      this.setState({ comments: result.data.Comments })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // getCommentsCall = async () => {
+  //   try {
+  //     const api = API()
+  //     const result = await api.getComments()
+  //     this.setState({ comments: result.data.Comments })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   getFollowingAcceptedCall = async () => {
     const ID = Cookies.get('User_id')
@@ -541,7 +552,6 @@ class SocialMediaProvider extends Component {
       let UpdateItem = [...this.state.FollowingAwaiting]
       UpdateItem.unshift(newItem)
       this.setState({ FollowingAwaiting: UpdateItem })
-
 
       const FollowingAwa = [...this.state.FollowingAwaiting]
       const tempPFollAw = FollowingAwa.find(item => item._id === 'Temp_123')
@@ -729,9 +739,13 @@ class SocialMediaProvider extends Component {
       const result = await api.like(data)
       const postCopy = [...this.state.posts]
       const index = this.state.posts.findIndex(x => x._id === postref)
-      const isUserlikeExist = this.state.posts[index].Likes.some(x => x.user._id === result.data.user._id)
+      const isUserlikeExist = this.state.posts[index].Likes.some(
+        x => x.user._id === result.data.user._id
+      )
       if (isUserlikeExist) {
-        const tempLike = postCopy[index].Likes.find(x => x.user._id === result.data.user._id)
+        const tempLike = postCopy[index].Likes.find(
+          x => x.user._id === result.data.user._id
+        )
         tempLike._id = result.data._id
         tempLike.like = result.data.like
         this.setState({
@@ -812,12 +826,12 @@ class SocialMediaProvider extends Component {
       })
       setTimeout(() => {
         this.setState({
-          nameError: "",
-          emailError: "",
-          passwordError: "",
-          ConfirmPassWordError: ""
+          nameError: '',
+          emailError: '',
+          passwordError: '',
+          ConfirmPassWordError: ''
         })
-      }, 3000);
+      }, 3000)
       return false
     }
 
@@ -926,7 +940,7 @@ class SocialMediaProvider extends Component {
         _id,
         ProfilePic,
         User_Name,
-        sesso,
+        sesso
       }
     })
   }
@@ -942,7 +956,7 @@ class SocialMediaProvider extends Component {
           _id: ID,
           ProfilePic: undefined,
           User_Name: NAME,
-          sesso: SESSO,
+          sesso: SESSO
         }
       })
     } else {
@@ -955,7 +969,7 @@ class SocialMediaProvider extends Component {
           _id: ID,
           ProfilePic: PIC,
           User_Name: NAME,
-          sesso: SESSO,
+          sesso: SESSO
         }
       })
     }

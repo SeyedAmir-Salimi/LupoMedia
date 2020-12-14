@@ -4,13 +4,12 @@ import { FaTrashAlt } from 'react-icons/fa'
 import LastSeen from './LastSeen'
 import ProfilePicture from './ProfilePicture'
 import { useHistory } from 'react-router-dom'
+import { Form } from 'react-bootstrap'
 import { FcInternal } from 'react-icons/fc'
-import CommentsReplyPageMap from './CommentsReplyPageMap'
-import { Container, Row, Col, Form } from 'react-bootstrap'
-const CommentsPageMap = ({ comment }) => {
+const CommentsReplyPageMap = ({ comment }) => {
   const [showReplyCommnets, setShowReplyCommnets] = useState(false)
   const [showRespondInput, setShowRespondInput] = useState(false)
-  const [replyInputValue, setreplyInputValue] = useState("")
+  const [replyInputValue, setreplyInputValue] = useState('')
   const {
     id,
     DeleteCommentCALL,
@@ -23,6 +22,12 @@ const CommentsPageMap = ({ comment }) => {
     ridirectFunction(link)
     history.push(link)
   }
+  const writeReply = () => {
+    setShowRespondInput(false)
+  }
+  const replyInputOnchange = e => {
+    setreplyInputValue(e.target.value)
+  }
   const GetUSerPageDataSet = (ID, PIC, NAME, SESSO) => {
     GetUSerPageData(ID, PIC, NAME, SESSO)
   }
@@ -34,28 +39,18 @@ const CommentsPageMap = ({ comment }) => {
       GoToLink(`/${NAME}`)
     }
   }
-  const writeReply = ()=>{
-    setShowRespondInput(false)
-  }
-  const replyInputOnchange = (e)=>{
-    setreplyInputValue(e.target.value)
-  }
   const textL = comment.comment.length
-  const textAlignStyle = textL > 120 ? 'justify' : 'center'
+  const textAlignStyle = textL > 78 ? 'justify' : 'center'
 
   let replyCommnetsMap = comment.repliedComments.map(item => {
     return <CommentsReplyPageMap key={item._id} comment={item} />
   })
-
   return (
     <>
-      <Container>
-        <Row>
-          <Col>
             <div key={comment._id}>
-              <div className='postpage_Comment_detail'>
+              <div className='CommentsReplyPageMap_detail'>
                 <div
-                  className='Comment_text'
+                  className='Comment_text_reply'
                   style={{ textAlign: textAlignStyle }}
                 >
                   <div className='Comment_pic_username_date'>
@@ -81,10 +76,13 @@ const CommentsPageMap = ({ comment }) => {
                       <LastSeen date={comment.date} />
                     </h6>
                   </span>
-                  <span>
-                    <h6 className='commnet_respond' onClick={()=> setShowRespondInput(!showRespondInput)}>Respond</h6>
-                  </span>
-                  {comment.comment}
+                  <h6
+                    className='commnet_respond_map'
+                    onClick={() => setShowRespondInput(!showRespondInput)}
+                  >
+                    Respond
+                  </h6>
+                  {comment.comment}{' '}
                   {comment.user._id === id ? (
                     <FaTrashAlt
                       style={{ fontSize: '1rem' }}
@@ -97,10 +95,9 @@ const CommentsPageMap = ({ comment }) => {
                     ''
                   )}
                 </div>
-
                 {comment.repliedComments.length !== 0 && !showReplyCommnets ? (
                   <h6
-                    className='showComments_reply'
+                    className='showComments_reply_map'
                     onClick={() => setShowReplyCommnets(true)}
                   >
                     Show reply comments
@@ -110,7 +107,7 @@ const CommentsPageMap = ({ comment }) => {
                 )}
                 {comment.repliedComments.length !== 0 && showReplyCommnets ? (
                   <h6
-                    className='showComments_reply'
+                    className='showComments_reply_map'
                     onClick={() => setShowReplyCommnets(false)}
                   >
                     Hide reply comments
@@ -119,34 +116,31 @@ const CommentsPageMap = ({ comment }) => {
                   ''
                 )}
               </div>
-              {showRespondInput && (
-                <Form>
-                  <span className='postpage_CommentInput'>
-                    <Form.Group>
-                      <Form.Control
-                        type='text'
-                        name=''
-                        className='postpageComments_reply'
-                        placeholder='Write Your Reply'
-                        onChange={replyInputOnchange}
-                        value={replyInputValue}
+                {showRespondInput && (
+                  <Form>
+                    <span className='postpage_CommentInput'>
+                      <Form.Group>
+                        <Form.Control
+                          type='text'
+                          name=''
+                          className='postpageComments_reply'
+                          placeholder='Write Your Reply'
+                          onChange={replyInputOnchange}
+                          value={replyInputValue}
+                        />
+                      </Form.Group>
+                      <FcInternal
+                        className='FC_ICONS'
+                        style={{ fontSize: '2rem' }}
+                        onClick={() => writeReply()}
                       />
-                    </Form.Group>
-                    <FcInternal
-                      className='FC_ICONS'
-                      style={{ fontSize: '2rem' }}
-                      onClick={()=> writeReply()}
-                    />
-                  </span>
-                </Form>
-              )}
+                    </span>
+                  </Form>
+                )}
               {showReplyCommnets ? replyCommnetsMap : ''}
             </div>
-          </Col>
-        </Row>
-      </Container>
     </>
   )
 }
 
-export default CommentsPageMap
+export default CommentsReplyPageMap

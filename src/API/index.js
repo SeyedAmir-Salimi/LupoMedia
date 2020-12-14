@@ -30,6 +30,16 @@ export default function API() {
             });
             return result
         },
+        
+        async WriteCommentReply(postref, comment, user, commentReplyId) {
+            const result = await Axios.post(`http://localhost:3000/comments/reply`, {
+                postref,
+                comment,
+                user,
+                commentReplyId,
+            });
+            return result
+        },
 
         async AddPostwithoutpic(contextid, PostCaption) {
             const result = await Axios.post(`http://localhost:3000/posts/withoutpicture`, {

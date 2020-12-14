@@ -22,6 +22,7 @@ const PostPageMap = ({ item }) => {
   const [popUpImage, setPopUpImage] = useState(false)
   const [showLikeEmojis, setShowLikeEmojis] = useState(false)
   const [showlikeEmojisList, setShowlikeEmojisList] = useState(false)
+  const [showCommnets, setshowCommnets] = useState(false)
   const {
     id,
     WritecommentCALL,
@@ -29,8 +30,7 @@ const PostPageMap = ({ item }) => {
     GetUSerPageData,
     ridirectFunction,
     likeCall,
-    deleteLikeCall,
-    comments
+    deleteLikeCall
   } = useContext(SocialMediaContext)
   const onchangHandler = e => {
     setcomment(e.target.value)
@@ -38,6 +38,7 @@ const PostPageMap = ({ item }) => {
   const WriteComments = (e, ref, comments, users) => {
     e.preventDefault()
     WritecommentCALL(ref, comments, users)
+    setshowCommnets(true)
     setcomment('')
   }
   let history = useHistory()
@@ -59,6 +60,7 @@ const PostPageMap = ({ item }) => {
       GoToLink(`/${item.user.name}`)
     }
   }
+
   const makeLike = like => {
     likeCall(item._id, like)
     setlikeChek(true)
@@ -80,12 +82,14 @@ const PostPageMap = ({ item }) => {
     deleteLikeCall(item._id)
     setlikeChek(false)
   }
-  const isPostHasComments = () => {
-    return comments.some(x => x.postref._id === item._id)
-  }
+
   const marginTopPostCaption = !isMedia ? '3.2rem' : '1rem'
   const targetEmojies = useRef(null)
   const targetLikes = useRef(null)
+
+  let commnetsMap = item.Comments.map(item => {
+    return <CommentsPageMap key={item._id} comment={item} />
+  })
 
   return (
     <>
@@ -106,7 +110,7 @@ const PostPageMap = ({ item }) => {
                   ProfilePic={item.user.ProfilePic}
                   User_Name={item.user.name}
                   Size={'Medium'}
-                  onClick={GoTo}
+                  onClick={() => GoTo()}
                   sesso={item.user.sesso}
                 />
               </div>
@@ -187,7 +191,6 @@ const PostPageMap = ({ item }) => {
                 {item.caption}
               </h5>
               <Form onSubmit={e => WriteComments(e, item._id, comment, id)}>
-                {/* <form onSubmit={e => WriteComments(e, item._id, comment, id)}> */}
                 <span className='postpage_CommentInput'>
                   <div className='like'>
                     <span
@@ -291,29 +294,39 @@ const PostPageMap = ({ item }) => {
                       value={comment}
                     />
                   </Form.Group>
-                  {/* <input
-                    type='text'
-                    name=''
-                    className='postpageComments'
-                    placeholder=' Write Your Commnet'
-                    onChange={onchangHandler}
-                    value={comment}
-                  /> */}
                   <FcInternal
                     className='FC_ICONS'
                     style={{ fontSize: '2rem' }}
                     onClick={e => WriteComments(e, item._id, comment, id)}
                   />
                 </span>
-                {/* </form> */}
               </Form>
-              {isPostHasComments() && (
                 <span>
-                  {/* <h4 className='postpage_Comment'>comments:</h4> */}
-                  <hr className='hr'></hr>
-                  <CommentsPageMap key={item._id} item={item} />
+                  {item.Comments.length !== 0 && !showCommnets ? (
+                    <h6
+                      className='showComments'
+                      onClick={() => setshowCommnets(true)}
+                    >
+                      Show comments
+                    </h6>
+                  ) : ""}
+                  {item.Comments.length !== 0 && showCommnets ? (
+                    <h6
+                      className='showComments'
+                      onClick={() => setshowCommnets(false)}
+                    >
+                      Hide comments
+                    </h6>
+                  ): ""}
                 </span>
-              )}
+                {showCommnets && (
+                  <div>
+                    <hr className='hr'></hr>
+                    {/* <CommentsPageMap comments={x} /> */}
+                    {commnetsMap}
+                  </div>
+                )}
+
             </div>
           </Col>
         </Row>
