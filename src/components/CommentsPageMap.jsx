@@ -15,7 +15,8 @@ const CommentsPageMap = ({ comment }) => {
     id,
     DeleteCommentCALL,
     GetUSerPageData,
-    ridirectFunction
+    ridirectFunction,
+    WritecommentReplyCALL
   } = useContext(SocialMediaContext)
   let history = useHistory()
 
@@ -34,8 +35,13 @@ const CommentsPageMap = ({ comment }) => {
       GoToLink(`/${NAME}`)
     }
   }
-  const writeReply = ()=>{
+
+  const writeReply = (e)=>{
+    e.preventDefault()
+    WritecommentReplyCALL(comment.postref._id, replyInputValue, id, comment._id)
+    setShowReplyCommnets(true)
     setShowRespondInput(false)
+    setreplyInputValue("")
   }
   const replyInputOnchange = (e)=>{
     setreplyInputValue(e.target.value)
@@ -120,7 +126,7 @@ const CommentsPageMap = ({ comment }) => {
                 )}
               </div>
               {showRespondInput && (
-                <Form>
+                <Form onSubmit={(e)=> writeReply(e)}>
                   <span className='postpage_CommentInput'>
                     <Form.Group>
                       <Form.Control
@@ -135,7 +141,7 @@ const CommentsPageMap = ({ comment }) => {
                     <FcInternal
                       className='FC_ICONS'
                       style={{ fontSize: '2rem' }}
-                      onClick={()=> writeReply()}
+                      onClick={(e)=> writeReply(e)}
                     />
                   </span>
                 </Form>

@@ -17,9 +17,19 @@ export default function API() {
                 console.log(error);
             }
         },
+
         async DeleteComment(id, postref) {
             await Axios.delete(`http://localhost:3000/comments/${id}`, { data: { postref: postref } })
 
+        },
+
+        async DeleteReplyComment(id, postref) {
+            try {
+                const result =  await Axios.delete(`http://localhost:3000/comments/reply/${id}`, { data: { postref: postref } })
+                return result
+            } catch (error) {
+                console.log(error);
+            }
         },
 
         async WriteComment(ref, comments, users) {

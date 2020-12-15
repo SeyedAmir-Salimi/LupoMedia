@@ -48,7 +48,8 @@ class SocialMediaProvider extends Component {
       ConfirmPassWordError: '',
       UserPageData: {},
       resetPasswordMessage: '',
-      resetPasswordMessageError: ''
+      resetPasswordMessageError: '',
+      replyCommentsSearch: [],
     }
   }
 
@@ -135,10 +136,26 @@ class SocialMediaProvider extends Component {
   DeleteCommentCALL = async (id, postref) => {
     const api = API()
     await api.DeleteComment(id, postref)
-    const filteritems = this.state.comments.filter(item => item._id !== id)
+    
+    let UpdateItem = [...this.state.posts]
+    const findPost = UpdateItem.find(x => x._id === postref)
+
+    const filteritems = findPost.Comments.filter(item => item._id !== id)
+    findPost.Comments = filteritems
+
     this.setState({
-      comments: filteritems
+      posts: UpdateItem
     })
+  }
+  DeleteReplyCommentCALL = async (id, postref) => {
+    const api = API()
+    const result = await api.DeleteReplyComment(id, postref)
+    
+    let UpdateItem = [...this.state.posts]
+    const findPost = UpdateItem.find(x => x._id === postref)
+
+    findPost.Comments = result.data[0].Comments
+    this.setState({ posts: UpdateItem })
   }
 
   DeletePostCALL = async (id, user, isMedia) => {
@@ -172,19 +189,41 @@ class SocialMediaProvider extends Component {
         }
       }
 
-        let UpdateItem = [...this.state.posts]
-        const findPost = UpdateItem.find(x => x._id === ref)
-        findPost.Comments.unshift(newItem)
-        // findPost.Comments.push(newItem)
-        this.setState({ posts: UpdateItem })
+      let UpdateItem = [...this.state.posts]
+      const findPost = UpdateItem.find(x => x._id === ref)
+      // findPost.Comments.unshift(newItem)
+      findPost.Comments.push(newItem)
+      this.setState({ posts: UpdateItem })
 
-        const postsCopy = [...this.state.posts]
-        const tempComment = postsCopy.find(x => x._id === ref).Comments.find(x => x._id === 'Temp_123')
-        tempComment._id = result.data._id
-        console.log('postsCopy', postsCopy)
-        this.setState(() => {
-          return { posts: postsCopy }
-        })
+      const postsCopy = [...this.state.posts]
+      const tempComment = postsCopy
+        .find(x => x._id === ref)
+        .Comments.find(x => x._id === 'Temp_123')
+      tempComment._id = result.data._id
+
+      this.setState(() => {
+        return { posts: postsCopy }
+      })
+    }
+  }
+
+
+
+  WritecommentReplyCALL = async (postref, comment, user, commentReplyId) => {
+    if (comment !== '') {
+      const api = API()
+      const result = await api.WriteCommentReply(
+        postref,
+        comment,
+        user,
+        commentReplyId
+      )
+
+      let UpdateItem = [...this.state.posts]
+      const findPost = UpdateItem.find(x => x._id === postref)
+
+      findPost.Comments = result.data[0].Comments
+      this.setState({ posts: UpdateItem })
 
     }
   }
@@ -265,7 +304,6 @@ class SocialMediaProvider extends Component {
     this.setState({
       posts: result.data
     })
-    console.log('post', this.state.posts)
   }
 
   LoginGetCall = async () => {
@@ -1014,7 +1052,9 @@ class SocialMediaProvider extends Component {
           forgetPasswordCall: this.forgetPasswordCall,
           resetPasswordCall: this.resetPasswordCall,
           likeCall: this.likeCall,
-          deleteLikeCall: this.deleteLikeCall
+          deleteLikeCall: this.deleteLikeCall,
+          WritecommentReplyCALL: this.WritecommentReplyCALL,
+          DeleteReplyCommentCALL: this.DeleteReplyCommentCALL,
         }}
       >
         {this.props.children}
