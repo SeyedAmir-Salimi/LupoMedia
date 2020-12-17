@@ -142,7 +142,7 @@ html {
 .formStyle input[type="submit"],
 .formStyle input[type="button"],
 .button_Log {
-	/* position: relative; */
+	position: relative;
 	display: block;
 	padding: 5px;
 	color: rgb(34, 6, 31) !important;
@@ -165,7 +165,7 @@ html {
 	outline: none;
 }
 .button_Log2 {
-	/* position: relative; */
+	position: relative;
 	display: block;
 	padding: 5px;
 	color: rgb(34, 6, 31) !important;
