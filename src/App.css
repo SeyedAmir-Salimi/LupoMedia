@@ -303,8 +303,8 @@ html {
 
 }
 .ProfImage {
-	width: 3rem;
-	height: 3rem;
+	width: 3rem !important;
+	height: 3rem !important;
 	border-radius: 3rem;
 	object-fit: cover;
 }
@@ -419,8 +419,8 @@ select, option{
 
 .profile_pic {
 	margin-top: 2rem;
-	width: 12rem;
-	height: 12rem;
+	width: 12rem !important;
+	height: 12rem !important;
     object-fit: cover;
 	border-radius: 12rem;
 }
@@ -675,7 +675,7 @@ td{
 }
 .showComments_reply{
 	position: absolute;
-	bottom: -1.1rem;
+	bottom: -0.8rem;
 	z-index: 7;
 	font-size: 0.7rem;
 	cursor: pointer;
@@ -683,7 +683,7 @@ td{
 }
 .showComments_reply_map{
 	position: absolute;
-    bottom: -0.69rem;
+    bottom: -0.2rem;
 	z-index: 7;
 	font-size: 0.7rem;
 	cursor: pointer;
@@ -705,6 +705,7 @@ td{
 	width: 85%;
 	margin-top: -2rem;
 	margin-bottom: 0.9rem;
+	padding-bottom: 0.5rem;
 }
 .CommentsReplyPageMap_detail {
 	display: flex;
@@ -714,6 +715,7 @@ td{
 	position: relative;
 	width: 60%;
 	margin-top: -2rem;
+	padding-bottom: 0.5rem;
 }
 .Comment_text_reply{
 	background-color: rgb(182, 182, 182);
@@ -730,8 +732,8 @@ td{
 	display: flex;
 }
 .postpage_Comment_detail_image {
-	width: 2rem;
-	height: 2rem;
+	width: 2rem !important;
+	height: 2rem !important;
 	border-radius: 2rem;
 	object-fit: cover;
 }
@@ -749,11 +751,11 @@ td{
     cursor: pointer;
     position: absolute;
 	z-index: 5;
-	bottom: -1.18rem;
+	bottom: -0.8rem;
 }
 .commnet_respond_map{
 	position: absolute;
-    bottom: -0.69rem;
+    bottom: -0.2rem;
 	z-index: 7;
 	font-size: 0.7rem;
 	cursor: pointer;
@@ -1323,5 +1325,17 @@ td{
 	.form-style-4 {
 		width: 100%
 	}
-
+	.CommentProfilePic_Wrapper {
+		position: absolute;
+		left: -0.5rem;
+	}
+	.showComments_reply {
+		bottom: -1.4rem;
+		right: 3rem;
+	}
+	.showComments_reply_map{
+		bottom: -0.8rem;
+		font-size: 0.5rem;
+		right: 2rem;
+	}
 }
