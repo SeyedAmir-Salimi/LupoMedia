@@ -4,7 +4,7 @@ import './App.css';
 import {Switch, Route } from "react-router-dom";
 import LogeIn from './components/LogeIn'
 import Register from './components/Register'
-// import Home from './components/Home'
+import Home from './components/Home'
 import DatiPersonali from './components/DatiPersonali'
 import Search from './components/Search'
 import UserPage from './components/UserPage' 
@@ -21,7 +21,7 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={LogeIn} />
         <Route exact path="/register" component={Register} />
-        {/* <Route exact strict path="/home" component={Home} /> */}
+        <Route exact strict path="/home" component={Home} />
         <Route exact path="/search" component={Search} />
         <Route exact path="/myPage" component={MyPage} />
         <Route exact path="/forgetPassword" component={ForgetPassword} />
