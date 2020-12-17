@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 import SearchBar from './SearchBar'
 import ProfilePicture from './ProfilePicture'
 import { FaUserFriends } from 'react-icons/fa'
-import { Navbar as NavbarBootStrap, Nav, Form, Image, Badge} from 'react-bootstrap'
+import { Navbar as NavbarBootStrap, Nav, Form, Image } from 'react-bootstrap'
 import Logo from '../Images/Logo-3.png'
 const Navbar = () => {
   const {
