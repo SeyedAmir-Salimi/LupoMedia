@@ -305,7 +305,7 @@ html {
 .ProfImage {
 	width: 3rem;
 	height: 3rem;
-	border-radius: 2rem;
+	border-radius: 3rem;
 	object-fit: cover;
 }
 .ProfImage:hover {
@@ -422,7 +422,7 @@ select, option{
 	width: 12rem;
 	height: 12rem;
     object-fit: cover;
-	border-radius: 10rem;
+	border-radius: 12rem;
 }
 
 td{
