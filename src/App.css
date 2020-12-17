@@ -260,6 +260,11 @@ html {
 .Navbar-Link:hover{
 	color: var(--primaryGOldColor);
 }
+.form-inline {
+    display: flex;
+    flex-flow: nowrap !important;
+    align-items: center;
+}
 .Nav {
 	padding-top: 1rem;
 	display: flex;
@@ -268,7 +273,6 @@ html {
 	height: 5rem;
 	color: var(--primaryGOldColor);
 	background-color: var(--ViolaNavbar);
-
 }
 .Nav-LogoSearch {
 	display: flex;
@@ -303,8 +307,8 @@ html {
 
 }
 .ProfImage {
-	width: 3rem !important;
-	height: 3rem !important;
+	width: 3rem ;
+	height: 3rem ;
 	border-radius: 3rem;
 	object-fit: cover;
 }
@@ -321,6 +325,7 @@ html {
 .Navbar-logo{
 	width: 4rem;
 }
+
 /* Dati Personali Component */
 
 .datiPersonali-Input{
@@ -419,8 +424,8 @@ select, option{
 
 .profile_pic {
 	margin-top: 2rem;
-	width: 12rem !important;
-	height: 12rem !important;
+	width: 12rem ;
+	height: 12rem ;
     object-fit: cover;
 	border-radius: 12rem;
 }
@@ -732,8 +737,8 @@ td{
 	display: flex;
 }
 .postpage_Comment_detail_image {
-	width: 2rem !important;
-	height: 2rem !important;
+	width: 2rem ;
+	height: 2rem ;
 	border-radius: 2rem;
 	object-fit: cover;
 }
