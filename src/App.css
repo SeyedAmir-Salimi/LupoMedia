@@ -14,6 +14,7 @@ html {
 	--primaryGOldColor:  rgb(223, 209, 144);
 	--ViolaBackground: rgb(49, 16, 46);
 	--ViolaNavbar:  rgb(27, 6, 25);
+	--FontFamily: Arial, Helvetica, sans-serif;
   }
   @media (max-width: 740px) {
 	html,
@@ -70,7 +71,7 @@ html {
 	margin: auto;
 
 	border-radius: 8px;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: var(--FontFamily);
 }
 
 .formStyle input[type="date"],
@@ -79,7 +80,7 @@ html {
 .formStyle input[type="search"],
 .formStyle textarea,
 .formStyle select {
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: var(--FontFamily);
 	background: rgba(255, 255, 255, .1);
 	border: none;
 	border-radius: 4px;
@@ -101,7 +102,7 @@ html {
 .formStyle input[type="password"],
 .formStyle input[type="text"],
 .formStyle input[type="email"] {
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: var(--FontFamily);
 	background: rgba(255, 255, 255, .1);
 	border: none;
 	border-radius: 4px;
@@ -141,7 +142,7 @@ html {
 .formStyle input[type="submit"],
 .formStyle input[type="button"],
 .button_Log {
-	position: relative;
+	/* position: relative; */
 	display: block;
 	padding: 5px;
 	color: rgb(34, 6, 31) !important;
@@ -156,14 +157,31 @@ html {
 	border-width: 1px 1px 3px;
 	margin-bottom: 5px;
 	text-decoration: none;
-	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	font-family: var(--FontFamily);
 	border-radius: 1rem;
 }
 
-.button_Log:focus{
+.button_Log:focus, .button_Log2:focus{
 	outline: none;
 }
-
+.button_Log2 {
+	/* position: relative; */
+	display: block;
+	padding: 5px;
+	color: rgb(34, 6, 31) !important;
+	margin: 0 auto;
+	background: var(--primaryGOldColor) !important;
+	font-size: 18px;
+	font-weight: bolder;
+	text-align: center;
+	font-style: normal;
+	border: 1px solid var(--primaryGOldColor) !important;
+	border-width: 1px 1px 3px;
+	margin-bottom: 5px;
+	text-decoration: none;
+	font-family: var(--FontFamily);
+	border-radius: 1rem;
+}
 .formStyle input[type="submit"]:hover,
 .formStyle input[type="button"]:hover,
 .button_Log:hover {
@@ -277,7 +295,7 @@ html {
 	justify-self: center;
 }
 .Nav li {
-	font-family: cursive;
+	font-family: var(--FontFamily);
 	margin-top: 1rem;
 	padding-right: 1rem;
 	padding-left: 1rem;
@@ -344,7 +362,7 @@ select, option{
 .form-style-4 input[type="file"],
 .form-style-4 textarea,
 .form-style-4 label {
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: var(--FontFamily);
 	font-size: 16px;
 	color: #fff;
 }
@@ -428,7 +446,7 @@ td{
 	font-style: normal;
 	border-radius: 1rem;
 	text-decoration: none;
-	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	font-family: var(--FontFamily);
 }
 
 .button_Alert:focus{
@@ -460,13 +478,14 @@ td{
 /* Alert CHanges Component */
 
 .alert {
-	width: 100%;
+	width: 80%;
 	display: flex;
 	flex-wrap: wrap;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
+	margin: 0 auto;
 	position: fixed;
 	/* background: rgba(0, 0, 0, 0.3); */
 	align-items: center;
@@ -1205,7 +1224,7 @@ td{
 }
 .Cover-Texts {
 	display: flex;
-	font-family: cursive;
+	font-family: var(--FontFamily);
 	color:var(--primaryGOldColor);
 	position: absolute;
 	justify-content: space-evenly;
@@ -1255,6 +1274,7 @@ td{
 /* Awaitinign List Componet */
 .AwaitiningList-Component{
 	color: var(--primaryGOldColor);
+	margin-top: 1vw;
 }
 
 
@@ -1268,16 +1288,6 @@ td{
 	cursor: pointer;
 }
 
-
-@media only screen and (max-width: 900px) {
-	.profile_pic {
-		margin-top: 2rem;
-		width: 5rem;
-		height: 5rem;
-		object-fit: cover;
-		border-radius: 10rem;
-	}
-}
 .upArrow-hide{
 	font-size: 1rem;
 	float: right;
@@ -1305,3 +1315,16 @@ td{
 	right: 0;
 }
 
+@media only screen and (max-width: 900px) {
+	.profile_pic {
+		margin-top: 2rem;
+		width: 5rem;
+		height: 5rem;
+		object-fit: cover;
+		border-radius: 10rem;
+	}
+	.form-style-4 {
+		width: 100%
+	}
+
+}

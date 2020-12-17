@@ -6,12 +6,12 @@ export default function API() {
     return {
 
         async DeletePost(id, user) {
-            await Axios.delete(`http://localhost:3000/posts/${id}`, { data: { user: user } })
+            await Axios.delete(`https://lupomedia-api.herokuapp.com/posts/${id}`, { data: { user: user } })
 
         },
         async DeletePostPhoto (id) {
             try {
-                const result =  await Axios.delete(`http://localhost:3000/files/photoPost/${id}`)
+                const result =  await Axios.delete(`https://lupomedia-api.herokuapp.com/files/photoPost/${id}`)
                 return result
             } catch (error) {
                 console.log(error);
@@ -19,13 +19,13 @@ export default function API() {
         },
 
         async DeleteComment(id, postref) {
-            await Axios.delete(`http://localhost:3000/comments/${id}`, { data: { postref: postref } })
+            await Axios.delete(`https://lupomedia-api.herokuapp.com/comments/${id}`, { data: { postref: postref } })
 
         },
 
         async DeleteReplyComment(id, postref) {
             try {
-                const result =  await Axios.delete(`http://localhost:3000/comments/reply/${id}`, { data: { postref: postref } })
+                const result =  await Axios.delete(`https://lupomedia-api.herokuapp.com/comments/reply/${id}`, { data: { postref: postref } })
                 return result
             } catch (error) {
                 console.log(error);
@@ -33,7 +33,7 @@ export default function API() {
         },
 
         async WriteComment(ref, comments, users) {
-            const result = await Axios.post(`http://localhost:3000/comments`, {
+            const result = await Axios.post(`https://lupomedia-api.herokuapp.com/comments`, {
                 postref: ref,
                 comment: comments,
                 user: users,
@@ -42,7 +42,7 @@ export default function API() {
         },
         
         async WriteCommentReply(postref, comment, user, commentReplyId) {
-            const result = await Axios.post(`http://localhost:3000/comments/reply`, {
+            const result = await Axios.post(`https://lupomedia-api.herokuapp.com/comments/reply`, {
                 postref,
                 comment,
                 user,
@@ -52,7 +52,7 @@ export default function API() {
         },
 
         async AddPostwithoutpic(contextid, PostCaption) {
-            const result = await Axios.post(`http://localhost:3000/posts/withoutpicture`, {
+            const result = await Axios.post(`https://lupomedia-api.herokuapp.com/posts/withoutpicture`, {
                 user: contextid,
                 caption: PostCaption,
             });
@@ -66,20 +66,20 @@ export default function API() {
             const CAPTION = data.append('caption', PostCaption);
             const EXTENSION = data.append('extension', extension);
             data.append('file', element)
-            const result = await Axios.post(`http://localhost:3000/posts/withpicture`, data, ID, CAPTION , EXTENSION)
+            const result = await Axios.post(`https://lupomedia-api.herokuapp.com/posts/withpicture`, data, ID, CAPTION , EXTENSION)
             return result
 
         },
 
         async SearchUser(typedName) {
             const name = typedName
-            const result = await Axios.get(`http://localhost:3000/users/search/${name}`)
+            const result = await Axios.get(`https://lupomedia-api.herokuapp.com/users/search/${name}`)
             return result
         },
         
         async RegisterFunct(Registername, Registeremail, Registersesso, Registerpassword) {
             try {
-                const result = await Axios.post(`http://localhost:3000/enter/signup`, {
+                const result = await Axios.post(`https://lupomedia-api.herokuapp.com/enter/signup`, {
                     name: Registername,
                     email: Registeremail,
                     sesso: Registersesso,
@@ -91,7 +91,7 @@ export default function API() {
             }
         },
         async Login(LoginEmail, LoginPassword) {
-            const result = Axios.post(`http://localhost:3000/enter/login`, {
+            const result = Axios.post(`https://lupomedia-api.herokuapp.com/enter/login`, {
                 email: LoginEmail,
                 password: LoginPassword
             });
@@ -99,13 +99,13 @@ export default function API() {
         },
 
         async GetAllPosts(id){
-            const result = await  Axios.get(`http://localhost:3000/posts/${id}`)
+            const result = await  Axios.get(`https://lupomedia-api.herokuapp.com/posts/${id}`)
             return result
         },
 
         async LoginGet(email, password){
             try {
-                const result = await Axios.post(`http://localhost:3000/enter/login`, {
+                const result = await Axios.post(`https://lupomedia-api.herokuapp.com/enter/login`, {
                     email: email,
                     password: password
                 })
@@ -117,7 +117,7 @@ export default function API() {
         
         async DatiPersonali (ID , config){
             try {
-                const result =  await Axios.get(`http://localhost:3000/datiPersonali/${ID}`, config)
+                const result =  await Axios.get(`https://lupomedia-api.herokuapp.com/datiPersonali/${ID}`, config)
                 return result
                 
             } catch (error) {
@@ -129,7 +129,7 @@ export default function API() {
         async UpdateDatiPersonal (ID,NAME,EMAIL,BIRTHDATE,SENTIMENTALE,SESSO,BIO,config) {
             try {
                 const result =  await Axios.patch (
-                    `http://localhost:3000/datiPersonali/${ID}`,
+                    `https://lupomedia-api.herokuapp.com/datiPersonali/${ID}`,
                     [
                         {
                             propName: 'name',
@@ -166,7 +166,7 @@ export default function API() {
 
         async deletePictureprofile (ID) {
             try {
-                const result =  await Axios.delete(`http://localhost:3000/files/photoProfile/${ID}`)
+                const result =  await Axios.delete(`https://lupomedia-api.herokuapp.com/files/photoProfile/${ID}`)
                 return result
             } catch (error) {
                 console.log(error);
@@ -174,7 +174,7 @@ export default function API() {
         },
         async uploadPictureprofile (ID, data) {
             try {
-                const result =  await Axios.put(`http://localhost:3000/datiPersonali/${ID}`, data)
+                const result =  await Axios.put(`https://lupomedia-api.herokuapp.com/datiPersonali/${ID}`, data)
                 return result
             } catch (error) {
                 console.log(error);
@@ -183,7 +183,7 @@ export default function API() {
 
         async updatePassword(ID, data , config ){
                 try {
-                    const result = await Axios.put(`http://localhost:3000/datiPersonali/changepassword/${ID}`, data, config)
+                    const result = await Axios.put(`https://lupomedia-api.herokuapp.com/datiPersonali/changepassword/${ID}`, data, config)
                     return result
                 } catch (error) {
                     console.log(error);
@@ -192,7 +192,7 @@ export default function API() {
 
         async deleteAccount (ID, config){
             try {
-                const result = Axios.delete(`http://localhost:3000/datiPersonali/${ID}`, config)
+                const result = Axios.delete(`https://lupomedia-api.herokuapp.com/datiPersonali/${ID}`, config)
                 return result
             } catch (error) {
                 console.log(error);
@@ -201,7 +201,7 @@ export default function API() {
 
         async getComments(){
             try {
-                const result = await Axios.get(`http://localhost:3000/comments`)
+                const result = await Axios.get(`https://lupomedia-api.herokuapp.com/comments`)
                 return result
             } catch (error) {
                 console.log(error);
@@ -210,7 +210,7 @@ export default function API() {
 
         async getFollowingAccepted(ID){
             try {
-                const result = await Axios.get(`http://localhost:3000/friends/followingAcc/${ID}`)
+                const result = await Axios.get(`https://lupomedia-api.herokuapp.com/friends/followingAcc/${ID}`)
                 return result
             } catch (error) {
                 console.log(error);
@@ -219,7 +219,7 @@ export default function API() {
 
         async getFollowersAccepted(ID){
             try {
-                const result = await Axios.get(`http://localhost:3000/friends/followersAcc/${ID}`)
+                const result = await Axios.get(`https://lupomedia-api.herokuapp.com/friends/followersAcc/${ID}`)
                 return result
             } catch (error) {
                 console.log(error);
@@ -228,7 +228,7 @@ export default function API() {
 
         async getFollowingAwaiting(ID){
             try {
-                const result = await Axios.get(`http://localhost:3000/friends/followingAw/${ID}`)
+                const result = await Axios.get(`https://lupomedia-api.herokuapp.com/friends/followingAw/${ID}`)
                 return result
             } catch (error) {
                 console.log(error);
@@ -236,7 +236,7 @@ export default function API() {
         },
         async getFollowersAwaiting(ID){
             try {
-                const result = await Axios.get(`http://localhost:3000/friends/followersAw/${ID}`)
+                const result = await Axios.get(`https://lupomedia-api.herokuapp.com/friends/followersAw/${ID}`)
                 return result
             } catch (error) {
                 console.log(error);
@@ -245,7 +245,7 @@ export default function API() {
 
         async SendFriendRequest(mainUserData,secondUserData,situationshipData){
             try {
-                const result = await Axios.post(`http://localhost:3000/friends/request`, {
+                const result = await Axios.post(`https://lupomedia-api.herokuapp.com/friends/request`, {
                     mainUser: mainUserData,
                     secondUser: secondUserData,
                     situationship:situationshipData
@@ -258,7 +258,7 @@ export default function API() {
 
         async deleteFriendRequest(_id, mainUserData,secondUserData){
             try {
-                const result = await Axios.delete(`http://localhost:3000/friends`, { data: {_id: _id, mainUser: mainUserData , secondUser: secondUserData}})
+                const result = await Axios.delete(`https://lupomedia-api.herokuapp.com/friends`, { data: {_id: _id, mainUser: mainUserData , secondUser: secondUserData}})
                 return result
             } catch (error) {
                 throw new Error(error.response.data)
@@ -266,7 +266,7 @@ export default function API() {
         },
         async respondFriendRequest(data){
             try {
-                const result = await Axios.put(`http://localhost:3000/friends/request`, data )
+                const result = await Axios.put(`https://lupomedia-api.herokuapp.com/friends/request`, data )
                 return result
             } catch (error) {
                 throw new Error(error.response.data)
@@ -275,7 +275,7 @@ export default function API() {
 
         async forgetPassword(data){
             try {
-                const result = await Axios.put(`http://localhost:3000/resetPassword`, data )
+                const result = await Axios.put(`https://lupomedia-api.herokuapp.com/resetPassword`, data )
                 return result
             } catch (error) {
                 throw new Error(error.response.data)
@@ -283,7 +283,7 @@ export default function API() {
         },
         async resetPassword(data, config){
             try {
-                const result = await Axios.patch(`http://localhost:3000/resetPassword/set`, data, config)
+                const result = await Axios.patch(`https://lupomedia-api.herokuapp.com/resetPassword/set`, data, config)
                 return result
             } catch (error) {
                 throw new Error(error.response.data)
@@ -291,7 +291,7 @@ export default function API() {
         },
         async like(data){
             try {
-                const result = await Axios.post(`http://localhost:3000/likes`, data)
+                const result = await Axios.post(`https://lupomedia-api.herokuapp.com/likes`, data)
                 return result
             } catch (error) {
                 throw new Error(error.response.data)
@@ -300,7 +300,7 @@ export default function API() {
 
         async DeleteLike(postref, user) {
             try {
-                await Axios.delete(`http://localhost:3000/likes`, { data: { postref, user } })
+                await Axios.delete(`https://lupomedia-api.herokuapp.com/likes`, { data: { postref, user } })
                     .then(res => {
                         console.log(res.data)
                     })

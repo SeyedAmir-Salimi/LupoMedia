@@ -58,13 +58,16 @@ const AwaitingMapFollowers = ({ item }) => {
           <h6>{item.mainUser.Bio}</h6>
           <h6>{item.mainUser.Sentimentale}</h6>
           <h6>{item.mainUser.BirthDate}</h6>
+          <h6 className='Searched_page_button' onClick={() => AcceptReq()}>
+            Accept Request
+          </h6>
+          <h6
+            className='Searched_page_button'
+            onClick={() => deleteFollowersAwaiting(item._id, item.mainUser._id)}
+          >
+            Delet Request
+          </h6>
         </div>
-      </span>
-      <span className='Searched_page_button'>
-        <p onClick={() => AcceptReq()}>Accept Request</p>
-        <p onClick={() => deleteFollowersAwaiting(item._id, item.mainUser._id)}>
-          Delet Request
-        </p>
       </span>
     </div>
   )

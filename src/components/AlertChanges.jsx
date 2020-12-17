@@ -70,22 +70,22 @@ const AlertChanges = ({ Mystate, NO, Yes, Done, Cancel }) => {
 
                   {Mystate.DeleteAccount ? (
                     <div>
-                      <h3>Are You Sure To Want Delete Your Account?</h3>
+                      <h5>Are You Sure To Want Delete Your Account?</h5>
                     </div>
                   ) : (
                     ''
                   )}
                   <span className="alertChange-buttonWrapper">
                     <Button
-                      size='s'
-                      className='m-2 button_Log font-weight-bold alertChange-button'
+                      size='sm'
+                      className='m-2 button_Log2 font-weight-bold'
                       onClick={Yes}
                     >
                       {Done}
                     </Button>
                     <Button
-                      size='s'
-                      className='m-2 button_Log font-weight-bold alertChange-button'
+                      size='sm'
+                      className='m-2 button_Log2 font-weight-bold'
                       onClick={NO}
                     >
                       {Cancel}

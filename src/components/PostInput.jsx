@@ -84,7 +84,7 @@ const PostInput = () => {
                     type='text'
                     name='PostCaption'
                     className='PostCaption'
-                    placeholder={'  What Do You Think ' + User_Name + '...'}
+                    placeholder={'  What do you think ' + User_Name + '...'}
                     value={PostCaption}
                     onChange={e => onChangeHandler(e)}
                     ref={PostCaptionRef}

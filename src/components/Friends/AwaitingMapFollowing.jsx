@@ -33,11 +33,9 @@ const AwaitingMapFollowing = ({ item }) => {
 					<h6>{item.secondUser.Bio}</h6>
 					<h6>{item.secondUser.Sentimentale}</h6>
 					<h6>{item.secondUser.BirthDate}</h6>
+                    <h6 className="Searched_page_button" onClick={() => deleteFollowingAwaiting(item._id , item.secondUser._id )} >Cancel request</h6>
 				</div>
 			</span>
-				<span className="Searched_page_button">
-                    <p onClick={() => deleteFollowingAwaiting(item._id , item.secondUser._id )} >Cancel request</p>
-				</span>
 		</div>
 	);
 };

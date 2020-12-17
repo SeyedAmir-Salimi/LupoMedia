@@ -150,7 +150,7 @@ class SocialMediaProvider extends Component {
   DeleteReplyCommentCALL = async (id, postref) => {
     const api = API()
     const result = await api.DeleteReplyComment(id, postref)
-    
+
     let UpdateItem = [...this.state.posts]
     const findPost = UpdateItem.find(x => x._id === postref)
 
@@ -218,15 +218,45 @@ class SocialMediaProvider extends Component {
         user,
         commentReplyId
       )
-
       let UpdateItem = [...this.state.posts]
       const findPost = UpdateItem.find(x => x._id === postref)
-
       findPost.Comments = result.data[0].Comments
       this.setState({ posts: UpdateItem })
-
     }
+    // const newResult = this.searchTreefirst(findPost.Comments, commentReplyId)
   }
+  // searchTreefirst = (array, replyId) => {
+  //   let foundComment
+  //     for (let index = 0; index < array.length; index++) {
+  //       const element = array[index]
+  //       if (element._id === replyId) {
+  //         foundComment = element
+  //         break
+  //       } else {
+  //         if (foundComment) break
+  //         foundComment = this.searchTree(element.repliedComments, replyId)
+  //       }
+  //     }
+  //   return foundComment
+  // }
+  // searchTree = (array, replyId) => {
+  //   let foundCm
+  //   for (let index = 0; index < array.length; index++) {
+  //     const element = array[index]
+  //     if (element.commentReplyId._id === replyId || element._id === replyId) {
+  //       foundCm = element
+  //       break
+  //     } else if (element.repliedComments.length > 0) {
+  //       var i
+  //       var result = null
+  //       for (i = 0; result == null && i < element.repliedComments.length; i++) {
+  //         result = this.searchTree([element.repliedComments[i]], replyId)
+  //       }
+  //     }
+  //   }
+  //   return foundCm
+  // }
+
 
   SearchUserCALL = async typedName => {
     const get = Cookies.get('redirect')
@@ -492,15 +522,6 @@ class SocialMediaProvider extends Component {
     }
   }
 
-  // getCommentsCall = async () => {
-  //   try {
-  //     const api = API()
-  //     const result = await api.getComments()
-  //     this.setState({ comments: result.data.Comments })
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
   getFollowingAcceptedCall = async () => {
     const ID = Cookies.get('User_id')
