@@ -112,7 +112,7 @@ const LogeIn = () => {
                 className='Forget-password mt-2'
                 onClick={() => GoToLink('/forgetPassword')}
               >
-                Forget password
+                Forgot password?
               </h6>
               {loginError !== null ? (
                 <h6 className='RedError'>{loginError}</h6>

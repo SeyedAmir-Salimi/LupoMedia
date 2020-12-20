@@ -46,7 +46,7 @@ const CommentsReplyPageMap = ({ comment }) => {
     }
   }
   const textL = comment.comment.length
-  const textAlignStyle = textL > 78 ? 'justify' : 'center'
+  const textAlignStyle = textL > 78 ? 'justify' : 'left'
 
   let replyCommnetsMap = comment.repliedComments.map(item => {
     return <CommentsReplyPageMap key={item._id} comment={item} />
@@ -84,7 +84,12 @@ const CommentsReplyPageMap = ({ comment }) => {
             </span>
             <h6
               className='commnet_respond_map'
-              onClick={() => setShowRespondInput(!showRespondInput)}
+              onClick={() => {
+                setShowRespondInput(!showRespondInput)
+                if (!showRespondInput) {
+                  setShowReplyCommnets(true)
+                }
+              }}
             >
               Respond
             </h6>
@@ -114,7 +119,10 @@ const CommentsReplyPageMap = ({ comment }) => {
           {comment.repliedComments.length !== 0 && showReplyCommnets ? (
             <h6
               className='showComments_reply_map'
-              onClick={() => setShowReplyCommnets(false)}
+              onClick={() => {
+                setShowReplyCommnets(false)
+                setShowRespondInput(false)
+              }}
             >
               Hide reply comments
             </h6>

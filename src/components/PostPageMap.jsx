@@ -23,6 +23,7 @@ const PostPageMap = ({ item }) => {
   const [showLikeEmojis, setShowLikeEmojis] = useState(false)
   const [showlikeEmojisList, setShowlikeEmojisList] = useState(false)
   const [showCommnets, setshowCommnets] = useState(false)
+  const [userLikedEmoji, setuserLikedEmoji] = useState('')
   const {
     id,
     WritecommentCALL,
@@ -65,6 +66,7 @@ const PostPageMap = ({ item }) => {
     likeCall(item._id, like)
     setlikeChek(true)
     setShowLikeEmojis(false)
+    setuserLikedEmoji(like)
   }
   const checkLiked = item.Likes?.map(x => x.user._id).includes(id)
 
@@ -90,6 +92,22 @@ const PostPageMap = ({ item }) => {
   let commnetsMap = item.Comments.map(item => {
     return <CommentsPageMap key={item._id} comment={item} />
   })
+
+  const isUserLIked = useCallback(() => {
+    let res
+    for (let index = 0; index < item.Likes.length; index++) {
+      const element = item.Likes[index]
+      if (element.user._id === id) {
+        res = element.like
+        break
+      }
+    }
+    return res
+  }, [id, item.Likes])
+
+  useEffect(() => {
+    setuserLikedEmoji(isUserLIked())
+  },[isUserLIked])
 
   return (
     <>
@@ -152,7 +170,7 @@ const PostPageMap = ({ item }) => {
                     {item.Likes.map(x => (
                       <div className='postPageMap-postLikes' key={x?._id}>
                         <h6>{x?.user.name}:</h6>
-                        <Emojies likeType={x?.like} />
+                        <Emojies likeType={x?.like} emojiSize={"0.9rem"}/>
                       </div>
                     ))}
                   </Popover>
@@ -199,14 +217,15 @@ const PostPageMap = ({ item }) => {
                       onMouseLeave={() => setShowLikeEmojis(false)}
                     >
                       {likeChek ? (
-                        <TiHeart
-                          className='FcLike'
-                          style={{ border: '1rem' }}
+                        userLikedEmoji === "love" ? <TiHeart className='FcLike-heart' onClick={() => deleteLiked()}/> : 
+                        <Emojies
+                          emojiSize={"1.2rem"}
+                          likeType={userLikedEmoji}
                           onClick={() => deleteLiked()}
                         />
                       ) : (
                         <TiHeartOutline
-                          className='FcLike'
+                          className='FcLike-heart'
                           onClick={() => makeLike('love')}
                         />
                       )}
@@ -289,7 +308,7 @@ const PostPageMap = ({ item }) => {
                       type='text'
                       name=''
                       className='postpageComments'
-                      placeholder=' Write Your Commnet'
+                      placeholder=' Write your commnet'
                       onChange={onchangHandler}
                       value={comment}
                     />
@@ -301,32 +320,35 @@ const PostPageMap = ({ item }) => {
                   />
                 </span>
               </Form>
-                <span>
-                  {item.Comments.length !== 0 && !showCommnets ? (
-                    <h6
-                      className='showComments'
-                      onClick={() => setshowCommnets(true)}
-                    >
-                      Show comments
-                    </h6>
-                  ) : ""}
-                  {item.Comments.length !== 0 && showCommnets ? (
-                    <h6
-                      className='showComments'
-                      onClick={() => setshowCommnets(false)}
-                    >
-                      Hide comments
-                    </h6>
-                  ): ""}
-                </span>
-                {showCommnets && (
-                  <div>
-                    <hr className='hr'></hr>
-                    {/* <CommentsPageMap comments={x} /> */}
-                    {commnetsMap}
-                  </div>
+              <span>
+                {item.Comments.length !== 0 && !showCommnets ? (
+                  <h6
+                    className='showComments'
+                    onClick={() => setshowCommnets(true)}
+                  >
+                    Show comments
+                  </h6>
+                ) : (
+                  ''
                 )}
-
+                {item.Comments.length !== 0 && showCommnets ? (
+                  <h6
+                    className='showComments'
+                    onClick={() => setshowCommnets(false)}
+                  >
+                    Hide comments
+                  </h6>
+                ) : (
+                  ''
+                )}
+              </span>
+              {showCommnets && (
+                <div>
+                  <hr className='hr'></hr>
+                  {/* <CommentsPageMap comments={x} /> */}
+                  {commnetsMap}
+                </div>
+              )}
             </div>
           </Col>
         </Row>

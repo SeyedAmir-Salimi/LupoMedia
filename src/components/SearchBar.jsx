@@ -29,7 +29,7 @@ const SearchBar = React.forwardRef((props, ref) => {
       >
         <Form.Control
           type='text'
-          placeholder='  NewSearch...'
+          placeholder='  Search...'
           onChange={e => onchangHandler(e)}
           value={Search.SearchInput}
           ref={ref}

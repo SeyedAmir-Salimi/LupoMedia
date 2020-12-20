@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Emojies ({ likeType }) {
+function Emojies ({ likeType, onClick, emojiSize}) {
   return (
-    <>
+    <div className='FcLike-emojie' onClick={onClick} style={{fontSize: emojiSize}}>
       {likeType === 'laugh' && (
         <span role='img' aria-label='laugh'>
           😂
@@ -49,7 +49,7 @@ function Emojies ({ likeType }) {
           💩
         </span>
       )}
-    </>
+    </div>
   )
 }
 

@@ -59,7 +59,7 @@ const Cover = () => {
                 />
               </div>
               {UserPageData._id !== id ? (
-                <span className='hvr-pulse Cover-info-following'>
+                <span className='Cover-info-following'>
                   {ExistFollowing === true ? (
                     'Allready followig'
                   ) : ExistFollowingAwaiting === true ? (

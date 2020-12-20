@@ -140,7 +140,7 @@ const DatiPersonali = () => {
 
               <Form.Group>
                 <Form.Label className='datiPersonali-Label'>
-                  Situation:
+                Relationship status:
                 </Form.Label>
                 {datiPersonali.Sentimentale === 'Singel' ? (
                   <Form.Control

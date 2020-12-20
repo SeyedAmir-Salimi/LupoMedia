@@ -10,7 +10,7 @@ import { Container, Row, Col, Form } from 'react-bootstrap'
 const CommentsPageMap = ({ comment }) => {
   const [showReplyCommnets, setShowReplyCommnets] = useState(false)
   const [showRespondInput, setShowRespondInput] = useState(false)
-  const [replyInputValue, setreplyInputValue] = useState("")
+  const [replyInputValue, setreplyInputValue] = useState('')
   const {
     id,
     DeleteCommentCALL,
@@ -36,18 +36,18 @@ const CommentsPageMap = ({ comment }) => {
     }
   }
 
-  const writeReply = (e)=>{
+  const writeReply = e => {
     e.preventDefault()
     WritecommentReplyCALL(comment.postref._id, replyInputValue, id, comment._id)
     setShowReplyCommnets(true)
     setShowRespondInput(false)
-    setreplyInputValue("")
+    setreplyInputValue('')
   }
-  const replyInputOnchange = (e)=>{
+  const replyInputOnchange = e => {
     setreplyInputValue(e.target.value)
   }
   const textL = comment.comment.length
-  const textAlignStyle = textL > 120 ? 'justify' : 'center'
+  const textAlignStyle = textL > 120 ? 'justify' : 'left'
 
   let replyCommnetsMap = comment.repliedComments.map(item => {
     return <CommentsReplyPageMap key={item._id} comment={item} />
@@ -88,7 +88,17 @@ const CommentsPageMap = ({ comment }) => {
                     </h6>
                   </span>
                   <span>
-                    <h6 className='commnet_respond' onClick={()=> setShowRespondInput(!showRespondInput)}>Respond</h6>
+                    <h6
+                      className='commnet_respond'
+                      onClick={() => {
+                        setShowRespondInput(!showRespondInput)
+                        if (!showRespondInput) {
+                          setShowReplyCommnets(true)
+                        }
+                      }}
+                    >
+                      Respond
+                    </h6>
                   </span>
                   {comment.comment}
                   {comment.user._id === id ? (
@@ -117,7 +127,10 @@ const CommentsPageMap = ({ comment }) => {
                 {comment.repliedComments.length !== 0 && showReplyCommnets ? (
                   <h6
                     className='showComments_reply'
-                    onClick={() => setShowReplyCommnets(false)}
+                    onClick={() => {
+                      setShowReplyCommnets(false)
+                      setShowRespondInput(false)
+                    }}
                   >
                     Hide reply comments
                   </h6>
@@ -126,7 +139,7 @@ const CommentsPageMap = ({ comment }) => {
                 )}
               </div>
               {showRespondInput && (
-                <Form onSubmit={(e)=> writeReply(e)}>
+                <Form onSubmit={e => writeReply(e)}>
                   <span className='postpage_CommentInput'>
                     <Form.Group>
                       <Form.Control
@@ -141,7 +154,7 @@ const CommentsPageMap = ({ comment }) => {
                     <FcInternal
                       className='FC_ICONS'
                       style={{ fontSize: '2rem' }}
-                      onClick={(e)=> writeReply(e)}
+                      onClick={e => writeReply(e)}
                     />
                   </span>
                 </Form>

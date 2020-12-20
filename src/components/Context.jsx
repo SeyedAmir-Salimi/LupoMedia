@@ -767,6 +767,11 @@ class SocialMediaProvider extends Component {
       this.setState({
         resetPasswordMessageError: error.message
       })
+      setTimeout(() => {
+        this.setState({
+          resetPasswordMessageError: ''
+        })
+      }, 2000);
     }
   }
 
