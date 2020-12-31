@@ -1,5 +1,5 @@
-import React, { useState, useContext, useRef } from 'react'
-import { SocialMediaContext } from './Context'
+import React from 'react'
+// import { SocialMediaContext } from './Context'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import { AiFillCloseCircle } from 'react-icons/ai'
 function PostInputWindow ({hide}) {
