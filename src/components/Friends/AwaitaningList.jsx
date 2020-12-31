@@ -6,7 +6,7 @@ import AwaitingMapFollowers from './AwaitingMapFollowers';
 import AwaitingMapFollowing from './AwaitingMapFollowing';
 
 const AwaitaningList = () => {
-	const { FollowersAwaiting, FollowingAwaiting, numberOfFollwingawaiting, numberOfFollwersAwaiting } = useContext(
+	const { FollowersAwaiting, FollowingAwaiting, numberOfFollwingawaiting, numberOfFollwersAwaiting, setshowNotificationsMenu} = useContext(
 		SocialMediaContext
 	);
 
@@ -21,7 +21,7 @@ const AwaitaningList = () => {
 	return (
 		<div>
 			<NavBar />
-			<div className="AwaitiningList-Component">
+			<div className="AwaitiningList-Component" onClick={()=> setshowNotificationsMenu(false)}>
 				{numberOfFollwersAwaiting !== 0 ? (
 					<span>
 						<h6>Followers Request Awaitating {numberOfFollwersAwaiting}</h6>

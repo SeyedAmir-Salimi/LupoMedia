@@ -70,7 +70,7 @@ const AlertChanges = ({ Mystate, NO, Yes, Done, Cancel }) => {
 
                   {Mystate.DeleteAccount ? (
                     <div>
-                      <h5>Are You Sure To Want Delete Your Account?</h5>
+                      <h5>Are you sure you want to delete your account?</h5>
                     </div>
                   ) : (
                     ''

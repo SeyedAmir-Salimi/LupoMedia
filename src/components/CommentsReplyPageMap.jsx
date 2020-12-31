@@ -94,7 +94,7 @@ const CommentsReplyPageMap = ({ comment }) => {
               Respond
             </h6>
             {comment.comment}{' '}
-            {comment.user._id === id ? (
+            {comment.user._id === id || comment.postref.user === id ? (
               <FaTrashAlt
                 style={{ fontSize: '1rem' }}
                 className='postpage_trash'

@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { SocialMediaContext } from '../Context'
 import ProfilePicture from '../ProfilePicture'
 import { useHistory } from 'react-router-dom'
-
+import AlertRemoveFriend from './AlertRemoveFriend'
 const FollowingAPageMap = ({ item }) => {
+  const [showRemoveAlert, setshowRemoveAlert] = useState(false)
   const { deleteFollowingAccepted, id, GetUSerPageData } = useContext(
     SocialMediaContext
   )
@@ -29,6 +30,10 @@ const FollowingAPageMap = ({ item }) => {
   const picture = {
     picture: item.secondUser.ProfilePic.picture
   }
+  const removeFriend = () => {
+    deleteFollowingAccepted(item._id, item.secondUser._id)
+    setshowRemoveAlert(false)
+  }
   return (
     <div key={item._id} className='Searched_page'>
       <span className='Searched_page_info'>
@@ -45,13 +50,20 @@ const FollowingAPageMap = ({ item }) => {
           <h6>{item.secondUser.BirthDate}</h6>
           <h6 className='Searched_page_button'
             onClick={() =>
-              deleteFollowingAccepted(item._id, item.secondUser._id)
+              setshowRemoveAlert(true)
             }
           >
             Remove From List
           </h6>
         </div>
       </span>
+      {showRemoveAlert && (
+        <AlertRemoveFriend
+          name={item.secondUser.name}
+          yes={() => removeFriend()}
+          no={() => setshowRemoveAlert(false)}
+        />
+      )}
     </div>
   )
 }

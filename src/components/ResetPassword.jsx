@@ -27,9 +27,9 @@ const ResetPassword = () => {
     e.preventDefault()
     if (PassInput === ConfirmPassInput) {
       const LINK = window.location.pathname
-      const secondSplit = LINK.slice(15, 187)
+      const secondSplit = LINK.split("/resetPassword/")
       const PASSWORD = PassInput
-      resetPasswordCall(secondSplit, PASSWORD)
+      resetPasswordCall(secondSplit[1], PASSWORD)
       setmessage('The password is change')
       setTimeout(() => {
         history.push('/')

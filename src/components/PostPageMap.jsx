@@ -31,7 +31,8 @@ const PostPageMap = ({ item }) => {
     GetUSerPageData,
     ridirectFunction,
     likeCall,
-    deleteLikeCall
+    deleteLikeCall,
+    setshowNotificationsMenu
   } = useContext(SocialMediaContext)
   const onchangHandler = e => {
     setcomment(e.target.value)
@@ -107,10 +108,9 @@ const PostPageMap = ({ item }) => {
 
   useEffect(() => {
     setuserLikedEmoji(isUserLIked())
-  },[isUserLIked])
-
+  }, [isUserLIked])
   return (
-    <>
+    <div onClick={() => setshowNotificationsMenu(false)}>
       {popUpImage && (
         <ImagePopup
           item={item}
@@ -159,22 +159,19 @@ const PostPageMap = ({ item }) => {
                 show={showlikeEmojisList}
                 placement='bottom'
               >
-                {props => (
-                  <Popover
-                    className='popover-basic'
-                    id='style-3'
-                    {...props}
-                    onMouseEnter={() => setShowlikeEmojisList(true)}
-                    onMouseLeave={() => setShowlikeEmojisList(false)}
-                  >
-                    {item.Likes.map(x => (
-                      <div className='postPageMap-postLikes' key={x?._id}>
-                        <h6>{x?.user.name}:</h6>
-                        <Emojies likeType={x?.like} emojiSize={"0.9rem"}/>
-                      </div>
-                    ))}
-                  </Popover>
-                )}
+                <Popover
+                  className='popover-basic'
+                  id='style-3'
+                  onMouseEnter={() => setShowlikeEmojisList(true)}
+                  onMouseLeave={() => setShowlikeEmojisList(false)}
+                >
+                  {item.Likes.map(x => (
+                    <div className='postPageMap-postLikes' key={x?._id}>
+                      <h6>{x?.user.name}:</h6>
+                      <Emojies likeType={x?.like} emojiSize={'0.9rem'} />
+                    </div>
+                  ))}
+                </Popover>
               </Overlay>
 
               {isMedia && item.type === 'pic' ? (
@@ -217,12 +214,18 @@ const PostPageMap = ({ item }) => {
                       onMouseLeave={() => setShowLikeEmojis(false)}
                     >
                       {likeChek ? (
-                        userLikedEmoji === "love" ? <TiHeart className='FcLike-heart' onClick={() => deleteLiked()}/> : 
-                        <Emojies
-                          emojiSize={"1.2rem"}
-                          likeType={userLikedEmoji}
-                          onClick={() => deleteLiked()}
-                        />
+                        userLikedEmoji === 'love' ? (
+                          <TiHeart
+                            className='FcLike-heart'
+                            onClick={() => deleteLiked()}
+                          />
+                        ) : (
+                          <Emojies
+                            emojiSize={'1.2rem'}
+                            likeType={userLikedEmoji}
+                            onClick={() => deleteLiked()}
+                          />
+                        )
                       ) : (
                         <TiHeartOutline
                           className='FcLike-heart'
@@ -353,7 +356,7 @@ const PostPageMap = ({ item }) => {
           </Col>
         </Row>
       </Container>
-    </>
+    </div>
   )
 }
 

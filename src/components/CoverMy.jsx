@@ -10,7 +10,8 @@ const CoverMy = () => {
     numberOfFollwersAccepted,
     User_Name,
     ProfilePic,
-    datiPersonali
+    datiPersonali,
+    setshowNotificationsMenu
   } = useContext(SocialMediaContext)
 
   let history = useHistory()
@@ -23,7 +24,7 @@ const CoverMy = () => {
       <Container>
         <Row>
           <Col>
-            <div className='Cover-component'>
+            <div className='Cover-component' onClick={()=> setshowNotificationsMenu(false)}>
               <img
                 src={DefaulCover}
                 alt='DefaulCover'

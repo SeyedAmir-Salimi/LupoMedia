@@ -14,7 +14,7 @@ import AwaitaningList from './components/Friends/AwaitaningList'
 import MyPage from './components/MyPage'
 import ResetPassword from './components/ResetPassword' 
 import ForgetPassword from './components/ForgetPassword'
-
+import PostSingelPage from './components/PostSingelPage'
 const App = () => {
   return (
     <div className="App">
@@ -31,6 +31,8 @@ const App = () => {
         <Route exact path="/:slug/following" component={FollowingAcc} />
         <Route exact path="/:slug/followers" component={FollowersAcc} />
         <Route exact path="/:slug/awaitaningList" component={AwaitaningList} />
+        <Route exact path="/:slug/awaitaningList" component={AwaitaningList} />
+        <Route exact path="/post/:slug" component={PostSingelPage} />
       </Switch>
     </div>
   );

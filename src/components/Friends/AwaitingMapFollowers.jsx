@@ -45,7 +45,7 @@ const AwaitingMapFollowers = ({ item }) => {
   }
   return (
     <div key={item._id} className='Searched_page'>
-      <span className='Searched_page_info'>
+      <span className='Searched_page_info' >
         <ProfilePicture
           ProfilePic={picture}
           sesso={item.mainUser.sesso}

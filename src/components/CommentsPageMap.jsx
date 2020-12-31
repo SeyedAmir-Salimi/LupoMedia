@@ -52,7 +52,6 @@ const CommentsPageMap = ({ comment }) => {
   let replyCommnetsMap = comment.repliedComments.map(item => {
     return <CommentsReplyPageMap key={item._id} comment={item} />
   })
-
   return (
     <>
       <Container>
@@ -101,7 +100,7 @@ const CommentsPageMap = ({ comment }) => {
                     </h6>
                   </span>
                   {comment.comment}
-                  {comment.user._id === id ? (
+                  {comment.user._id === id || comment.postref.user === id ?  (
                     <FaTrashAlt
                       style={{ fontSize: '1rem' }}
                       className='postpage_trash'

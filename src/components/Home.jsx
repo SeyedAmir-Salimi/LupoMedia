@@ -6,7 +6,7 @@ import PostInput from './PostInput'
 const Home = () => {
   return (
     <div className='homepage'>
-      <NavBar />
+      <NavBar/>
       <PostInput />
       <Postpage />
     </div>

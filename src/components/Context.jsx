@@ -50,6 +50,8 @@ class SocialMediaProvider extends Component {
       resetPasswordMessage: '',
       resetPasswordMessageError: '',
       replyCommentsSearch: [],
+      notifications: [],
+      showNotificationsMenu: false
     }
   }
 
@@ -57,12 +59,12 @@ class SocialMediaProvider extends Component {
     this.getCookies()
     this.getDatiPersonali()
     this.GetPostsCall()
-    // this.getCommentsCall()
     this.getFollowingAcceptedCall()
     this.getFollowersAcceptedCall()
     this.getFollowingAwaitingCall()
     this.getFollowersAwaitingCall()
     this.SetUSerPageData()
+    this.getNotificationsCall()
   }
 
   //---------------- API JS -----------------//
@@ -136,7 +138,7 @@ class SocialMediaProvider extends Component {
   DeleteCommentCALL = async (id, postref) => {
     const api = API()
     await api.DeleteComment(id, postref)
-    
+
     let UpdateItem = [...this.state.posts]
     const findPost = UpdateItem.find(x => x._id === postref)
 
@@ -207,8 +209,6 @@ class SocialMediaProvider extends Component {
     }
   }
 
-
-
   WritecommentReplyCALL = async (postref, comment, user, commentReplyId) => {
     if (comment !== '') {
       const api = API()
@@ -256,7 +256,6 @@ class SocialMediaProvider extends Component {
   //   }
   //   return foundCm
   // }
-
 
   SearchUserCALL = async typedName => {
     const get = Cookies.get('redirect')
@@ -359,13 +358,13 @@ class SocialMediaProvider extends Component {
         () => [
           this.getDatiPersonali(),
           this.getCookies(),
-          this.GetPostsCall(),
-          // this.getCommentsCall(),
+          // this.GetPostsCall(),
           this.getFollowingAcceptedCall(),
           this.getFollowersAcceptedCall(),
           this.getFollowingAwaitingCall(),
           this.getFollowersAwaitingCall(),
-          this.SetUSerPageData()
+          this.SetUSerPageData(),
+          this.getNotificationsCall()
         ]
       )
     } catch (error) {
@@ -521,7 +520,6 @@ class SocialMediaProvider extends Component {
       console.log(error)
     }
   }
-
 
   getFollowingAcceptedCall = async () => {
     const ID = Cookies.get('User_id')
@@ -771,7 +769,7 @@ class SocialMediaProvider extends Component {
         this.setState({
           resetPasswordMessageError: ''
         })
-      }, 2000);
+      }, 2000)
     }
   }
 
@@ -828,14 +826,14 @@ class SocialMediaProvider extends Component {
 
   deleteLikeCall = async postref => {
     const api = API()
-
+    const id = Cookies.get('User_id')
     try {
-      await api.DeleteLike(postref, this.state.id)
+      await api.DeleteLike(postref, id)
       let filterdPosts = []
       let foundId = null
       this.state.posts.forEach(p => {
         const foundLiked = p.Likes.find(
-          L => L.postref === postref && L.user._id === this.state.id
+          L => L.postref === postref && L.user._id === id
         )
         if (foundLiked) {
           foundId = foundLiked._id
@@ -852,7 +850,80 @@ class SocialMediaProvider extends Component {
       console.log({ error })
     }
   }
+  getNotificationsCall = async () => {
+    const api = API()
+    const id = Cookies.get('User_id')
+    try {
+      const result = await api.getNotifications(id)
+      this.setState({
+        notifications: result
+      })
+    } catch (error) {
+      console.log({ error })
+    }
+  }
 
+  deleteNotification = async notifId => {
+    const api = API()
+    try {
+      await api.deleteNotification(notifId)
+      const notificationCopy = this.state.notifications.filter(
+        x => x._id !== notifId
+      )
+      this.setState({
+        notifications: notificationCopy
+      })
+    } catch (error) {
+      console.log({ error })
+    }
+  }
+
+  changeNotification = async (ID, READ) => {
+    const api = API()
+    const data = {
+      _id: ID,
+      read: READ
+    }
+    try {
+      await api.changeNotificationStatus(data)
+      const notificationCopy = [...this.state.notifications]
+      const foundNotif = notificationCopy.findIndex(x => x._id === ID)
+      notificationCopy[foundNotif].read = READ
+      this.setState({
+        notifications: notificationCopy
+      })
+    } catch (error) {
+      console.log({ error })
+    }
+  }
+
+  allNoficicationReadCall = async () => {
+    const id = Cookies.get('User_id')
+    const api = API()
+    const data = {
+      secondUser: id
+    }
+    try {
+      await api.allNoficicationRead(data)
+      const notificationCopy = [...this.state.notifications]
+      notificationCopy.forEach(element => {
+        if (element.read === false) {
+          element.read = true
+        }
+      })
+
+      this.setState({
+        notifications: notificationCopy
+      })
+    } catch (error) {
+      console.log({ error })
+    }
+  }
+  setshowNotificationsMenu = (param)=>{
+    this.setState({
+      showNotificationsMenu: param
+    })
+  }
   //---------------- END API JS -----------------//
 
   //---------------- LogIN Start -----------------//
@@ -981,14 +1052,14 @@ class SocialMediaProvider extends Component {
   // ---------------- Following ID Check ---------------- //
 
   IdFollowingChek = ID => {
-    let templist = this.state.FollowingAccepted
-    const FollowingIdACC = templist.find(doc => doc.secondUser._id === ID)
+    const templist = this.state.FollowingAccepted
+    const FollowingIdACC = templist.some(x => x.secondUser._id === ID)
     return FollowingIdACC
   }
 
   IdAwaitingingChekFollowing = ID => {
-    let templist = this.state.FollowingAwaiting
-    const FollowingIdAW = templist.find(doc => doc.secondUser._id === ID)
+    const templist = this.state.FollowingAwaiting
+    const FollowingIdAW = templist.some(x => x.secondUser._id === ID)
     return FollowingIdAW
   }
 
@@ -1040,6 +1111,7 @@ class SocialMediaProvider extends Component {
 
     // this.SetUSerPageData()
   }
+
   render () {
     return (
       <SocialMediaContext.Provider
@@ -1081,6 +1153,10 @@ class SocialMediaProvider extends Component {
           deleteLikeCall: this.deleteLikeCall,
           WritecommentReplyCALL: this.WritecommentReplyCALL,
           DeleteReplyCommentCALL: this.DeleteReplyCommentCALL,
+          deleteNotification: this.deleteNotification,
+          changeNotification: this.changeNotification,
+          allNoficicationReadCall: this.allNoficicationReadCall,
+          setshowNotificationsMenu: this.setshowNotificationsMenu
         }}
       >
         {this.props.children}

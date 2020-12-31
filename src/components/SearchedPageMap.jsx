@@ -15,13 +15,15 @@ const SearchedPageMap = ({ item }) => {
   let history = useHistory()
 
   const FollowingChekID = useCallback(() => {
-    if (IdFollowingChek(item._id)) {
+    const chekId = IdFollowingChek(item._id)
+    if (chekId) {
       setExistFollowing(true)
     }
   }, [IdFollowingChek, item._id])
 
   const AwaitingingChekID = useCallback(() => {
-    if (IdAwaitingingChekFollowing(item._id)) {
+    const chekId = IdAwaitingingChekFollowing(item._id)
+    if (chekId) {
       setExistFollowingAwaiting(true)
     }
   }, [IdAwaitingingChekFollowing, item._id])
@@ -58,7 +60,7 @@ const SearchedPageMap = ({ item }) => {
   const picture = {
     picture: item.picture.picture
   }
-
+console.log("item", item);
   return (
     <div key={item._id} className='Searched_page'>
       <span className='Searched_page_info'>

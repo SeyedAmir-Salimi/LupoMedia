@@ -12,17 +12,20 @@ const Cover = () => {
     id,
     SendFriendRequestCall,
     IdFollowingChek,
-    IdAwaitingingChekFollowing
+    IdAwaitingingChekFollowing,
+    setshowNotificationsMenu
   } = useContext(SocialMediaContext)
 
   const FollowingChekID = useCallback(() => {
-    if (IdFollowingChek(UserPageData._id)) {
+    const chekId = IdFollowingChek(UserPageData._id)
+    if (chekId) {
       setExistFollowing(true)
     }
   }, [IdFollowingChek, UserPageData._id])
 
   const AwaitingingChekID = useCallback(() => {
-    if (IdAwaitingingChekFollowing(UserPageData._id)) {
+    const chekId = IdAwaitingingChekFollowing(UserPageData._id)
+    if (chekId) {
       setExistFollowingAwaiting(true)
     }
   }, [IdAwaitingingChekFollowing, UserPageData._id])
@@ -44,7 +47,7 @@ const Cover = () => {
       <Container>
         <Row>
           <Col>
-            <div className='Cover-component'>
+            <div className='Cover-component' onClick={()=> setshowNotificationsMenu(false)}>
               <img
                 src={DefaulCover}
                 alt='DefaulCover'
@@ -67,7 +70,6 @@ const Cover = () => {
                   ) : (
                     <p
                       onClick={() => SendFOllowingRequest()}
-                      className='Cover-text'
                     >
                       Send Following Request
                     </p>

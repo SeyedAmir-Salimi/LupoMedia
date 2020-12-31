@@ -6,7 +6,8 @@ import ProfilePicture from './ProfilePicture'
 import { FaUserFriends } from 'react-icons/fa'
 import { ImExit } from 'react-icons/im'
 import { AiFillHome } from 'react-icons/ai'
-import { IoMdNotifications } from "react-icons/io";
+import { IoMdNotifications } from 'react-icons/io'
+import Notifications from './Notifications'
 import {
   Navbar as NavbarBootStrap,
   Nav,
@@ -29,7 +30,10 @@ const Navbar = () => {
     ridirectFunction,
     numberOfFollwingawaiting,
     numberOfFollwersAwaiting,
-    datiPersonali
+    datiPersonali,
+    notifications,
+    showNotificationsMenu,
+    setshowNotificationsMenu
   } = useContext(SocialMediaContext)
   const awaitingSum = numberOfFollwingawaiting + numberOfFollwersAwaiting
 
@@ -52,6 +56,8 @@ const Navbar = () => {
     }
   }, [history.location.pathname])
 
+  const notficationUnreadLength = notifications?.filter(x=> x.read === false).length
+
   const targetHome = useRef(null)
   const targetAwaiting = useRef(null)
   const targetNotification = useRef(null)
@@ -68,7 +74,6 @@ const Navbar = () => {
           <Nav className='mr-auto'>
             <SearchBar ref={inputRef} />
           </Nav>
-
           <Form className='form-inline'>
             <div className='Navbar-Link-ProfileAndName'>
               <ProfilePicture
@@ -112,10 +117,16 @@ const Navbar = () => {
               ref={targetNotification}
               onMouseEnter={() => setShowNotificationNot(true)}
               onMouseLeave={() => setShowNotificationNot(false)}
+              onClick={()=> setshowNotificationsMenu(!showNotificationsMenu)}
             >
               <IoMdNotifications style={{ fontSize: '1.3rem' }} />
-              {/* Notification */}
+              {notficationUnreadLength >= 1 ? notficationUnreadLength : ''}
             </Nav.Link>
+            {showNotificationsMenu && (
+              <div className='notification-navbar'>
+                <Notifications />
+              </div>
+            )}
             <Nav.Link
               className='hvr-buzz-out Navbar-Link'
               onClick={LogeOut}
@@ -131,44 +142,36 @@ const Navbar = () => {
               show={showHomeNot}
               placement='bottom'
             >
-              {props => (
-                <Popover className='popover-nav' {...props}>
-                  <p>Home</p>
-                </Popover>
-              )}
+              <Popover className='popover-nav'>
+                <p>Home</p>
+              </Popover>
             </Overlay>
             <Overlay
               target={targetAwaiting.current}
               show={showAwaitingNot}
               placement='bottom'
             >
-              {props => (
-                <Popover className='popover-nav' {...props}>
-                  <p>Awaiting list</p>
-                </Popover>
-              )}
+              <Popover className='popover-nav'>
+                <p>Awaiting list</p>
+              </Popover>
             </Overlay>
             <Overlay
               target={targetNotification.current}
               show={showNotificationNot}
               placement='bottom'
             >
-              {props => (
-                <Popover className='popover-nav' {...props}>
-                  <p>Notifications</p>
-                </Popover>
-              )}
+              <Popover className='popover-nav'>
+                <p>Notifications</p>
+              </Popover>
             </Overlay>
             <Overlay
               target={targetExit.current}
               show={showExitNot}
               placement='bottom'
             >
-              {props => (
-                <Popover className='popover-nav' {...props}>
-                  <p>Exit</p>
-                </Popover>
-              )}
+              <Popover className='popover-nav'>
+                <p>Exit</p>
+              </Popover>
             </Overlay>
           </Form>
         </NavbarBootStrap.Collapse>
