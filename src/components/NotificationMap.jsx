@@ -143,7 +143,7 @@ function NotificationMap ({ item }) {
                 </Button>
               </div>
             )}
-            {caption ? <p>({caption}) </p> : ' '}
+            {caption ? <p onClick={() => goToLink()}>({caption}) </p> : ' '}
             <p  onClick={() => goToLink()}>{item.caption}</p>
           </div>
         )}
