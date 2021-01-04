@@ -160,7 +160,7 @@ const PostInput = () => {
         placement='bottom'
       >
         <Popover className='popover-nav'>
-          <p>Attach a photo</p>
+          <p>Attach a photo/video</p>
         </Popover>
       </Overlay>
       <Overlay
