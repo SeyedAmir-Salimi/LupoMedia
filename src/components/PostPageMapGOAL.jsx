@@ -113,7 +113,7 @@ const PostPageMapGOAL = ({ item }) => {
     }
     return res
   }, [id, item.Likes])
-
+  console.log(item);
   useEffect(() => {
     setuserLikedEmoji(isUserLIked())
   }, [isUserLIked])
@@ -121,7 +121,7 @@ const PostPageMapGOAL = ({ item }) => {
   const gender = item.user.sesso === 'Man' ? 'his' : 'her'
   const WriteCommentPlaceholder = userPost
     ? `Report your goal ${User_Name}`
-    : `Support ${User_Name} for ${gender} goal`
+    : `Support ${item.user.name} for ${gender} goal`
 
   const targetReport = useRef(null)
 
@@ -194,7 +194,7 @@ const PostPageMapGOAL = ({ item }) => {
                 onMouseEnter={() => setShowlikeEmojisList(true)}
                 onMouseLeave={() => setShowlikeEmojisList(false)}
               >
-                <h6>likes: {item.Likes?.length}</h6>
+                <h6>Supports: {item.Likes?.length}</h6>
               </div>
               <br />
               <Overlay
@@ -331,6 +331,7 @@ const PostPageMapGOAL = ({ item }) => {
                   {commnetsMap}
                 </div>
               )}
+              {item.user._id === id ? 
               <Overlay
                 target={targetReport.current}
                 show={setShowReportOveraly}
@@ -355,6 +356,29 @@ const PostPageMapGOAL = ({ item }) => {
                   </div>
                 </Popover>
               </Overlay>
+              :
+              <Overlay
+                target={targetReport.current}
+                show={setShowReportOveraly}
+                placement='left'
+              >
+                <Popover className='popover-Notification' id='style-3'>
+                  <div
+                    onMouseEnter={() => setsetShowReportOveraly(true)}
+                    onMouseLeave={() => setsetShowReportOveraly(false)}
+                  >
+                    <h6
+                      onClick={() => {
+                        setshowReportInput(!showReportInput)
+                        setshowCommnets(!showCommnets)
+                      }}
+                    >
+                      Support {item.user.name}
+                    </h6>
+                  </div>
+                </Popover>
+              </Overlay>
+              }
             </div>
             {showRemoveAlert && (
               <AlertRemove
