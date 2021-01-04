@@ -5,7 +5,7 @@ const Lastseen = ({ date }) => {
 
   return (
     <>
-      Date: <TimeAgo date={date} />
+      date: <TimeAgo date={date} />
     </>
   );
 };

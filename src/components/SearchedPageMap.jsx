@@ -1,10 +1,8 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react'
+import React, { useContext } from 'react'
 import { SocialMediaContext } from './Context'
 import ProfilePicture from './ProfilePicture'
 import { useHistory } from 'react-router-dom'
 const SearchedPageMap = ({ item }) => {
-  const [ExistFollowing, setExistFollowing] = useState('')
-  const [ExistFollowingAwaiting, setExistFollowingAwaiting] = useState('')
   const {
     id,
     SendFriendRequestCall,
@@ -14,24 +12,8 @@ const SearchedPageMap = ({ item }) => {
   } = useContext(SocialMediaContext)
   let history = useHistory()
 
-  const FollowingChekID = useCallback(() => {
-    const chekId = IdFollowingChek(item._id)
-    if (chekId) {
-      setExistFollowing(true)
-    }
-  }, [IdFollowingChek, item._id])
-
-  const AwaitingingChekID = useCallback(() => {
-    const chekId = IdAwaitingingChekFollowing(item._id)
-    if (chekId) {
-      setExistFollowingAwaiting(true)
-    }
-  }, [IdAwaitingingChekFollowing, item._id])
-
-  useEffect(() => {
-    FollowingChekID()
-    AwaitingingChekID()
-  }, [AwaitingingChekID, FollowingChekID])
+  const ExistFollowing = IdFollowingChek(item._id)
+  const ExistFollowingAwaiting = IdAwaitingingChekFollowing(item._id) 
 
   const SendFOllowingRequest = () => {
     SendFriendRequestCall(
@@ -42,7 +24,6 @@ const SearchedPageMap = ({ item }) => {
       item.Sentimentale,
       item.BirthDate
     )
-    setExistFollowingAwaiting(true)
   }
 
   const GoToLink = link => {
@@ -60,7 +41,7 @@ const SearchedPageMap = ({ item }) => {
   const picture = {
     picture: item.picture.picture
   }
-console.log("item", item);
+
   return (
     <div key={item._id} className='Searched_page'>
       <span className='Searched_page_info'>
@@ -77,11 +58,9 @@ console.log("item", item);
           <h6>{item.BirthDate}</h6>
           {item._id !== id && (
             <span className='Searched_page_button'>
-              {ExistFollowing === true ? (
-                <h6>Allready followig</h6>
-              ) : ExistFollowingAwaiting === true ? (
-                <h6>Awaiting for response</h6>
-              ) : (
+              {ExistFollowing && <h6>Allready followig</h6>}
+              {ExistFollowingAwaiting && <h6>Awaiting for response</h6>}
+              {!ExistFollowing && !ExistFollowingAwaiting && (
                 <h6 onClick={() => SendFOllowingRequest()}>
                   Send Following Request
                 </h6>

@@ -1,13 +1,13 @@
 import React, { useState, useContext } from 'react'
 import { SocialMediaContext } from './Context'
-import { useHistory } from 'react-router-dom'
 import { Form } from 'react-bootstrap'
+import SearchedPageBar from './SearchedPageBar'
 const SearchBar = React.forwardRef((props, ref) => {
   const [Search, setSearch] = useState({
     SearchInput: ''
   })
-  let history = useHistory()
-  const { SearchUserCALL } = useContext(SocialMediaContext)
+
+  const { SearchUserCALL, setshowSearchMenu, showSearchMenu} = useContext(SocialMediaContext)
 
   const onchangHandler = e => {
     setSearch({ SearchInput: e.target.value })
@@ -16,16 +16,14 @@ const SearchBar = React.forwardRef((props, ref) => {
   const handelSubmit = (e, typedName) => {
     e.preventDefault()
     SearchUserCALL(typedName)
-    if (history.location.pathname !== '/search') {
-      history.push('/search')
-    }
+    setshowSearchMenu(true)
   }
 
   return (
     <>
       <Form
         onSubmit={e => handelSubmit(e, Search.SearchInput)}
-        onClick={e => handelSubmit(e, Search.SearchInput)}
+        // onClick={e => handelSubmit(e, Search.SearchInput)}
       >
         <Form.Control
           type='text'
@@ -35,6 +33,11 @@ const SearchBar = React.forwardRef((props, ref) => {
           ref={ref}
         />
       </Form>
+      {showSearchMenu && (
+        <div className='searche-bar'>
+          <SearchedPageBar closeBar={()=> setshowSearchMenu(false)}/>
+        </div>
+      )}
     </>
   )
 })

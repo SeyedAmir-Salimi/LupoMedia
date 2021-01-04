@@ -30,6 +30,7 @@ const LogeIn = () => {
   const AuthLogin = async e => {
     e.preventDefault()
     await LoginGetCall()
+    window.location.reload()
   }
 
   const GoToLink = link => {

@@ -6,10 +6,13 @@ import ProfilePicture from './ProfilePicture'
 import { useHistory } from 'react-router-dom'
 import { Form } from 'react-bootstrap'
 import { FcInternal } from 'react-icons/fc'
+import AlertRemove from './AlertRemove'
 const CommentsReplyPageMap = ({ comment }) => {
   const [showReplyCommnets, setShowReplyCommnets] = useState(false)
   const [showRespondInput, setShowRespondInput] = useState(false)
   const [replyInputValue, setreplyInputValue] = useState('')
+  const [showRemoveAlert, setshowRemoveAlert] = useState(false)
+
   const {
     id,
     DeleteReplyCommentCALL,
@@ -99,7 +102,7 @@ const CommentsReplyPageMap = ({ comment }) => {
                 style={{ fontSize: '1rem' }}
                 className='postpage_trash'
                 onClick={() =>
-                  DeleteReplyCommentCALL(comment._id, comment.postref._id)
+                  setshowRemoveAlert(true)
                 }
               />
             ) : (
@@ -151,6 +154,13 @@ const CommentsReplyPageMap = ({ comment }) => {
             </span>
           </Form>
         )}
+        {showRemoveAlert && (
+              <AlertRemove
+                displayText={`Are your sure you want to remove this comment?`}
+                yes={() => DeleteReplyCommentCALL(comment._id, comment.postref._id)}
+                no={()=> setshowRemoveAlert(false)}
+              />
+            )}
         {showReplyCommnets ? replyCommnetsMap : ''}
       </div>
     </>

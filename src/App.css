@@ -346,6 +346,11 @@ html {
 	padding-left: 0.2rem;
 	padding-right: 0.2rem;
 }
+.SearchBar-clickToSee{
+	color: var(--primaryGOldColor);
+	margin: 0 auto;
+	cursor: pointer;
+}
 
 /* Dati Personali Component */
 
@@ -514,7 +519,7 @@ td{
 	align-items: center;
 	justify-content: center;
 	z-index: 1;
-	position: absolute !important;
+	position: fixed !important;
 
 }
 .alert p{
@@ -628,6 +633,7 @@ td{
 	margin: 1rem auto;
 	border: 1px solid black;
 }
+
 .PostProfilPic_Wrapper {
 	position: absolute;
 	margin-top: 0.5rem;
@@ -649,13 +655,28 @@ td{
 	position: absolute;
 	left: 4rem;
 	font-size: 0.9rem;
+	text-align: left;
+}
+.postpage_accomplish {
+	margin-top: 3.5rem;
+	position: absolute;
+	left: 4rem;
+	font-size: 0.9rem;
+	text-align: left;
+}
+.postpage_accomplish_Like {
+	margin-top: 4.6rem;
+	position: absolute;
+	left: 4rem;
+	font-size: 0.9rem;
+	text-align: left;
 }
 .postpage_Like {
 	font-size: 1.5rem;
 	position: absolute;
 	left: 4rem;
 	margin-top: 3.5rem;
-	font-size: 0.5rem;
+	text-align: left;
 }
 .postpage_Image {
 	margin-top: 3.3rem;
@@ -685,7 +706,7 @@ td{
 }
 .postpage_Caption {
 	color: rgb(104, 1, 87);
-
+	margin-bottom: 1rem;
 }
 
 
@@ -941,8 +962,8 @@ td{
 	color: whitesmoke;
 	cursor: pointer;
 }
-
-.Searched_page_button :hover {
+.Searched_page_status{
+	color: var(--primaryGOldColor);
 	cursor: pointer;
 }
 
@@ -1418,8 +1439,15 @@ td{
 	background-color: var(--ViolaNavbar);
 	border-radius: 0 0 1rem 1rem;
 	top: 172px;
-
 }
+.searche-bar{
+	position: absolute;
+	background-color: var(--ViolaNavbar);
+	border-radius: 0 0 1rem 1rem;
+	top: 172px;
+	left: 2rem;
+}
+
 .NotificationMap-texts{
 	text-align: left;
 	cursor: pointer;
@@ -1476,6 +1504,10 @@ td{
 	float: right;
 	font-size: 1.5rem;
 }
+.PostInputWindow-wrapper h5{
+	margin-top: 0.5rem;
+	color: red;
+}
 @media only screen and (max-width: 700px) {
 		/* .NavbarBootStrap{
 		background-color: red;
@@ -1516,14 +1548,15 @@ td{
 	}
 }
 @media only screen and (min-width: 992px) {
-	.notification-navbar{
+	.notification-navbar, .searche-bar{
 		top: 86px;
-	
 	}
 }
 @media only screen and (max-width: 400px) {
-	.notification-navbar{
+	.notification-navbar, .searche-bar{
 		top: 191px;
-	
+	}
+	.postpage_accomplish_Like{
+		margin-top: 5.6rem;
 	}
 }

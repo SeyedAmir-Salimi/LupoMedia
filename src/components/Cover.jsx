@@ -1,53 +1,43 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react'
+import React, { useContext} from 'react'
 import { SocialMediaContext } from './Context'
 // import { useHistory } from 'react-router-dom'
 import DefaulCover from '../Images/Wallpaper.jpg'
 import ProfilePicture from './ProfilePicture'
 import { Container, Row, Col } from 'react-bootstrap'
 const Cover = () => {
-  const [ExistFollowing, setExistFollowing] = useState('')
-  const [ExistFollowingAwaiting, setExistFollowingAwaiting] = useState('')
   const {
     UserPageData,
     id,
     SendFriendRequestCall,
     IdFollowingChek,
     IdAwaitingingChekFollowing,
-    setshowNotificationsMenu
+    setshowNotificationsMenu,
+    setshowSearchMenu
   } = useContext(SocialMediaContext)
 
-  const FollowingChekID = useCallback(() => {
-    const chekId = IdFollowingChek(UserPageData._id)
-    if (chekId) {
-      setExistFollowing(true)
-    }
-  }, [IdFollowingChek, UserPageData._id])
+  const ExistFollowing = IdFollowingChek(UserPageData._id)
+  const ExistFollowingAwaiting = IdAwaitingingChekFollowing(UserPageData._id) 
 
-  const AwaitingingChekID = useCallback(() => {
-    const chekId = IdAwaitingingChekFollowing(UserPageData._id)
-    if (chekId) {
-      setExistFollowingAwaiting(true)
-    }
-  }, [IdAwaitingingChekFollowing, UserPageData._id])
-
-  useEffect(() => {
-    FollowingChekID()
-    AwaitingingChekID()
-  }, [AwaitingingChekID, FollowingChekID])
 
   const picture = {
     picture: UserPageData.ProfilePic
   }
   const SendFOllowingRequest = () => {
     SendFriendRequestCall(UserPageData._id, UserPageData.User_Name, picture)
-    setExistFollowingAwaiting(true)
+  }
+  const setMenusFalse = () =>{
+    setshowNotificationsMenu(false)
+    setshowSearchMenu(false)
   }
   return (
     <>
       <Container>
         <Row>
           <Col>
-            <div className='Cover-component' onClick={()=> setshowNotificationsMenu(false)}>
+            <div
+              className='Cover-component'
+              onClick={() => setMenusFalse()}
+            >
               <img
                 src={DefaulCover}
                 alt='DefaulCover'
@@ -63,15 +53,11 @@ const Cover = () => {
               </div>
               {UserPageData._id !== id ? (
                 <span className='Cover-info-following'>
-                  {ExistFollowing === true ? (
-                    'Allready followig'
-                  ) : ExistFollowingAwaiting === true ? (
-                    'Awaiting for response'
-                  ) : (
-                    <p
-                      onClick={() => SendFOllowingRequest()}
-                    >
-                      Send Following Request
+                  {ExistFollowing && <p>Allready followig</p>}
+                  {ExistFollowingAwaiting && <p>Awaiting for response</p>}
+                  {!ExistFollowing && !ExistFollowingAwaiting && (
+                    <p onClick={() => SendFOllowingRequest()}>
+                      Send following request
                     </p>
                   )}
                 </span>

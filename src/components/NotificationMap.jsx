@@ -5,14 +5,18 @@ import ProfilePicture from './ProfilePicture'
 import LastSeen from './LastSeen'
 import { Overlay, Popover } from 'react-bootstrap'
 import Emojies from './Emojies'
+import { Button } from 'react-bootstrap'
 function NotificationMap ({ item }) {
   const [showPopover, setshowPopover] = useState(false)
   const {
     changeNotification,
     GetUSerPageData,
     ridirectFunction,
-    deleteNotification,
-    setshowNotificationsMenu
+    deleteNotificationCall,
+    setshowNotificationsMenu,
+    respondFriendRequestCall,
+    deleteFollowersAwaiting,
+    FollowersAwaiting
   } = useContext(SocialMediaContext)
   const GoTo = () => {
     GetUSerPageData(
@@ -36,7 +40,7 @@ function NotificationMap ({ item }) {
   }
   const deleteNotif = () => {
     setshowPopover(false)
-    deleteNotification(item._id)
+    deleteNotificationCall(item._id)
   }
   const markAsUnread = () => {
     setshowPopover(false)
@@ -55,8 +59,7 @@ function NotificationMap ({ item }) {
     caption = text
   }
   const goToLink = () => {
-    if (
-      item.postref.caption === "undefined") {
+    if (item.postref.caption === 'undefined') {
       GoTo()
     } else {
       GoToLink(`/post/${item.postref._id}`)
@@ -64,6 +67,29 @@ function NotificationMap ({ item }) {
     setshowNotificationsMenu(false)
   }
 
+  const findreq = FollowersAwaiting.filter(
+    x =>
+      x._id === item.friendRequestId
+  )
+
+  const AcceptReq = () => {
+    if (findreq.length > 0) {
+      respondFriendRequestCall(
+        findreq[0]._id,
+        item.mainUser.name,
+        item.mainUser.ProfilePic,
+        item.mainUser.Bio,
+        item.mainUser.Sentimentale,
+        item.mainUser.BirthDate,
+        item.mainUser._id
+      )
+    }
+  }
+  const deleteReq = () => {
+    if (findreq.length > 0) {
+      deleteFollowersAwaiting(findreq[0]._id, item.mainUser._id)
+    }
+  }
   return (
     <div className='NotificationMap'>
       <div className='NotificationMap-ProfilePic'>
@@ -84,22 +110,41 @@ function NotificationMap ({ item }) {
       >
         ...
       </h4>
-      <div className='NotificationMap-texts' onClick={() => goToLink()}>
+      <div className='NotificationMap-texts'>
         <h5>{item.mainUser.name}</h5>
         <h6>
           <LastSeen date={item.date} />
         </h6>
         {item.explanation === 'Made a reaction to your post:' ? (
-          <div className='NotificationMap-emoji'>
+          <div className='NotificationMap-emoji'  onClick={() => goToLink()}>
             <p>{item.explanation}</p>
             <p>{caption}</p>
             <Emojies likeType={item.caption} />
           </div>
         ) : (
           <div className='NotificationMap-emoji'>
-            <p>{item.explanation}</p>
+            <p  onClick={() => goToLink()}>{item.explanation}</p>
+            {item.explanation === 'Sent you a friend request' && findreq.length > 0 && (
+              <div>
+                <Button
+                  size='sm'
+                  className='m-2 button_Log2 font-weight-bold'
+                  onClick={() => AcceptReq()}
+                >
+                  Accept it
+                </Button>
+
+                <Button
+                  size='sm'
+                  className='m-2 button_Log2 font-weight-bold'
+                  onClick={() => deleteReq()}
+                >
+                  Deny it
+                </Button>
+              </div>
+            )}
             {caption ? <p>({caption}) </p> : ' '}
-            <p>{item.caption}</p>
+            <p  onClick={() => goToLink()}>{item.caption}</p>
           </div>
         )}
       </div>

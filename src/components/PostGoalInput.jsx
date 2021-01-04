@@ -1,11 +1,32 @@
-import React from 'react'
-// import { SocialMediaContext } from './Context'
+import React, { useContext, useState } from 'react'
+import { SocialMediaContext } from './Context'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import { AiFillCloseCircle } from 'react-icons/ai'
-function PostInputWindow ({hide}) {
-  // const [PostCaption, setPostCaption] = useState('')
-  // const { User_Name, id, AddPostCall } = useContext(SocialMediaContext)
+function PostGoalInput ({ hide }) {
+  const [PostCaption, setPostCaption] = useState('')
+  const [goalDate, setgoalDate] = useState('')
+  const [error, setError] = useState('')
+  const { id, addGoalCall } = useContext(SocialMediaContext)
   // const PostCaptionRef = useRef()
+  const createYourGoal = e => {
+    if (PostCaption && goalDate !== '') {
+      e.preventDefault()
+      addGoalCall(id, PostCaption, goalDate)
+      hide()
+    } else {
+      setError("You should complete all fields")
+      setTimeout(() => {
+        setError("")
+      }, 2000);
+    }
+  }
+  const postCaptionOnchange = e => {
+    setPostCaption(e.target.value)
+  }
+  const goalDatenOnchange = e => {
+    setgoalDate(e.target.value)
+  }
+
   return (
     <>
       <div className='PostInputWindow-wrapper'>
@@ -15,11 +36,11 @@ function PostInputWindow ({hide}) {
               <Form
                 className='form-style-4'
                 method='post'
-                onSubmit={'UpdateDatiPersonali'}
+                onSubmit={e => createYourGoal(e)}
               >
-                <div className="PostInputWindow-text-close">
+                <div className='PostInputWindow-text-close'>
                   <p className='PostInputWindow-closeButton hvr-buzz-out'>
-                    <AiFillCloseCircle onClick={hide}/>
+                    <AiFillCloseCircle onClick={hide} />
                   </p>
                   <h3>Create your goal</h3>
                 </div>
@@ -32,27 +53,32 @@ function PostInputWindow ({hide}) {
                     name='Bio'
                     maxLength='198'
                     placeholder={'Write your goal to achieve'}
-                    value={''}
-                    onChange={''}
+                    value={PostCaption}
+                    onChange={e => postCaptionOnchange(e)}
                     className='datiPersonali-Input'
                   />
                 </Form.Group>
                 <Form.Group>
                   <Form.Label className='datiPersonali-Label'>
-                    Set your achievement date:
+                  I will reach my goal on:
                   </Form.Label>
                   <Form.Control
                     type='date'
                     name='BirthDate'
                     id='DP_BirthDate'
-                    value={''}
-                    onChange={''}
+                    value={goalDate}
+                    onChange={e => goalDatenOnchange(e)}
                     className='datiPersonali-date'
                   />
                 </Form.Group>
-                <Button size='m' className='m-2 button_Log font-weight-bold'>
-                  Public
+                <Button
+                  size='m'
+                  className='m-2 button_Log font-weight-bold'
+                  onClick={e => createYourGoal(e)}
+                >
+                  Publish
                 </Button>
+                {error && <h5>{error}</h5>}
               </Form>
             </Col>
           </Row>
@@ -62,4 +88,4 @@ function PostInputWindow ({hide}) {
   )
 }
 
-export default PostInputWindow
+export default PostGoalInput

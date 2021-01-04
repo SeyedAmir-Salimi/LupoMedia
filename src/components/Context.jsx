@@ -51,7 +51,8 @@ class SocialMediaProvider extends Component {
       resetPasswordMessageError: '',
       replyCommentsSearch: [],
       notifications: [],
-      showNotificationsMenu: false
+      showNotificationsMenu: false,
+      showSearchMenu: false,
     }
   }
 
@@ -375,22 +376,24 @@ class SocialMediaProvider extends Component {
   }
 
   getDatiPersonali = async () => {
-    try {
-      const ID = Cookies.get('User_id')
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'auth-token': Cookies.get('Auth_token')
+    const ID = Cookies.get('User_id')
+    if(ID){
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            'auth-token': Cookies.get('Auth_token')
+          }
         }
+        const api = API()
+        const result = await api.DatiPersonali(ID, config)
+        this.setState({
+          datiPersonali: result.data,
+          ProfilePic: result.data.ProfilePic
+        })
+      } catch (error) {
+        console.log(error)
       }
-      const api = API()
-      const result = await api.DatiPersonali(ID, config)
-      this.setState({
-        datiPersonali: result.data,
-        ProfilePic: result.data.ProfilePic
-      })
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -863,7 +866,7 @@ class SocialMediaProvider extends Component {
     }
   }
 
-  deleteNotification = async notifId => {
+  deleteNotificationCall = async notifId => {
     const api = API()
     try {
       await api.deleteNotification(notifId)
@@ -919,10 +922,73 @@ class SocialMediaProvider extends Component {
       console.log({ error })
     }
   }
-  setshowNotificationsMenu = (param)=>{
+  
+  editGoalReachedCall = async (postId,goalReached) => {
+    const id = Cookies.get('User_id')
+    const api = API()
+    const data = {
+      _id: postId,
+      user: id,
+      goalReached,
+    }
+    try {
+      await api.editGoalReached(data)
+      const postCopy = [...this.state.posts]
+      const findPost = postCopy.find(x=> x._id === postId)
+      if(findPost){
+        findPost.goalReached = goalReached
+      }
+      this.setState({
+        posts: postCopy
+      })
+    } catch (error) {
+      console.log({ error })
+    }
+  }
+
+  setshowNotificationsMenu = param => {
     this.setState({
       showNotificationsMenu: param
     })
+  }
+  setshowSearchMenu = param => {
+    this.setState({
+      showSearchMenu: param
+    })
+  }
+
+  AddGoalCall = async (contextid, PostCaption, goalAchievementDate) => {
+    const api = API()
+    if (PostCaption !== '' && goalAchievementDate !== "") {
+      const result = await api.addGoal(
+        contextid,
+        PostCaption,
+        goalAchievementDate
+      )
+      const newItem = {
+        caption: PostCaption,
+        date: new Date(),
+        goalAchievementDate,
+        user: {
+          ProfilePic: this.state.ProfilePic,
+          name: this.state.User_Name,
+          _id: this.state.id
+        },
+        Comments: [],
+        Likes: [],
+        _id: 'Temp_123'
+      }
+
+      let UpdateItem = [...this.state.posts]
+      UpdateItem.unshift(newItem)
+      this.setState({ posts: UpdateItem })
+      const postsCopy = [...this.state.posts]
+      const tempPost = postsCopy.find(item => item._id === 'Temp_123')
+      tempPost._id = result.data._id
+      this.setState(() => {
+        return { posts: postsCopy }
+      })
+    }
   }
   //---------------- END API JS -----------------//
 
@@ -1014,6 +1080,7 @@ class SocialMediaProvider extends Component {
       token: undefined,
       redirect: undefined
     })
+    window.location.reload()
   }
 
   // ---------------- Get To LinK ---------------- //
@@ -1153,10 +1220,13 @@ class SocialMediaProvider extends Component {
           deleteLikeCall: this.deleteLikeCall,
           WritecommentReplyCALL: this.WritecommentReplyCALL,
           DeleteReplyCommentCALL: this.DeleteReplyCommentCALL,
-          deleteNotification: this.deleteNotification,
+          deleteNotificationCall: this.deleteNotificationCall,
           changeNotification: this.changeNotification,
           allNoficicationReadCall: this.allNoficicationReadCall,
-          setshowNotificationsMenu: this.setshowNotificationsMenu
+          setshowNotificationsMenu: this.setshowNotificationsMenu,
+          setshowSearchMenu: this.setshowSearchMenu,
+          addGoalCall: this.AddGoalCall,
+          editGoalReachedCall: this.editGoalReachedCall,
         }}
       >
         {this.props.children}

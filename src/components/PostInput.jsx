@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef, useEffect } from 'react'
 import { SocialMediaContext } from './Context'
 import { FcCamera, FcInternal, FcPlanner } from 'react-icons/fc'
-// GiStairsGoal
+
 import {
   Container,
   Row,
@@ -11,8 +11,8 @@ import {
   Overlay,
   Popover
 } from 'react-bootstrap'
-import Alert from './Alert'
-import PostInputWindow from './PostInputWindow'
+import AlertRemove from './AlertRemove'
+import PostInputWindow from './PostGoalInput'
 const PostInput = () => {
   const [PostCaption, setPostCaption] = useState('')
   const [InputValue, setInputValue] = useState('')
@@ -86,14 +86,20 @@ const PostInput = () => {
             )}
 
             {sizeAlert && (
-              <Alert
-                alertText={
+              <AlertRemove
+                displayText={
                   'Your file is too big for upload, it shoud be under 10mb'
                 }
+                yes={undefined}
+                no={undefined}
               />
             )}
             {postInputAlert && (
-              <Alert alertText={'You should write a caption for your post'} />
+              <AlertRemove
+                displayText={'You should write a caption for your post'}
+                yes={undefined}
+                no={undefined}
+              />
             )}
             <span className='PostInput-row'>
               <Form inline onSubmit={e => WritePost(e)}>

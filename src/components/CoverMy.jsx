@@ -11,20 +11,24 @@ const CoverMy = () => {
     User_Name,
     ProfilePic,
     datiPersonali,
-    setshowNotificationsMenu
+    setshowNotificationsMenu,
+    setshowSearchMenu
   } = useContext(SocialMediaContext)
 
   let history = useHistory()
   const GoToLink = link => {
     history.push(link)
   }
-
+  const setMenusFalse = () =>{
+    setshowNotificationsMenu(false)
+    setshowSearchMenu(false)
+  }
   return (
     <>
       <Container>
         <Row>
           <Col>
-            <div className='Cover-component' onClick={()=> setshowNotificationsMenu(false)}>
+            <div className='Cover-component' onClick={()=> setMenusFalse()}>
               <img
                 src={DefaulCover}
                 alt='DefaulCover'

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { SocialMediaContext } from '../Context'
 import ProfilePicture from '../ProfilePicture'
 import { useHistory } from 'react-router-dom'
-import AlertRemoveFriend from './AlertRemoveFriend'
+import AlertRemove from '../AlertRemove'
 const FollowersAPageMap = ({ item }) => {
   const [showRemoveAlert, setshowRemoveAlert] = useState(false)
   const {
@@ -59,8 +59,8 @@ const FollowersAPageMap = ({ item }) => {
           </h6>
         </div>
       {showRemoveAlert && (
-        <AlertRemoveFriend
-          name={item.mainUser.name}
+        <AlertRemove
+          displayText={`Are your sure you want to remove ${item.mainUser.name}?`}
           yes={() => removeFriend()}
           no={() => setshowRemoveAlert(false)}
         />

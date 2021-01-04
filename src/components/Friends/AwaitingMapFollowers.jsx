@@ -11,7 +11,7 @@ const AwaitingMapFollowers = ({ item }) => {
     GetUSerPageData
   } = useContext(SocialMediaContext)
   let history = useHistory()
-  const AcceptReq = () => {
+  const acceptReq = () => {
     respondFriendRequestCall(
       item._id,
       item.mainUser.name,
@@ -58,14 +58,14 @@ const AwaitingMapFollowers = ({ item }) => {
           <h6>{item.mainUser.Bio}</h6>
           <h6>{item.mainUser.Sentimentale}</h6>
           <h6>{item.mainUser.BirthDate}</h6>
-          <h6 className='Searched_page_button' onClick={() => AcceptReq()}>
-            Accept Request
+          <h6 className='Searched_page_button' onClick={() => acceptReq()}>
+            Accept request
           </h6>
           <h6
             className='Searched_page_button'
             onClick={() => deleteFollowersAwaiting(item._id, item.mainUser._id)}
           >
-            Delet Request
+            Delete request
           </h6>
         </div>
       </span>

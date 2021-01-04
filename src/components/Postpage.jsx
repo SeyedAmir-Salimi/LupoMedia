@@ -6,7 +6,7 @@ import Spinner from './Spinner'
 
 const Postpage = () => {
   // const [upArrow, setUpArrow] = useState(false)
-  const { posts, setshowNotificationsMenu } = useContext(SocialMediaContext)
+  const { posts, setshowNotificationsMenu, setshowSearchMenu} = useContext(SocialMediaContext)
   let Post = posts.map(item => {
     return <PostPageMap key={item._id} item={item} />
   })
@@ -46,8 +46,12 @@ const Postpage = () => {
   //   const uniq =  setUniqArray(collection)
   //   return uniq
   // }
+  const setMenusFalse = () =>{
+    setshowNotificationsMenu(false)
+    setshowSearchMenu(false)
+  }
   return (
-    <article onClick={() => setshowNotificationsMenu(false)}>
+    <article onClick={() => setMenusFalse()}>
       {posts.length === 0 && <Spinner />}
       {/* <IoIosArrowDropupCircle
         className={upArrow ? 'upArrow-show hvr-pulse' : 'upArrow-hide'}
