@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { SocialMediaContext } from './Context'
 import { useHistory } from 'react-router-dom'
-import DefaulCover from '../Images/Wallpaper.jpg'
+import DefaulCover from '../Images/Wallpaper.gif'
 import ProfilePicture from './ProfilePicture'
 import { Container, Row, Col } from 'react-bootstrap'
 const CoverMy = () => {

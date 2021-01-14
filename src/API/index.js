@@ -154,7 +154,8 @@ export default function API () {
       SENTIMENTALE,
       SESSO,
       BIO,
-      config
+      config,
+      DARKMODE
     ) {
       try {
         const result = await Axios.patch(
@@ -183,7 +184,11 @@ export default function API () {
             {
               propName: 'Bio',
               value: BIO
-            }
+            },
+            {
+              propName: 'darkMode',
+              value: DARKMODE
+            },
           ],
           config
         )

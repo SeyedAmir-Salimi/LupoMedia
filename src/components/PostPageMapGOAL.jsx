@@ -113,7 +113,7 @@ const PostPageMapGOAL = ({ item }) => {
     }
     return res
   }, [id, item.Likes])
-  console.log(item);
+
   useEffect(() => {
     setuserLikedEmoji(isUserLIked())
   }, [isUserLIked])
@@ -129,14 +129,14 @@ const PostPageMapGOAL = ({ item }) => {
     editGoalReachedCall(item._id, goalReached)
   }
 
-  const deletepost = ()=>{
+  const deletepost = () => {
     DeletePostCALL(item._id, id, false)
     const LINK = window.location.pathname
-    if(LINK !== "/home"){
+    if (LINK !== '/home') {
       GoToLink(`/home`)
     }
   }
-  const setMenusFalse = () =>{
+  const setMenusFalse = () => {
     setshowNotificationsMenu(false)
     setshowSearchMenu(false)
   }
@@ -174,20 +174,22 @@ const PostPageMapGOAL = ({ item }) => {
                 Accomplish <LastSeen date={item.goalAchievementDate} />
               </h6>
 
-              <span
-                className='postpage_trash'
-                ref={targetReport}
-                onMouseEnter={() => setsetShowReportOveraly(true)}
-                onMouseLeave={() => setsetShowReportOveraly(false)}
-              >
-                <FcPlanner
-                  className='FC_ICONS'
-                  onClick={() => {
-                    setshowReportInput(!showReportInput)
-                    setshowCommnets(!showCommnets)
-                  }}
-                />
-              </span>
+              <div className='postpage_trashWrapper'>
+                <span
+                  className='postpage_trash'
+                  ref={targetReport}
+                  onMouseEnter={() => setsetShowReportOveraly(true)}
+                  onMouseLeave={() => setsetShowReportOveraly(false)}
+                >
+                  <FcPlanner
+                    className='FC_ICONS'
+                    onClick={() => {
+                      setshowReportInput(!showReportInput)
+                      setshowCommnets(!showCommnets)
+                    }}
+                  />
+                </span>
+              </div>
               <div
                 className='postpage_accomplish_Like'
                 ref={targetLikes}
@@ -331,60 +333,70 @@ const PostPageMapGOAL = ({ item }) => {
                   {commnetsMap}
                 </div>
               )}
-              {item.user._id === id ? 
-              <Overlay
-                target={targetReport.current}
-                show={setShowReportOveraly}
-                placement='left'
-              >
-                <Popover className='popover-Notification' id='style-3'>
-                  <div
-                    onMouseEnter={() => setsetShowReportOveraly(true)}
-                    onMouseLeave={() => setsetShowReportOveraly(false)}
-                  >
-                    {!item.goalReached && <h6 onClick={()=> mekeGoalAccomplishEdit(true)}>Set it completed</h6>}
-                    {item.goalReached && <h6 onClick={()=> mekeGoalAccomplishEdit(false)}>Set it not completed</h6>}
-                    <h6
-                      onClick={() => {
-                        setshowReportInput(!showReportInput)
-                        setshowCommnets(!showCommnets)
-                      }}
+              {item.user._id === id ? (
+                <Overlay
+                  target={targetReport.current}
+                  show={setShowReportOveraly}
+                  placement='left'
+                >
+                  <Popover className='popover-Notification' id='style-3'>
+                    <div
+                      onMouseEnter={() => setsetShowReportOveraly(true)}
+                      onMouseLeave={() => setsetShowReportOveraly(false)}
                     >
-                      Report it
-                    </h6>
-                    <h6 onClick={()=> setshowRemoveAlert(true)}>Delete it</h6>
-                  </div>
-                </Popover>
-              </Overlay>
-              :
-              <Overlay
-                target={targetReport.current}
-                show={setShowReportOveraly}
-                placement='left'
-              >
-                <Popover className='popover-Notification' id='style-3'>
-                  <div
-                    onMouseEnter={() => setsetShowReportOveraly(true)}
-                    onMouseLeave={() => setsetShowReportOveraly(false)}
-                  >
-                    <h6
-                      onClick={() => {
-                        setshowReportInput(!showReportInput)
-                        setshowCommnets(!showCommnets)
-                      }}
+                      {!item.goalReached && (
+                        <h6 onClick={() => mekeGoalAccomplishEdit(true)}>
+                          Set it completed
+                        </h6>
+                      )}
+                      {item.goalReached && (
+                        <h6 onClick={() => mekeGoalAccomplishEdit(false)}>
+                          Set it not completed
+                        </h6>
+                      )}
+                      <h6
+                        onClick={() => {
+                          setshowReportInput(!showReportInput)
+                          setshowCommnets(!showCommnets)
+                        }}
+                      >
+                        Report it
+                      </h6>
+                      <h6 onClick={() => setshowRemoveAlert(true)}>
+                        Delete it
+                      </h6>
+                    </div>
+                  </Popover>
+                </Overlay>
+              ) : (
+                <Overlay
+                  target={targetReport.current}
+                  show={setShowReportOveraly}
+                  placement='left'
+                >
+                  <Popover className='popover-Notification' id='style-3'>
+                    <div
+                      onMouseEnter={() => setsetShowReportOveraly(true)}
+                      onMouseLeave={() => setsetShowReportOveraly(false)}
                     >
-                      Support {item.user.name}
-                    </h6>
-                  </div>
-                </Popover>
-              </Overlay>
-              }
+                      <h6
+                        onClick={() => {
+                          setshowReportInput(!showReportInput)
+                          setshowCommnets(!showCommnets)
+                        }}
+                      >
+                        Support {item.user.name}
+                      </h6>
+                    </div>
+                  </Popover>
+                </Overlay>
+              )}
             </div>
             {showRemoveAlert && (
               <AlertRemove
                 displayText={`Are your sure you want to remove this goal?`}
                 yes={() => deletepost()}
-                no={()=> setshowRemoveAlert(false)}
+                no={() => setshowRemoveAlert(false)}
               />
             )}
           </Col>

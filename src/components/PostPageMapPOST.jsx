@@ -121,7 +121,7 @@ const PostPageMapPOST = ({ item }) => {
       GoToLink(`/home`)
     }
   }
-  const setMenusFalse = () =>{
+  const setMenusFalse = () => {
     setshowNotificationsMenu(false)
     setshowSearchMenu(false)
   }
@@ -153,10 +153,12 @@ const PostPageMapPOST = ({ item }) => {
                 <LastSeen date={item.date} />
               </h6>
               {item.user._id === id ? (
-                <FaTrashAlt
-                  className='postpage_trash'
-                  onClick={()=> setshowRemoveAlert(true)}
-                />
+                <div className="postpage_trashWrapper">
+                  <FaTrashAlt
+                    className='postpage_trash'
+                    onClick={() => setshowRemoveAlert(true)}
+                  />
+                </div>
               ) : (
                 ''
               )}
@@ -302,7 +304,7 @@ const PostPageMapPOST = ({ item }) => {
               <AlertRemove
                 displayText={`Are your sure you want to remove this post?`}
                 yes={() => deletepost()}
-                no={()=> setshowRemoveAlert(false)}
+                no={() => setshowRemoveAlert(false)}
               />
             )}
           </Col>

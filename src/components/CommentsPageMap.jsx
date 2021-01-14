@@ -103,14 +103,14 @@ const CommentsPageMap = ({ comment }) => {
                     </h6>
                   </span>
                   {comment.comment}
-                  {comment.user._id === id || comment.postref.user === id ?  (
-                    <FaTrashAlt
-                      style={{ fontSize: '1rem' }}
-                      className='postpage_trash'
-                      onClick={() =>
-                        setshowRemoveAlert(true)
-                      }
-                    />
+                  {comment.user._id === id || comment.postref.user === id ? (
+                    <div className='commenPage_trashWrapper'>
+                      <FaTrashAlt
+                        style={{ fontSize: '1rem' }}
+                        className='postpage_trash'
+                        onClick={() => setshowRemoveAlert(true)}
+                      />
+                    </div>
                   ) : (
                     ''
                   )}
@@ -167,7 +167,7 @@ const CommentsPageMap = ({ comment }) => {
               <AlertRemove
                 displayText={`Are your sure you want to remove this comment?`}
                 yes={() => DeleteCommentCALL(comment._id, comment.postref._id)}
-                no={()=> setshowRemoveAlert(false)}
+                no={() => setshowRemoveAlert(false)}
               />
             )}
           </Col>

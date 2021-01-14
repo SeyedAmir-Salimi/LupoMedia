@@ -1,30 +1,14 @@
-import React, { useContext, useState, useCallback, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { SocialMediaContext } from './Context'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 
 const AlertChanges = ({ Mystate, NO, Yes, Done, Cancel }) => {
-  const [showError, setShowError] = useState(false)
   const {
     ErrorMessage,
     NewPassword,
     onchangeHandPassword,
     ConfirmPassword
   } = useContext(SocialMediaContext)
-
-  const ShowErrorMessage = useCallback(() => {
-    if (ErrorMessage) {
-      setShowError(true)
-      setTimeout(() => {
-        setShowError(false)
-      }, 2000)
-    } else {
-      setShowError(false)
-    }
-  }, [ErrorMessage])
-
-  useEffect(() => {
-    ShowErrorMessage()
-  }, [ShowErrorMessage])
 
   return (
     <div className='alert'>
@@ -91,7 +75,7 @@ const AlertChanges = ({ Mystate, NO, Yes, Done, Cancel }) => {
                       {Cancel}
                     </Button>
                   </span>
-                  {showError && (
+                  {ErrorMessage && (
                     <h6 className='AlertChanges-error'>{ErrorMessage}</h6>
                   )}
                 </Form>

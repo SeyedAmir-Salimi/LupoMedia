@@ -14,7 +14,10 @@ html {
 	--primaryGOldColor:  rgb(223, 209, 144);
 	--ViolaBackground: rgb(49, 16, 46);
 	--ViolaNavbar:  rgb(27, 6, 25);
+	--grayPost:  rgb(196, 196, 196);
+	--textPost: rgb(8, 6, 27);
 	--ViolaHover:  rgb(177, 0, 118);
+	--trashHover: rgb(158, 157, 157);
 	--FontFamily: Arial, Helvetica, sans-serif;
   }
   @media (max-width: 740px) {
@@ -24,9 +27,10 @@ html {
 	.view {
 	  height: 1000px;
 	}
-	.Cover-Texts h6{
+	.Cover-Texts h6, .myPage-PostsGoals h6{
 		font-size: 0.5rem;
 	}
+
 	.Cover-Name{
 		font-size: 1rem;
 	}
@@ -627,7 +631,7 @@ td{
 /* Postpage Component */
 
 .postpage {
-	background: rgb(196, 196, 196);
+	background: var(--grayPost);
 	border-radius: 1rem;
 	position: relative;
 	width: 80%;
@@ -646,7 +650,7 @@ td{
 	border-radius: 3rem;
 }
 .postpage_name {
-	color:var(--ViolaNavbar);
+	color: var(--textPost);
 	margin-top: 0.5rem;
 	position: absolute;
 	left: 4rem;
@@ -657,6 +661,7 @@ td{
 	left: 4rem;
 	font-size: 0.9rem;
 	text-align: left;
+	color: var(--textPost);
 }
 .postpage_accomplish {
 	margin-top: 3.5rem;
@@ -672,6 +677,9 @@ td{
 	font-size: 0.9rem;
 	text-align: left;
 }
+.postpage_accomplish_Like h6, .postpage_Like h6{
+	color: var(--textPost);
+}
 .postpage_Like {
 	font-size: 1.5rem;
 	position: absolute;
@@ -686,14 +694,30 @@ td{
 	border-radius: 1rem;
 	cursor: pointer;
 }
-.postpage_trash {
+.postpage_trashWrapper{
 	margin-top: 0.2rem;
 	position: absolute;
 	right: 1rem;
-	font-size: 1.4rem;
-	color:var(--ViolaNavbar);
-	cursor: pointer;
+	color: var(--textPost);
 	z-index: 5;
+    padding: 0.3rem;
+	border-radius: 1rem;
+	transition: all 0.2s;
+}
+.commenPage_trashWrapper{
+	margin-top: 0.2rem;
+	position: absolute;
+	right: 0rem;
+	color: var(--textPost);
+	z-index: 5;
+    padding: 0.3rem;
+	border-radius: 1rem;
+	transition: all 0.2s;
+	top: 4rem;
+}
+.postpage_trash {
+	font-size: 1.4rem;
+	cursor: pointer;
 }
 .postpage_plus{
 	margin-top: 0.2rem;
@@ -702,11 +726,14 @@ td{
 	font-size: 1.4rem;
 	cursor: pointer;
 }
-.postpage_trash:hover{
-	color: var(--ViolaHover)
+.postpage_trashWrapper:hover, .commenPage_trashWrapper:hover{
+    padding: 0.3rem;
+	border-radius: 0.3rem;
+	background-color: var(--trashHover);
+
 }
 .postpage_Caption {
-	color: rgb(104, 1, 87);
+	color: var(--textPost);
 	margin-bottom: 1rem;
 }
 
@@ -719,9 +746,13 @@ td{
 	width: 10rem;
 	margin: 0 auto;
 	margin-bottom: 0.5rem;
+	color: var(--textPost);
+	transition: all 0.3s;
 }
 .showComments:hover, .showComments_reply:hover, .showComments_reply_map:hover, .commnet_respond_map:hover{
-	color: rgb(104, 1, 87);
+	color: var(--textPost);
+	background-color: var(--trashHover);
+	border-radius: 0.3rem;
 }
 .showComments_reply{
 	position: absolute;
@@ -730,6 +761,8 @@ td{
 	font-size: 0.7rem;
 	cursor: pointer;
 	right: 4rem;
+	color: var(--textPost);
+	transition: all 0.3s;
 }
 .showComments_reply_map{
 	position: absolute;
@@ -813,7 +846,7 @@ td{
 	left: 4rem;
 }
 .commnet_respond:hover{
-	color: rgb(104, 1, 87);
+	color: var(--textPost);
 }
 .Comment_date {
 	font-size: 0.7rem;
@@ -1267,7 +1300,7 @@ td{
 	max-width: 95%;
 	border-bottom-left-radius: 2rem;
 	border-bottom-right-radius: 2rem;
-
+	background-color: var(--ViolaNavbar);
 }
 .Cover-profilePic{
 	position: absolute;
@@ -1505,9 +1538,65 @@ td{
 	float: right;
 	font-size: 1.5rem;
 }
+
 .PostInputWindow-wrapper h5{
 	margin-top: 0.5rem;
 	color: red;
+}
+
+/* MyPage component */
+
+.myPage-PostsGoals{
+	color: var(--primaryGOldColor);
+	margin-top: 5px;
+	font-size: 1rem;
+	cursor: pointer;
+}
+.borderbottom{
+	border-bottom: 2px solid var(--primaryGOldColor);
+}
+
+/* FaArrowAltCircleUp */
+
+.FaArrowAltCircleUp{
+	color: var(--primaryGOldColor);
+	font-size: 2rem;
+	opacity: 0.5;
+}
+.FaArrowAltCircleUp:hover{
+	opacity: 1;
+}
+
+
+/* DarkModeButton */
+.DarkModeButton{
+	display: flex;
+    justify-content: center;
+}
+.darkModeButton-wrapper{
+	position: relative;
+	cursor: pointer;
+}
+.darkModeButton-SM{
+	font-size: 1.3rem;
+	color: var(--primaryGOldColor);
+	background-color:var(--ViolaBackground);
+	width: 5rem;
+	border-radius: 1rem;
+}
+.FiMoon , .FiSun{
+	margin: 9px;
+}
+.darkModeButton-Ci{
+    position: absolute;
+    color:var(--primaryGOldColor);
+    font-size: 2rem;
+	top: -0.6rem;
+	transform: translateX(5px);
+	transition: all 0.5s;
+}
+.darkModeButton-CiTrue{
+	transform: translateX(43px);
 }
 @media only screen and (max-width: 700px) {
 		/* .NavbarBootStrap{

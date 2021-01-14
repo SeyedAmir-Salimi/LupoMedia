@@ -22,8 +22,9 @@ class SocialMediaProvider extends Component {
         email: '',
         sesso: '',
         BirthDate: '',
-        Sentimentale: ''
+        Sentimentale: '',
       },
+      darkMode: false,
       loginError: '',
       posts: [],
       comments: [],
@@ -66,6 +67,7 @@ class SocialMediaProvider extends Component {
     this.getFollowersAwaitingCall()
     this.SetUSerPageData()
     this.getNotificationsCall()
+    this.changeTheme()
   }
 
   //---------------- API JS -----------------//
@@ -334,6 +336,7 @@ class SocialMediaProvider extends Component {
     this.setState({
       posts: result.data
     })
+    
   }
 
   LoginGetCall = async () => {
@@ -343,11 +346,11 @@ class SocialMediaProvider extends Component {
     try {
       const api = API()
       const result = await api.LoginGet(this.state.email, this.state.password)
-
       Cookies.set('Auth_token', result.data.token)
       Cookies.set('User_id', result.data.ID)
       Cookies.set('User_Name', result.data.NAME)
       Cookies.set('redirect', '/home')
+      Cookies.set("Dark", result.data.DARK);
       const get = Cookies.get('redirect')
       this.setState(
         {
@@ -365,7 +368,8 @@ class SocialMediaProvider extends Component {
           this.getFollowingAwaitingCall(),
           this.getFollowersAwaitingCall(),
           this.SetUSerPageData(),
-          this.getNotificationsCall()
+          this.getNotificationsCall(),
+          this.changeTheme(),
         ]
       )
     } catch (error) {
@@ -389,8 +393,10 @@ class SocialMediaProvider extends Component {
         const result = await api.DatiPersonali(ID, config)
         this.setState({
           datiPersonali: result.data,
+          darkMode: result.data.darkMode,
           ProfilePic: result.data.ProfilePic
-        })
+        }, ()=> [Cookies.set("Dark", result.data.darkMode) , this.changeTheme()])
+        
       } catch (error) {
         console.log(error)
       }
@@ -413,6 +419,8 @@ class SocialMediaProvider extends Component {
       const SENTIMENTALE = this.state.datiPersonali.Sentimentale
       const SESSO = this.state.datiPersonali.sesso
       const BIO = this.state.datiPersonali.Bio
+      const DARKMODE = this.state.darkMode
+      
       const api = API()
       await api.UpdateDatiPersonal(
         ID,
@@ -422,7 +430,8 @@ class SocialMediaProvider extends Component {
         SENTIMENTALE,
         SESSO,
         BIO,
-        config
+        config,
+        DARKMODE
       )
       Cookies.set('User_Name', NAME)
       this.setState({
@@ -501,6 +510,11 @@ class SocialMediaProvider extends Component {
           NewPassword: '',
           ConfirmPassword: ''
         })
+        setTimeout(() => {
+          this.setState({
+            ErrorMessage: undefined,
+          })
+        }, 3000);
         return 'not done'
       }
     } catch (error) {
@@ -1067,6 +1081,11 @@ class SocialMediaProvider extends Component {
 
   //---------------- LogIN Out -----------------//
   LogeOut = () => {
+    this.setState({
+      redirectTF: false,
+      token: undefined,
+      redirect: undefined
+    })
     Cookies.remove('Auth_token')
     Cookies.remove('User_id')
     Cookies.remove('redirect')
@@ -1075,11 +1094,7 @@ class SocialMediaProvider extends Component {
     Cookies.remove('UserPage_ProfilePic')
     Cookies.remove('UserPage_Name')
     Cookies.remove('UserPage_sesso')
-    this.setState({
-      redirectTF: false,
-      token: undefined,
-      redirect: undefined
-    })
+    Cookies.remove('Dark')
     window.location.reload()
   }
 
@@ -1116,6 +1131,12 @@ class SocialMediaProvider extends Component {
     this.setState({ datiPersonali: datipersonaliCOpy })
   }
 
+  toggleDarkMode = ()=>{
+    this.setState(
+      { darkMode: !this.state.darkMode },
+      () => [Cookies.set("Dark", this.state.darkMode), this.changeTheme()]
+   )
+  }
   // ---------------- Following ID Check ---------------- //
 
   IdFollowingChek = ID => {
@@ -1179,6 +1200,31 @@ class SocialMediaProvider extends Component {
     // this.SetUSerPageData()
   }
 
+
+  // ---------------- change theme  ---------------- //
+
+  changeTheme = ()=> {
+    const dark = Cookies.get('Dark')
+    console.log("state", this.state.darkMode);
+    console.log("Cookies", dark);
+    if(dark === "true"){
+      console.log("1");
+      document.documentElement.style.setProperty('--ViolaBackground', "rgb(24, 25, 27)");
+      document.documentElement.style.setProperty('--ViolaNavbar', "rgb(36, 37, 39)");
+      document.documentElement.style.setProperty('--primaryGOldColor', "rgb(219, 220, 224)");
+      document.documentElement.style.setProperty('--grayPost', "rgb(36, 37, 39)");
+      document.documentElement.style.setProperty('--textPost', "rgb(219, 220, 224)");
+      document.documentElement.style.setProperty(' --trashHover', "rgb(77, 77, 77)");
+    }else{
+      console.log("2");
+      document.documentElement.style.setProperty('--ViolaBackground', "rgb(49, 16, 46)");
+      document.documentElement.style.setProperty('--ViolaNavbar', "rgb(27, 6, 25)");
+      document.documentElement.style.setProperty('--primaryGOldColor', "rgb(223, 209, 144)");
+      document.documentElement.style.setProperty('--grayPost', "rgb(196, 196, 196)");
+      document.documentElement.style.setProperty('--textPost', "rgb(8, 6, 27)");
+      document.documentElement.style.setProperty(' --trashHover', "rgb(158, 157, 157)");
+    }
+}
   render () {
     return (
       <SocialMediaContext.Provider
@@ -1227,6 +1273,7 @@ class SocialMediaProvider extends Component {
           setshowSearchMenu: this.setshowSearchMenu,
           addGoalCall: this.AddGoalCall,
           editGoalReachedCall: this.editGoalReachedCall,
+          toggleDarkMode: this.toggleDarkMode,
         }}
       >
         {this.props.children}

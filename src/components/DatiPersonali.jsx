@@ -5,6 +5,7 @@ import AlertChanges from './AlertChanges'
 import ProfilePicture from './ProfilePicture'
 import { useHistory } from 'react-router-dom'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import DarkModeButton from './DarkModeButton'
 const DatiPersonali = () => {
   const [Pannel, setPannel] = useState({
     PasswordPannel: false,
@@ -22,7 +23,7 @@ const DatiPersonali = () => {
     datiPersonali,
     UpdateDatiPersonali,
     onchangeHandlerDatiPersonali,
-    uploadPicprofile
+    uploadPicprofile,
   } = useContext(SocialMediaContext)
 
   let history = useHistory()
@@ -140,7 +141,7 @@ const DatiPersonali = () => {
 
               <Form.Group>
                 <Form.Label className='datiPersonali-Label'>
-                Relationship status:
+                  Relationship status:
                 </Form.Label>
                 {datiPersonali.Sentimentale === 'Singel' ? (
                   <Form.Control
@@ -194,7 +195,7 @@ const DatiPersonali = () => {
                 )}{' '}
               </Form.Group>
 
-              <Form.Group >
+              <Form.Group>
                 <Form.Label className='datiPersonali-Label'>Bio:</Form.Label>
                 <Form.Control
                   as='textarea'
@@ -208,7 +209,9 @@ const DatiPersonali = () => {
                   className='datiPersonali-Input'
                 />
               </Form.Group>
-
+              <span className="DarkModeButton">
+                <DarkModeButton />
+              </span>
               <Form.Group>
                 <Form.Control
                   type='file'
@@ -218,7 +221,6 @@ const DatiPersonali = () => {
                   style={{ visibility: 'hidden' }}
                 />
               </Form.Group>
-
               <Button
                 size='m'
                 className='m-2 button_Log font-weight-bold'
