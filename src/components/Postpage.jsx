@@ -4,7 +4,7 @@ import PostPageMap from './PostPageMap'
 import Spinner from './Spinner'
 
 const Postpage = () => {
-  const { posts, setshowNotificationsMenu, setshowSearchMenu} = useContext(SocialMediaContext)
+  const { posts, setshowNotificationsMenu, setshowSearchMenu, Loadspinner} = useContext(SocialMediaContext)
   let Post = posts.map(item => {
     return <PostPageMap key={item._id} item={item} />
   })
@@ -13,9 +13,10 @@ const Postpage = () => {
     setshowNotificationsMenu(false)
     setshowSearchMenu(false)
   }
+
   return (
     <article onClick={() => setMenusFalse()}>
-      {posts.length === 0 && <Spinner />}
+      {Loadspinner && <Spinner />}
       {Post}
     </article>
   )

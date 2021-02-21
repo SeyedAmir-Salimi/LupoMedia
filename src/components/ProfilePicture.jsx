@@ -11,15 +11,15 @@ const ProfilePicture = ({ ProfilePic, User_Name, Size, onClick, sesso }) => {
 
   return (
     <>
-      {ProfilePic?.picture === undefined && sesso === 'Man' ? (
+      {ProfilePic?.picture === undefined && sesso === 'Man' && (
         <img src={PM} alt={User_Name} className={classname} onClick={onClick} />
-      ) : (
-        ''
       )}
-      {ProfilePic?.picture === undefined && sesso === 'Woman' ? (
+      {!ProfilePic && !sesso && (
+        <img src={PM} alt={User_Name} className={classname} onClick={onClick} />
+      )}
+  
+      {ProfilePic?.picture === undefined && sesso === 'Woman' && (
         <img src={PW} alt={User_Name} className={classname} onClick={onClick} />
-      ) : (
-        ''
       )}
       {ProfilePic?.picture !== undefined ? (
         <img

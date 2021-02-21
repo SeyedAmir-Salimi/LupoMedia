@@ -54,6 +54,7 @@ class SocialMediaProvider extends Component {
       notifications: [],
       showNotificationsMenu: false,
       showSearchMenu: false,
+      Loadspinner: true,
     }
   }
 
@@ -84,7 +85,8 @@ class SocialMediaProvider extends Component {
           user: {
             ProfilePic: this.state.ProfilePic,
             name: this.state.User_Name,
-            _id: this.state.id
+            _id: this.state.id,
+            sesso: this.state.sesso
           },
           Comments: [],
           Likes: [],
@@ -334,7 +336,8 @@ class SocialMediaProvider extends Component {
     const api = API()
     const result = await api.GetAllPosts(id)
     this.setState({
-      posts: result.data
+      posts: result.data,
+      Loadspinner: false,
     })
     
   }

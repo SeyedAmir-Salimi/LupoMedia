@@ -7,7 +7,7 @@ import Spinner from './Spinner'
 import UpUp from './UpUp'
 const UserPage = () => {
   const [showPanel, setShowPanel] = useState('posts')
-  const { posts, UserPageData } = useContext(SocialMediaContext)
+  const { posts, UserPageData, Loadspinner} = useContext(SocialMediaContext)
   const postsMap = posts
     .filter(item => item.user._id === UserPageData._id && !item.goalAchievementDate)
     .map(item => {
@@ -28,7 +28,7 @@ const UserPage = () => {
     <div>
       <NavBar />
       <Cover />
-      {posts.length === 0 && <Spinner />}
+      {Loadspinner && <Spinner />}
       <div className='myPage-PostsGoals'>
         <h6>
           <span

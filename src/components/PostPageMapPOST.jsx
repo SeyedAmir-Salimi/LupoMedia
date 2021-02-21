@@ -141,7 +141,7 @@ const PostPageMapPOST = ({ item }) => {
             <div key={item._id} className='postpage'>
               <div className='PostProfilPic_Wrapper'>
                 <ProfilePicture
-                  ProfilePic={item.user.ProfilePic}
+                  ProfilePic={item.user.ProfilePic ? item.user.ProfilePic : undefined}
                   User_Name={item.user.name}
                   Size={'Medium'}
                   onClick={() => GoTo()}

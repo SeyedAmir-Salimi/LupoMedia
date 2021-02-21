@@ -7,7 +7,7 @@ import Spinner from './Spinner'
 import UpUp from './UpUp'
 const MyPage = () => {
   const [showPanel, setShowPanel] = useState('posts')
-  const { posts, id } = useContext(SocialMediaContext)
+  const { posts, id, Loadspinner} = useContext(SocialMediaContext)
 
   const MyPost = posts
     .filter(item => item.user._id === id && !item.goalAchievementDate)
@@ -29,7 +29,7 @@ const MyPage = () => {
     <div>
       <NavBar />
       <CoverMy />
-      {posts.length === 0 && <Spinner />}
+      {Loadspinner && <Spinner />}
       <div className='myPage-PostsGoals'>
         <h6>
           <span className={selectPostsClass} onClick={()=> changeShowPanel("posts")}>Posts</span>
