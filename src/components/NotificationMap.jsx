@@ -110,7 +110,7 @@ function NotificationMap ({ item }) {
       >
         ...
       </h4>
-      <div className='NotificationMap-texts'>
+      <div className='NotificationMap-texts' onClick={() => markAsRead()}>
         <h5>{item.mainUser.name}</h5>
         <h6>
           <LastSeen date={item.date} />
