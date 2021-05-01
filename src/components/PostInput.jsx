@@ -1,7 +1,9 @@
 import React, { useState, useContext, useRef, useEffect } from 'react'
 import { SocialMediaContext } from './Context'
-import { FcCamera, FcInternal, FcPlanner } from 'react-icons/fc'
-
+// import { FcCamera, FcInternal, FcPlanner } from 'react-icons/fc'
+import { AiFillCamera } from "react-icons/ai";
+import { MdUpdate } from "react-icons/md";
+import { FaLevelDownAlt } from "react-icons/fa";
 import {
   Container,
   Row,
@@ -116,9 +118,9 @@ const PostInput = () => {
                 </Form.Group>
               </Form>
               <span>
-                <FcInternal
+                <FaLevelDownAlt
                   id='FC'
-                  className='FC_ICONS'
+                  className='FC_ICONS icondown'
                   onClick={e => WritePost(e)}
                 />
               </span>
@@ -127,14 +129,14 @@ const PostInput = () => {
                 onMouseEnter={() => setShowAttachOveraly(true)}
                 onMouseLeave={() => setShowAttachOveraly(false)}
               >
-                <FcCamera onClick={triggerInputFile} className='FC_ICONS' />
+                <AiFillCamera onClick={triggerInputFile} className='FC_ICONS' />
               </span>
               <span
                 ref={targetGoal}
                 onMouseEnter={() => setShowGoalOveraly(true)}
                 onMouseLeave={() => setShowGoalOveraly(false)}
               >
-                <FcPlanner
+                <MdUpdate
                   className='FC_ICONS'
                   onClick={() => setShowGoalInput(true)}
                 />

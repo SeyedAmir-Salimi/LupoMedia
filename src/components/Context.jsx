@@ -1287,3 +1287,20 @@ class SocialMediaProvider extends Component {
 const SocialMediaConsumer = SocialMediaContext.Consumer
 
 export { SocialMediaProvider, SocialMediaConsumer, SocialMediaContext }
+
+
+
+  // const domNode = useRef();
+  // useEffect(() => {
+  //   const maybeHandler = (event) => {
+  //     if (!domNode.current.contains(event.target)) {
+  //       setshowMenu(false);
+  //     }
+  //   };
+
+  //   document.addEventListener('mousedown', maybeHandler);
+
+  //   return () => {
+  //     document.removeEventListener('mousedown', maybeHandler);
+  //   };
+  // });

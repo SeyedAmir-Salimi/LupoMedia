@@ -4,7 +4,7 @@ import { FaTrashAlt } from 'react-icons/fa'
 import LastSeen from './LastSeen'
 import ProfilePicture from './ProfilePicture'
 import { useHistory } from 'react-router-dom'
-import { FcInternal } from 'react-icons/fc'
+import { FaLevelDownAlt } from "react-icons/fa";
 import CommentsReplyPageMap from './CommentsReplyPageMap'
 import { Container, Row, Col, Form } from 'react-bootstrap'
 import AlertRemove from './AlertRemove'
@@ -153,8 +153,8 @@ const CommentsPageMap = ({ comment }) => {
                         value={replyInputValue}
                       />
                     </Form.Group>
-                    <FcInternal
-                      className='FC_ICONS'
+                    <FaLevelDownAlt
+                      className='FC_ICONS iconDownComment'
                       style={{ fontSize: '2rem' }}
                       onClick={e => writeReply(e)}
                     />

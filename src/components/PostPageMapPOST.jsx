@@ -10,6 +10,7 @@ import { SocialMediaContext } from './Context'
 import { TiHeart, TiHeartOutline } from 'react-icons/ti'
 import { FaTrashAlt } from 'react-icons/fa'
 import { FcInternal } from 'react-icons/fc'
+import { FaLevelDownAlt } from "react-icons/fa";
 import CommentsPageMap from './CommentsPageMap'
 import LastSeen from './LastSeen'
 import ProfilePicture from './ProfilePicture'
@@ -268,8 +269,8 @@ const PostPageMapPOST = ({ item }) => {
                       value={comment}
                     />
                   </Form.Group>
-                  <FcInternal
-                    className='FC_ICONS'
+                  <FaLevelDownAlt
+                    className='FC_ICONS iconDownComment'
                     style={{ fontSize: '2rem' }}
                     onClick={e => WriteComments(e, item._id, comment, id)}
                   />

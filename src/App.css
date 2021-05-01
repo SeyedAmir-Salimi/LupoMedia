@@ -964,9 +964,23 @@ td{
 	outline: none;
 }
 .FC_ICONS {
-	font-size: 2.5rem;
+	font-size: 2rem;
 	margin-left: 0.5rem;
 	cursor: pointer;
+	color: var(--primaryGOldColor);
+}
+.icondown{
+	font-size: 1.5rem !important;
+	margin-top: 0.4em;
+}
+.iconDownComment{
+	font-size: 1.2rem !important;
+	margin-top: 0.4em;
+	color: var(--ViolaBackground)
+}
+.MdUpdate{
+	font-size: 1.8rem !important;
+	color: var(--ViolaBackground)
 }
 
 /* Homapage Component */
