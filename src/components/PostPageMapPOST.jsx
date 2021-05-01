@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { SocialMediaContext } from './Context'
 import { TiHeart, TiHeartOutline } from 'react-icons/ti'
 import { FaTrashAlt } from 'react-icons/fa'
-import { FcInternal } from 'react-icons/fc'
+// import { FcInternal } from 'react-icons/fc'
 import { FaLevelDownAlt } from "react-icons/fa";
 import CommentsPageMap from './CommentsPageMap'
 import LastSeen from './LastSeen'
