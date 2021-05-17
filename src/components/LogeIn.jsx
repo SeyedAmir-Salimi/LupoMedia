@@ -94,7 +94,7 @@ const LogeIn = () => {
               <Col>
                 <Button
                   size='m'
-                  className='m-2 button_Log font-weight-bold'
+                  className='m-2 button_Log_Login font-weight-bold'
                   type='submit'
                   onClick={e => AuthLogin(e)}
                 >
@@ -102,7 +102,7 @@ const LogeIn = () => {
                 </Button>
                 <Button
                   size='m'
-                  className='m-2 button_Log font-weight-bold'
+                  className='m-2 button_Log_Login font-weight-bold'
                   onClick={() => GoToLink('/register')}
                 >
                   Register

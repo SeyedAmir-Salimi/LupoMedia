@@ -165,6 +165,24 @@ html {
 	text-decoration: none;
 	font-family: var(--FontFamily);
 }
+.button_Log_Login{
+	position: relative;
+	display: inline-block;
+	padding: 5px;
+	color:	rgb(58, 9, 54) !important;
+	margin: 0 auto;
+	background: rgb(223, 209, 144) !important;
+	font-size: 18px;
+	font-weight: bolder;
+	text-align: center;
+	font-style: normal;
+	width: 45%;
+	border: 1px solid var(--primaryGOldColor) !important;
+	border-width: 1px 1px 3px;
+	margin-bottom: 5px;
+	text-decoration: none;
+	font-family: var(--FontFamily);
+}
 
 .button_Log:focus, .button_Log2:focus{
 	outline: none;
@@ -247,7 +265,7 @@ html {
 	justify-content: space-around;
 }
 .Loge-lupomedia h4{
-	color: var(--primaryGOldColor);
+	color: white;
 }
 .navbar-toggler{
 	background-color:var(--primaryGOldColor) !important;
