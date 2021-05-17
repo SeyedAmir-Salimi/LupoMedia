@@ -1,7 +1,8 @@
 import React, { useContext} from 'react'
 import { SocialMediaContext } from './Context'
 // import { useHistory } from 'react-router-dom'
-import DefaulCover from '../Images/Wallpaper.gif'
+import DefaulCoverGold from '../Images/Wallpaper.gif'
+import DefaulCoverViola from '../Images/Wallpaper2.gif'
 import ProfilePicture from './ProfilePicture'
 import { Container, Row, Col } from 'react-bootstrap'
 const Cover = () => {
@@ -12,7 +13,8 @@ const Cover = () => {
     IdFollowingChek,
     IdAwaitingingChekFollowing,
     setshowNotificationsMenu,
-    setshowSearchMenu
+    setshowSearchMenu,
+    darkMode
   } = useContext(SocialMediaContext)
 
   const ExistFollowing = IdFollowingChek(UserPageData._id)
@@ -39,7 +41,7 @@ const Cover = () => {
               onClick={() => setMenusFalse()}
             >
               <img
-                src={DefaulCover}
+                src={darkMode ? DefaulCoverGold : DefaulCoverViola}
                 alt='DefaulCover'
                 className='Cover-DefaulCovert'
               />

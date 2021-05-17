@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { SocialMediaContext } from './Context'
 import { useHistory } from 'react-router-dom'
-import DefaulCover from '../Images/Wallpaper.gif'
+import DefaulCoverGold from '../Images/Wallpaper.gif'
+import DefaulCoverViola from '../Images/Wallpaper2.gif'
 import ProfilePicture from './ProfilePicture'
 import { Container, Row, Col } from 'react-bootstrap'
 const CoverMy = () => {
@@ -12,9 +13,9 @@ const CoverMy = () => {
     ProfilePic,
     datiPersonali,
     setshowNotificationsMenu,
-    setshowSearchMenu
+    setshowSearchMenu,
+    darkMode
   } = useContext(SocialMediaContext)
-
   let history = useHistory()
   const GoToLink = link => {
     history.push(link)
@@ -30,7 +31,7 @@ const CoverMy = () => {
           <Col>
             <div className='Cover-component' onClick={()=> setMenusFalse()}>
               <img
-                src={DefaulCover}
+                src={darkMode ? DefaulCoverGold : DefaulCoverViola}
                 alt='DefaulCover'
                 className='Cover-DefaulCovert'
               />

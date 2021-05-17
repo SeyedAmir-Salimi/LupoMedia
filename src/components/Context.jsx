@@ -1208,10 +1208,7 @@ class SocialMediaProvider extends Component {
 
   changeTheme = ()=> {
     const dark = Cookies.get('Dark')
-    console.log("state", this.state.darkMode);
-    console.log("Cookies", dark);
     if(dark === "true"){
-      console.log("1");
       document.documentElement.style.setProperty('--ViolaBackground', "rgb(24, 25, 27)");
       document.documentElement.style.setProperty('--ViolaNavbar', "rgb(36, 37, 39)");
       document.documentElement.style.setProperty('--primaryGOldColor', "rgb(219, 220, 224)");
@@ -1219,12 +1216,11 @@ class SocialMediaProvider extends Component {
       document.documentElement.style.setProperty('--textPost', "rgb(219, 220, 224)");
       document.documentElement.style.setProperty(' --trashHover', "rgb(77, 77, 77)");
     }else{
-      console.log("2");
-      document.documentElement.style.setProperty('--ViolaBackground', "rgb(49, 16, 46)");
-      document.documentElement.style.setProperty('--ViolaNavbar', "rgb(27, 6, 25)");
-      document.documentElement.style.setProperty('--primaryGOldColor', "rgb(223, 209, 144)");
-      document.documentElement.style.setProperty('--grayPost', "rgb(196, 196, 196)");
-      document.documentElement.style.setProperty('--textPost', "rgb(8, 6, 27)");
+      document.documentElement.style.setProperty('--ViolaBackground', "rgb(196, 196, 196)");
+      document.documentElement.style.setProperty('--ViolaNavbar', "rgb(230, 230, 230)");
+      document.documentElement.style.setProperty('--primaryGOldColor', "rgb(89, 1, 107)");
+      document.documentElement.style.setProperty('--grayPost', "rgb(230, 230, 230)");
+      document.documentElement.style.setProperty('--textPost', "rgb(49, 16, 46)");
       document.documentElement.style.setProperty(' --trashHover', "rgb(158, 157, 157)");
     }
 }

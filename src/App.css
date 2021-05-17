@@ -10,12 +10,13 @@ html {
 	background-color: var(--ViolaBackground) !important;
 }
 
+
 :root {
 	--primaryGOldColor:  rgb(223, 209, 144);
-	--ViolaBackground: rgb(49, 16, 46);
-	--ViolaNavbar:  rgb(27, 6, 25);
-	--grayPost:  rgb(196, 196, 196);
-	--textPost: rgb(8, 6, 27);
+	--ViolaBackground: rgb(196, 196, 196);
+	--ViolaNavbar:  rgb(230, 230, 230);
+	--grayPost:  rgb(230, 230, 230);
+	--textPost: rgb(49, 16, 46);
 	--ViolaHover:  rgb(177, 0, 118);
 	--trashHover: rgb(158, 157, 157);
 	--FontFamily: Arial, Helvetica, sans-serif;
@@ -150,7 +151,7 @@ html {
 	position: relative;
 	display: inline-block;
 	padding: 5px;
-	color: rgb(34, 6, 31) !important;
+	color: var(--ViolaNavbar) !important;
 	margin: 0 auto;
 	background: var(--primaryGOldColor) !important;
 	font-size: 18px;
@@ -172,7 +173,7 @@ html {
 	position: relative;
 	display: inline-block;
 	padding: 5px;
-	color: rgb(34, 6, 31) !important;
+	color: var(--ViolaNavbar) !important;
 	margin: 0 auto;
 	background: var(--primaryGOldColor) !important;
 	font-size: 18px;
@@ -361,6 +362,7 @@ html {
 .datiPersonali-Input{
 	width: 100% !important;
 	background-color:var(--ViolaNavbar) !important;
+	color: var(--primaryGOldColor) !important;
 	box-shadow: none !important;
 	text-align: center;
 }
@@ -636,7 +638,8 @@ td{
 	position: relative;
 	width: 80%;
 	margin: 1rem auto;
-	border: 1px solid black;
+	-webkit-box-shadow: 5px 5px 6px -1px rgba(89, 1, 107, 0.1); 
+	box-shadow: 5px 5px 6px -1px rgba(89, 1, 107, 0.1);
 }
 
 .PostProfilPic_Wrapper {
