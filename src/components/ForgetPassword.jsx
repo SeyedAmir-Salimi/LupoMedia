@@ -52,7 +52,7 @@ const ForgetPassword = () => {
 			  <Col>
                 <Button
                   size='m'
-                  className='m-2 button_Log font-weight-bold'
+                  className='m-2 button_Log_Login font-weight-bold'
                   type='submit'
                   onClick={e => forgetPasswordSubmit(e)}
                 >
