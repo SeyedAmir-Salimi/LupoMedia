@@ -997,11 +997,11 @@ td{
 .iconDownComment{
 	font-size: 1.2rem !important;
 	margin-top: 0.4em;
-	color: var(--ViolaBackground)
+	color: var(--primaryGOldColor)
 }
 .MdUpdate{
 	font-size: 1.8rem !important;
-	color: var(--ViolaBackground)
+	color: var(--primaryGOldColor)
 }
 
 /* Homapage Component */

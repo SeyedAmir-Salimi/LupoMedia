@@ -49,7 +49,7 @@ const ForgetPassword = () => {
                     onChange={e => inputOnchange(e)}
                 />
               </Form.Group>
-			  <Col>
+			      <Col>
                 <Button
                   size='m'
                   className='m-2 button_Log_Login font-weight-bold'
