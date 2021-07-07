@@ -55,6 +55,7 @@ class SocialMediaProvider extends Component {
       showNotificationsMenu: false,
       showSearchMenu: false,
       Loadspinner: true,
+      isShowAssistance: false,
     }
   }
 
@@ -1202,7 +1203,13 @@ class SocialMediaProvider extends Component {
 
     // this.SetUSerPageData()
   }
+  // ---------------- assistance  ---------------- //
 
+  toggleShowAssistanec = (data)=>{
+    this.setState({
+      isShowAssistance: data
+    })
+  }
 
   // ---------------- change theme  ---------------- //
 
@@ -1273,6 +1280,7 @@ class SocialMediaProvider extends Component {
           addGoalCall: this.AddGoalCall,
           editGoalReachedCall: this.editGoalReachedCall,
           toggleDarkMode: this.toggleDarkMode,
+          toggleShowAssistanec: this.toggleShowAssistanec,
         }}
       >
         {this.props.children}

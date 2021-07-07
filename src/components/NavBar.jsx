@@ -5,9 +5,11 @@ import SearchBar from './SearchBar'
 import ProfilePicture from './ProfilePicture'
 import { FaUserFriends } from 'react-icons/fa'
 import { ImExit } from 'react-icons/im'
-import { AiFillHome } from 'react-icons/ai'
+import { AiFillHome, AiFillQuestionCircle} from 'react-icons/ai'
 import { IoMdNotifications } from 'react-icons/io'
 import Notifications from './Notifications'
+import Assistenza from './Assistenza'
+import AssistenzaMessage from './AssistenzaMessage'
 import {
   Navbar as NavbarBootStrap,
   Nav,
@@ -21,6 +23,8 @@ const Navbar = () => {
   const [showHomeNot, setShowHomeNot] = useState(false)
   const [showAwaitingNot, setShowAwaitingNot] = useState(false)
   const [showNotificationNot, setShowNotificationNot] = useState(false)
+  const [showNotificationASS, setShowNotificationASS] = useState(false)
+  const [showAssistanzList, setshowAssistanzList] = useState(false)
   const [showExitNot, setShowExitNot] = useState(false)
   const {
     User_Name,
@@ -33,7 +37,8 @@ const Navbar = () => {
     datiPersonali,
     notifications,
     showNotificationsMenu,
-    setshowNotificationsMenu
+    setshowNotificationsMenu,
+    isShowAssistance
   } = useContext(SocialMediaContext)
   const awaitingSum = numberOfFollwingawaiting + numberOfFollwersAwaiting
 
@@ -61,6 +66,7 @@ const Navbar = () => {
   const targetHome = useRef(null)
   const targetAwaiting = useRef(null)
   const targetNotification = useRef(null)
+  const targetAssistenza = useRef(null)
   const targetExit = useRef(null)
 
   return (
@@ -128,6 +134,20 @@ const Navbar = () => {
               </div>
             )}
             <Nav.Link
+              className='hvr-pulse Navbar-Link'
+              ref={targetAssistenza}
+              onMouseEnter={() => setShowNotificationASS(true)}
+              onMouseLeave={() => setShowNotificationASS(false)}
+              onClick={()=> setshowAssistanzList(!showAssistanzList)}
+            >
+              <AiFillQuestionCircle style={{ fontSize: '1.3rem' }} />
+            </Nav.Link>
+            {showAssistanzList && (
+              <div className='notification-Assistenza'>
+                <Assistenza hide={()=> setshowAssistanzList(false)}/>
+              </div>
+            )}
+            <Nav.Link
               className='hvr-buzz-out Navbar-Link'
               onClick={LogeOut}
               ref={targetExit}
@@ -165,6 +185,15 @@ const Navbar = () => {
               </Popover>
             </Overlay>
             <Overlay
+              target={targetAssistenza.current}
+              show={showNotificationASS}
+              placement='bottom'
+            >
+              <Popover className='popover-nav'>
+                <p>Assistenza</p>
+              </Popover>
+            </Overlay>
+            <Overlay
               target={targetExit.current}
               show={showExitNot}
               placement='bottom'
@@ -176,6 +205,9 @@ const Navbar = () => {
           </Form>
         </NavbarBootStrap.Collapse>
       </NavbarBootStrap>
+      {isShowAssistance &&
+       <AssistenzaMessage/>
+      }
     </>
   )
 }

@@ -658,6 +658,7 @@ td{
 	margin: 1rem auto;
 	-webkit-box-shadow: 5px 5px 6px -1px rgba(89, 1, 107, 0.1); 
 	box-shadow: 5px 5px 6px -1px rgba(89, 1, 107, 0.1);
+	overflow-wrap: break-word;
 }
 
 .PostProfilPic_Wrapper {
@@ -1509,6 +1510,23 @@ td{
 	border-radius: 0 0 1rem 1rem;
 	top: 172px;
 }
+.notification-Assistenza{
+	position: absolute;
+	background-color: var(--ViolaNavbar);
+	border-radius: 0 0 1rem 1rem;
+	top: 172px;
+	right: 30px;
+}
+.assistance{
+	padding-top: 0.3em;
+}
+.assistance-text{
+	padding-top: 0.3em;
+	cursor: pointer;
+}
+.assistanceWrapper{
+	border: 2px solid white;
+}
 .searche-bar{
 	position: absolute;
 	background-color: var(--ViolaNavbar);
@@ -1524,12 +1542,12 @@ td{
 .NotificationMap-texts h5{
 	margin-left: 2.3rem;
 	font-size: 0.9rem;
-	color: white;
+	color:var(--primaryGOldColor);
 }
 .NotificationMap-texts h6{
 	margin-left: 2.3rem;
 	font-size: 0.7rem;
-	color: white;
+	color:var(--primaryGOldColor);
 }
 .dropdown-toggle:after {
 	content: none !important
@@ -1673,7 +1691,7 @@ td{
 	}
 }
 @media only screen and (min-width: 992px) {
-	.notification-navbar, .searche-bar{
+	.notification-navbar, .searche-bar, .notification-Assistenza{
 		top: 86px;
 	}
 }

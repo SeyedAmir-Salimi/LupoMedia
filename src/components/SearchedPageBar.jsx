@@ -31,6 +31,9 @@ function SearchedPageBar ({closeBar}) {
 
   return (
     <div className='Notifications' id='style-3'>
+      {filterSearchedLength.length === 0 &&
+        <h6>User not found</h6>
+      }
       {filterdSearchedRender}
       {filterSearchedLength.length > 1 && (
         <div className='SearchBar-clickToSee'>
